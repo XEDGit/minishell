@@ -6,7 +6,7 @@
 #    By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/23 21:13:54 by lmuzio            #+#    #+#              #
-#    Updated: 2022/04/23 22:59:26 by lmuzio           ###   ########.fr        #
+#    Updated: 2022/04/23 23:26:17 by lmuzio           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -116,19 +116,20 @@ fi
 
 #	Output outline
 
-printf "\n\n$MAGENTA\nOutput:\n____________________\n$RESET"
+printf "\n\n$MAGENTA\nOutput:\n$RESET"
 
 #	Compiling chosen file
-printf "gcc $FILE -o output\n"
+printf "gcc $FILE -o output${MAGENTA}\n____________________\n$RESET"
 gcc "$FILE" -o output
 
 #	Running and cleaning if compiling exited with status 0
 if [ $? = 0 ]
+printf "Success\n\n"
 then
-	if [ ${#SRCS[@]} != 0 ]
+	if [ ${#OUT_ARGS[@]} != 0 ]
 	then
-		printf "$FILE ${OUT_ARGS[@]}\n\n"
-		./output ${OUT_ARGS[@]}
+		printf "$FILE ${OUT_ARGS[*]}$MAGENTA\n____________________\n$RESET"
+		./output ${OUT_ARGS[*]}
 	else
 		./output
 	fi
@@ -136,4 +137,4 @@ then
 fi
 
 #	Output outline
-printf "$OUTPUT_END%%$RESET$MAGENTA\n____________________\n$RESET"
+printf "$OUTPUT_END%%$RESET\n"
