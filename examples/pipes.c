@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <errno.h>
 
 typedef struct s_data
 {
@@ -47,7 +48,7 @@ char	*ft_strdup(char *buf)
 
 void	error_exit(t_data *data, int i, char *msg)
 {
-	extern int	errno;
+	// extern int	errno;
 	int			c;
 
 	c = 0;

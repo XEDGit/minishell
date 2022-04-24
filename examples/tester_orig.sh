@@ -1,14 +1,4 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    tester_orig.sh                                     :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/04/23 21:13:54 by lmuzio            #+#    #+#              #
-#    Updated: 2022/04/23 23:31:53 by lmuzio           ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+#!/bin/bash
 
 ERROR="\e[1;31m"
 
@@ -19,6 +9,8 @@ BOLD="\e[1m"
 OUTPUT_END="\e[30;47m"
 
 RESET="\e[0m"
+
+RE='^[0-9]+$'
 
 # OPTIONS
 
@@ -38,6 +30,7 @@ do
 	arg=${ARGS[$I]}
 	case $arg in
 
+		#	-a option will accept its arguments as the arguments of the executable when launched
 		"-a")
 			(( I = I + 1 ))
 			while [[ $I -lt $ARGS_LEN ]]
@@ -47,26 +40,51 @@ do
 					(( I = I - 1 ))
 					break
 				fi
-				OUT_ARGS+=(${ARGS[$I]})
+				OUT_ARGS+=("${ARGS[$I]}")
 				(( I = I + 1 ))
 			done
 		;;
 
+		#	-d option sets the maximum depth of the find command
 		"-d")
-			MAX_DEPTH=${ARGS[$I + 1]}
+			NEW_VAL=${ARGS[$I + 1]}
+			if ! [[ $NEW_VAL =~ $RE ]]
+			then
+				printf "Error: $arg argument is not a number"
+				exit 1
+			fi
+			MAX_DEPTH=$NEW_VAL
+		;;
+
+		#	-o option lets the user skip the file choice by presetting $TO_TEST
+		"-o")
+			NEW_VAL=${ARGS[$I + 1]}
+			if ! [[ $NEW_VAL =~ $RE ]]
+			then
+				printf "Error: $arg argument is not a number"
+				exit 1
+			fi
+			TO_TEST=$NEW_VAL
+		;;
+
+		"-f")
+
 		;;
 
 		"-h")
-			printf "Usage: tester [-h] [-a arg1 [arg2] [arg...]] [-d max_depth]\n" >&2
+			printf "Usage: tester [-h] [-a arg1 [arg2] [arg...]] [-d max_depth] [-o ]\n" >&2
 			exit 0
 		;;
+
 	esac
 	(( I = I + 1 ))
 done
 
 #	EXECUTION
-SRCS=$(find . -name '*.c' -maxdepth $MAX_DEPTH )
+SRCS=$(find . -maxdepth $MAX_DEPTH -name '*.c'  )
+
 C=0
+
 C2=0
 
 #	No files error
@@ -76,25 +94,30 @@ then
 	exit 1
 fi
 
-#	Intro message
-printf "Which file do you want to run?\n\n$MAGENTA"
-
-#	File listing
-for f in $SRCS
-do
-	(( C = C + 1 ))
-	printf "  $C) $f\n"
-done
-
-#	User input
-printf "$RESET\nSelect a number: "
-read -rn1 TO_TEST 
-
-# 	Exit conditions
-if [[ $TO_TEST == q || $TO_TEST == $(printf "\e") ]]
+if [ -z "$TO_TEST" ]
 then
-	printf "\n"
-	exit 0
+	#	Intro message
+	printf "Which file do you want to run?\n\n$MAGENTA"
+
+	#	File listing
+	for f in $SRCS
+	do
+		(( C = C + 1 ))
+		printf "  $C) $f\n"
+	done
+
+	#	User input
+	printf "$RESET\nSelect a number: "
+	read -rn1 TO_TEST 
+
+	# 	Exit conditions
+	if [[ $TO_TEST == q || $TO_TEST == $(printf "\e") ]]
+	then
+		printf "\n"
+		exit 0
+	else
+		printf "\n\n"
+	fi
 fi
 
 #	find input into file list
@@ -116,16 +139,16 @@ fi
 
 #	Output outline
 
-printf "\n\n$MAGENTA\nOutput:\n$RESET"
+printf "${MAGENTA}Output:\n$RESET"
+printf "gcc $FILE -o output${MAGENTA}\n____________________\n$RESET"
 
 #	Compiling chosen file
-printf "gcc $FILE -o output${MAGENTA}\n____________________\n$RESET"
 gcc "$FILE" -o output
 
 #	Running and cleaning if compiling exited with status 0
 if [ $? = 0 ]
-printf "Success\n\n"
 then
+	printf "Success\n\n"
 	if [ ${#OUT_ARGS[@]} != 0 ]
 	then
 		printf "$FILE ${OUT_ARGS[*]}$MAGENTA\n____________________\n$RESET"
@@ -134,7 +157,7 @@ then
 		printf "$FILE$MAGENTA\n____________________\n$RESET"
 		./output
 	fi
-	rm output
+	rm -f ./output
 fi
 
 #	Output outline
