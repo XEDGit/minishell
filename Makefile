@@ -1,8 +1,8 @@
 NAME := minishell
 
-SRC := minishell.c
+SRC := src/minishell.c src/printf/libftprintf.a
 
-FLAGS := -Wextra -Wall -Werror
+FLAGS := -g -lreadline -fsanitize=address # -Wextra -Wall -Werror
 
 $(NAME): $(SRC)
 	$(CC) $(FLAGS) $(SRC) -o $(NAME)

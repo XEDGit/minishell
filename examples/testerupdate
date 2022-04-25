@@ -1,2 +1,3 @@
-chmod +x ./tester_orig.sh
-cp ./tester_orig.sh /usr/local/bin/testerc
+# chmod +x ./tester_orig.sh
+cp ./tester_orig.sh /Users/lmuzio/.brew/bin/tester
+# cp ./tester_orig.sh /usr/local/bin/testerc

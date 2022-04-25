@@ -22,6 +22,8 @@ MAX_DEPTH=1
 
 I=0
 
+GCC_FLAGS=""
+
 OUT_ARGS=()
 
 #	Loop through arguments array and search for options
@@ -31,11 +33,11 @@ do
 	case $arg in
 
 		#	-a option will accept its arguments as the arguments of the executable when launched
-		"-a")
+		"--a")
 			(( I = I + 1 ))
 			while [[ $I -lt $ARGS_LEN ]]
 			do
-				if [[ ${ARGS[$I]} = "-"* ]]
+				if [[ ${ARGS[$I]} = "--"* ]]
 				then
 					(( I = I - 1 ))
 					break
@@ -46,7 +48,7 @@ do
 		;;
 
 		#	-d option sets the maximum depth of the find command
-		"-d")
+		"--d")
 			NEW_VAL=${ARGS[$I + 1]}
 			if ! [[ $NEW_VAL =~ $RE ]]
 			then
@@ -57,7 +59,7 @@ do
 		;;
 
 		#	-o option lets the user skip the file choice by presetting $TO_TEST
-		"-o")
+		"--o")
 			NEW_VAL=${ARGS[$I + 1]}
 			if ! [[ $NEW_VAL =~ $RE ]]
 			then
@@ -67,12 +69,22 @@ do
 			TO_TEST=$NEW_VAL
 		;;
 
-		"-f")
-
+		"--f")
+			(( I = I + 1 ))
+			while [[ $I -lt $ARGS_LEN ]]
+			do
+				if [[ ${ARGS[$I]} = "--"* ]]
+				then
+					(( I = I - 1 ))
+					break
+				fi
+				GCC_FLAGS+=" ${ARGS[$I]}"
+				(( I = I + 1 ))
+			done
 		;;
 
-		"-h")
-			printf "Usage: tester [-h] [-a arg1 [arg2] [arg...]] [-d max_depth] [-o ]\n" >&2
+		"--h")
+			printf "Usage: tester [--h] [--a arg1 [arg2] [arg...]] [--d max_depth] [--o ]\n" >&2
 			exit 0
 		;;
 
@@ -140,10 +152,10 @@ fi
 #	Output outline
 
 printf "${MAGENTA}Output:\n$RESET"
-printf "gcc $FILE -o output${MAGENTA}\n____________________\n$RESET"
+printf "gcc $GCC_FLAGS $FILE -o output${MAGENTA}\n____________________\n$RESET"
 
 #	Compiling chosen file
-gcc "$FILE" -o output
+gcc$GCC_FLAGS "$FILE"  -o output
 
 #	Running and cleaning if compiling exited with status 0
 if [ $? = 0 ]

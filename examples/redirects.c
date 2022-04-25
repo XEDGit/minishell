@@ -10,7 +10,7 @@ typedef struct s_data
 	int		redirects[3];
 }	t_data;
 
-int main(int argc, char **argv,  char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	const int	child_num = 2;
 	int			fd[2];
@@ -27,7 +27,7 @@ int main(int argc, char **argv,  char **envp)
 	// Assigning first command table
 	commands[0].command = "/usr/bin/ls";
 	commands[0].args = malloc(sizeof(char *) * 3);
-	commands[0].args[0] = strdup("ls");
+	commands[0].args[0] = strdup("/usr/bin/ls");
 	commands[0].args[1] = strdup("-a");
 	commands[0].args[2] = 0;
 	commands[0].redirects[0] = 0;
@@ -37,7 +37,7 @@ int main(int argc, char **argv,  char **envp)
 	// Assigning sencond command table
 	commands[1].command = "/usr/bin/grep";
 	commands[1].args = malloc(sizeof(char *) * (child_num + 1));
-	commands[1].args[0] = strdup("grep");
+	commands[1].args[0] = strdup("/usr/bin/grep");
 	commands[1].args[1] = strdup("p");
 	commands[1].args[2] = 0;
 	commands[1].redirects[0] = fd[0];
@@ -54,11 +54,7 @@ int main(int argc, char **argv,  char **envp)
 			dup2(commands[i].redirects[0], 0);
 			dup2(commands[i].redirects[1], 1);
 			dup2(commands[i].redirects[2], 2);
-			if (close(fd[0]) == -1)
-				printf("error");
-			if (close(fd[1]) == -1)
-				printf("error");
-			if (execve(commands[i].command, commands[i].args, envp) == -1)
+			if (execve(commands[i].command, commands[i].args, envp))
 				exit(1);
 		}
 		i++;
