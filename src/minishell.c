@@ -11,12 +11,19 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "printf/ft_printf.h"
+// #include "printf/ft_printf.h"
 
 void	signals_handler(int code)
 {
 	if (code == 2)
-		ft_printf("\b\b  \n\e[31;1mskiru ~>\e[0m");
+	{
+		// dprintf(2, "\b\b  \n\e[31;1mskiru ~>\e[0m");
+		// printf("\n"); // Move to a new line
+		rl_on_new_line(); // Regenerate the prompt on a newline
+		rl_replace_line("", 0); // Clear the previous text
+		rl_redisplay();
+	}
+	return ;
 }
 
 int	signals_handler_setup(void)
@@ -34,16 +41,12 @@ int	main(int argc, char *argv[], char *envp[])
 	signals_handler_setup();
 	while (1)
 	{
-		ft_printf("\e[31;1mskiru ~>\e[0m");
-		buffer = readline(0);
+		buffer = readline("\e[31;1mskiru ~>\e[0m");
 		if (!buffer)
-		{
-			error_code = 1;
 			break ;
-		}
 		if (*buffer)
 			add_history(buffer);
 	}
-	ft_dprintf(2, "\b\b  \nError: %d\n", error_code);
-	exit(1);
+	ft_dprintf(2, "\b\b exit\n");
+	exit(0);
 }
