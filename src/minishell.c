@@ -6,22 +6,21 @@
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:20:31 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/04/25 20:51:29 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/05/02 15:54:25 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-// #include "printf/ft_printf.h"
 
 void	signals_handler(int code)
 {
-	if (code == 2)
+	if (code == 2) //SIGINT
 	{
-		// dprintf(2, "\b\b  \n\e[31;1mskiru ~>\e[0m");
-		// printf("\n"); // Move to a new line
-		rl_on_new_line(); // Regenerate the prompt on a newline
-		rl_replace_line("", 0); // Clear the previous text
-		rl_redisplay();
+		dprintf(2, "\b\b  ");	//\n\e[31;1mskiru ~>\e[0m");
+		printf("\n"); // Move to a new line
+		// rl_on_new_line(); // Regenerate the prompt on a newline
+		// rl_replace_line("", 0); // Clear the previous text
+		// rl_redisplay();
 	}
 	return ;
 }

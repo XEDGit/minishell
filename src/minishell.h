@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:25:56 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/04/25 18:40:32 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/05/02 15:49:49 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include "ft_printf/ft_printf.h"
 
 typedef struct s_data
 {
@@ -27,7 +28,6 @@ typedef struct s_data
 	char	**args;
 	int		redirections[3];
 }	t_data;
-
 
 
 #endif
