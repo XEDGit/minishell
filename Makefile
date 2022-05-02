@@ -1,10 +1,10 @@
 NAME := minishell
 
-SRC := src/minishell.c src/ft_printf/libftprintf.a
+SRC := src/minishell.c src/util/signal.c src/ft_printf/libftprintf.a
 
-LIBS := -lreadline -L $(HOME)/.brew/opt/readline/lib -I $(HOME)/.brew/opt/readline/include
+LIBS := -lreadline -L $(HOME)/.brew/opt/readline/lib -I $(HOME)/.brew/opt/readline/include -Iincludes
 
-FLAGS := -g # -Wextra -Wall -Werror
+FLAGS := #-g fsanitize=address #-Wextra -Wall -Werror
 
 $(NAME): $(SRC)
 	$(CC) $(FLAGS) $(SRC) -o $(NAME) $(LIBS)
@@ -12,3 +12,7 @@ $(NAME): $(SRC)
 all:
 	make
 	./minishell
+
+re:
+	rm minishell
+	${MAKE}

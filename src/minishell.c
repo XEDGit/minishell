@@ -10,29 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-void	signals_handler(int code)
-{
-	if (code == SIGINT)
-	{
-		printf("\33[2K");
-	    rl_on_new_line();
-	    rl_redisplay();
-		printf("\n");
-	    rl_on_new_line();
-	    rl_replace_line("", 0);
-	    rl_redisplay();
-	}
-	return ;
-}
-
-int	signals_handler_setup(void)
-{
-	signal(2, signals_handler);
-	signal(3, 0);
-	return (0);
-}
+#include <minishell.h>
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -40,7 +18,6 @@ int	main(int argc, char *argv[], char *envp[])
 	int		error_code;
 
 	signals_handler_setup();
-	ft_printf("%d\n", getpid());
 	while (1)
 	{
 		buffer = readline("\e[31;1mskiru ~> \e[0m");
