@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:20:31 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/02 15:54:25 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/05/02 17:29:31 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,15 @@
 
 void	signals_handler(int code)
 {
-	if (code == 2) //SIGINT
+	if (code == SIGINT)
 	{
-		dprintf(2, "\b\b  ");	//\n\e[31;1mskiru ~>\e[0m");
-		printf("\n"); // Move to a new line
-		// rl_on_new_line(); // Regenerate the prompt on a newline
-		// rl_replace_line("", 0); // Clear the previous text
-		// rl_redisplay();
+		printf("\33[2K");
+	    rl_on_new_line();
+	    rl_redisplay();
+		printf("\n");
+	    rl_on_new_line();
+	    rl_replace_line("", 0);
+	    rl_redisplay();
 	}
 	return ;
 }
@@ -28,7 +30,7 @@ void	signals_handler(int code)
 int	signals_handler_setup(void)
 {
 	signal(2, signals_handler);
-	signal(3, signals_handler);
+	signal(3, 0);
 	return (0);
 }
 
@@ -38,14 +40,15 @@ int	main(int argc, char *argv[], char *envp[])
 	int		error_code;
 
 	signals_handler_setup();
+	ft_printf("%d\n", getpid());
 	while (1)
 	{
-		buffer = readline("\e[31;1mskiru ~>\e[0m");
+		buffer = readline("\e[31;1mskiru ~> \e[0m");
 		if (!buffer)
 			break ;
 		if (*buffer)
 			add_history(buffer);
 	}
-	ft_dprintf(2, "\b\b exit\n");
+	ft_dprintf(2, " exit\n");
 	exit(0);
 }
