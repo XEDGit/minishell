@@ -1,3 +1,0 @@
-chmod +x ./tester_orig.sh
- cp ./tester_orig.sh "/Users/$LOGNAME/.brew/bin/tester"
-#cp ./tester_orig.sh /usr/local/bin/testerc

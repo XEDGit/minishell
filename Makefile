@@ -1,6 +1,6 @@
 NAME := minishell
 
-SRC := src/minishell.c src/util/signal.c src/ft_printf/libftprintf.a
+SRC := src/minishell.c src/util/signal.c src/util/ft_split.c src/ft_printf/libftprintf.a
 
 LIBS := -lreadline -L $(HOME)/.brew/opt/readline/lib -I $(HOME)/.brew/opt/readline/include -Iincludes
 

@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:25:56 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/02 15:49:49 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/05/02 23:42:51 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ typedef struct s_data
 	char	**paths;
 }	t_data;
 
-int	signals_handler_setup(void);
+int		signals_handler_setup(void);
+char	**ft_split(char *s, char *c);
+char	**free2d(char **tofree, int len);
 
 #endif
