@@ -20,14 +20,22 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
-# include "ft_printf/ft_printf.h"
+# include "../src/ft_printf/ft_printf.h"
+
+typedef struct s_cmd
+{
+	char			*cmd;
+	char			**args;
+	int				redirects[3];
+	struct s_cmd	*next;
+}	t_cmd;
 
 typedef struct s_data
 {
-	char	*command;
-	char	**args;
-	int		redirections[3];
+	t_cmd	*cmds;
+	char	**paths;
 }	t_data;
 
+int	signals_handler_setup(void);
 
 #endif
