@@ -155,7 +155,7 @@ printf "${MAGENTA}Output:\n$RESET"
 printf "gcc $GCC_FLAGS $FILE -o output${MAGENTA}\n____________________\n$RESET"
 
 #	Compiling chosen file
-gcc$GCC_FLAGS "$FILE"  -o output
+gcc$GCC_FLAGS "$FILE" -o output
 
 #	Running and cleaning if compiling exited with status 0
 if [ $? = 0 ]
