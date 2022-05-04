@@ -84,7 +84,7 @@ do
 		;;
 
 		"--h")
-			printf "Usage: tester [--h] [--a arg1 [arg2] [arg...]] [--d max_depth] [--o ]\n" >&2
+			printf "Usage: tester [--h] [--a arg1 [arg...]] [--d max_depth] [--o option] [--f flag1 [flag...]]\n" >&2
 			exit 0
 		;;
 
@@ -93,7 +93,7 @@ do
 done
 
 #	EXECUTION
-SRCS=$(find . -maxdepth $MAX_DEPTH -name '*.c'  )
+SRCS=$(find . -maxdepth $MAX_DEPTH -name '*.c')
 
 C=0
 
@@ -120,7 +120,7 @@ then
 
 	#	User input
 	printf "$RESET\nSelect a number: "
-	read -rn1 TO_TEST 
+	read -rn${#C} TO_TEST
 
 	# 	Exit conditions
 	if [[ $TO_TEST == q || $TO_TEST == $(printf "\e") ]]
@@ -145,7 +145,7 @@ done
 #	check if input is found
 if [ -z "$FILE" ]
 then
-	printf "\n${ERROR}Error: Insert a number between 1 and $C$RESET\n" >&2
+	printf "${ERROR}Error: Insert a number between 1 and $C$RESET\n" >&2
 	exit 1
 fi
 
