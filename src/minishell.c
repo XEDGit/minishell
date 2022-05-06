@@ -22,15 +22,15 @@ int	main(int argc, char *argv[], char *envp[])
 	signals_handler_setup();
 	while (1)
 	{
-		count = 0;
+		count = -1;
 		buffer = readline("\e[31;1mskiru ~> \e[0m");
 		if (!buffer)
 			break ;
 		if (*buffer)
 			add_history(buffer);
 		buffer_pipes = ft_split(buffer, "|&");
-		while (buffer_pipes[count])
-			printf("split[%d]: %s\n", count, buffer_pipes[count++]);
+		while (buffer_pipes[++count])
+			printf("split[%d]: %s\n", count, buffer_pipes[count]);
 		free2d(buffer_pipes, count);
 		free(buffer);
 	}

@@ -1,18 +1,35 @@
 NAME := minishell
 
-SRC := src/minishell.c src/util/signal.c src/util/ft_split.c src/ft_printf/libftprintf.a
+SRC := src/minishell.c src/util/signal.c src/util/ft_split.c
 
-LIBS := -lreadline -L $(HOME)/.brew/opt/readline/lib -I $(HOME)/.brew/opt/readline/include -Iincludes
+LIBS := -lreadline -L$(HOME)/.brew/opt/readline/lib
+
+HEADERS := -I$(HOME)/.brew/opt/readline/include -Iincludes
 
 FLAGS := #-g fsanitize=address #-Wextra -Wall -Werror
 
-$(NAME): $(SRC)
-	$(CC) $(FLAGS) $(SRC) -o $(NAME) $(LIBS)
+PRINTF_PATH := src/ft_printf
 
-all:
-	make
-	./minishell
+PRINTF_LIB := $(PRINTF_PATH)/libftprintf.a
 
-re:
-	rm minishell
-	${MAKE}
+all: $(NAME)
+
+run: all
+	./$(NAME)
+
+$(NAME): $(PRINTF_LIB) $(SRC)
+	$(CC) $(FLAGS) $(LIBS) $(HEADERS) $^ -o $(NAME)
+
+$(PRINTF_LIB):
+	make -C $(PRINTF_PATH)
+
+clean:
+	make $@ -C $(PRINTF_PATH)
+
+fclean:
+	make $@ -C $(PRINTF_PATH)
+	rm -f $(NAME)
+
+re: fclean all
+
+.PHONY: all run clean fclean re

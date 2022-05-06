@@ -1,3 +1,13 @@
+# Object files
+*.o
+*.obj
+
+# Libraries
+*.lib
+*.a
+
+#executable
+*.out
 .vscode
 
 # Debug files
