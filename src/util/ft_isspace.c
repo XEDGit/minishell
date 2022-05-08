@@ -1,36 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/25 18:20:31 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/08 15:45:56 by lmuzio           ###   ########.fr       */
+/*   Created: 2022/01/18 17:56:47 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/01/18 17:56:47 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
-
-int	main(int argc, char *argv[], char *envp[])
+int	ft_isspace(int str)
 {
-	char	*buffer;
-	char	**buffer_pipes;
-	int		count;
-	int		error_code;
-
-	signals_handler_setup();
-	while (1)
-	{
-		count = -1;
-		buffer = readline("\e[31;1mskiru ~> \e[0m");
-		if (!buffer)
-			break ;
-		if (*buffer)
-			add_history(buffer);
-		lexer(buffer);
-		free(buffer);
-	}
-	ft_dprintf(2, " exit\n");
-	exit(0);
+	if (str == ' ' || str == '	' || str == '\t'\
+	|| str == '\n' || str == '\v' || str == '\f' || str == '\r')
+		return (1);
+	return (0);
 }

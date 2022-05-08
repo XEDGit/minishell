@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:25:56 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/03 17:35:47 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/05/08 19:49:50 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ typedef struct s_cmd
 	char			*cmd;
 	char			**args;
 	int				redirects[3];
+	int				parenthesis_id;
+	int				conditional;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -38,9 +40,16 @@ typedef struct s_data
 
 # define TRUE 0
 # define FALSE 1
+# define AND 100
+# define OR 101
+# define PIPE 124
+# define SINGLE_QUOTE 39
+# define DOUBLE_QUOTE 34
 
 int		signals_handler_setup(void);
-char	**ft_split(char *s, char *c);
+int		lexer(char *input);
+int		ft_isspace(int str);
+char	**ft_split(char const *s, char *c);
 char	**free2d(char **tofree, int len);
 
 #endif
