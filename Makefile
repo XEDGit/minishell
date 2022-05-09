@@ -1,6 +1,6 @@
 NAME := minishell
 
-SRC := src/minishell.c src/util/signal.c src/util/ft_split.c src/util/ft_isspace.c src/lexer/lexer.c
+SRC := $(shell find ./src -name '*.c') #src/minishell.c src/util/signal.c src/util/ft_split.c src/util/ft_isspace.c src/lexer/lexer.c
 
 LIBS := -lreadline -L$(HOME)/.brew/opt/readline/lib
 

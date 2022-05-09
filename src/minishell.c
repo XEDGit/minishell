@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:20:31 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/09 16:59:46 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/05/09 19:59:34 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char *argv[], char *envp[])
 	while (1)
 	{
 		count = -1;
-		buffer = readline("\e[31;1mskiru ~> \e[0m");
+		buffer = readline(TITLE);
 		if (!buffer)
 			break ;
 		if (*buffer)

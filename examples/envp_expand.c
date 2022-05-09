@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   envp.c                                             :+:      :+:    :+:   */
+/*   envp_expand.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 03:16:45 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/04/23 08:06:51 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/05/09 18:40:42 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,6 @@ char	*ft_strchr(char *s, int c)
 
 int	ft_strncmp(char *s1, char *s2, size_t n)
 {
-	if (!s1)
-		printf("dasdas\n");
-	return 0;
 	while ((*s1 || *s2) && n--)
 	{
 		if ((unsigned char)*s1 != (unsigned char)*s2)

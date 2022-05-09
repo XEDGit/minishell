@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:32:59 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/09 17:24:56 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/05/09 19:37:04 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,19 @@ int	pipe_check(char *input)
 	int	c;
 	int	dist;
 
-	while (*input && ft_isspace(*input))
-		input++;
-	if (*input == PIPE)
-		return (ERROR);
-	while (*input)
+	if ((input[0] == PIPE && input[1] != PIPE) || \
+		(input[0] == AMP && input[1] != AMP))
 	{
-		if (input[0] == PIPE && input[1] != PIPE)
-		{
-			dist = 0;
-			c = 0;
-			while (input[++c] && input[c] != PIPE)
-				if (!ft_isspace(input[c]))
-					dist++;
-		}
-		input++;
+		dist = 0;
+		c = 0;
+		while (input[++c] && input[c] != PIPE && input[c] != AMP)
+			if (!ft_isspace(input[c]))
+				dist++;
 	}
-	printf("pipe: %d	%d\n", c, dist);
-	if (c && !dist)
+	if (!input[c] && !dist)
 		return (FALSE);
+	if (c && !dist)
+		return (ERROR);
 	return (TRUE);
 }
 
@@ -44,9 +38,8 @@ int	lexer_multiline_check(char *input)
 {
 	int	open;
 
-	open = pipe_check(input);
-	if (open)
-		return (open);
+	if (*input == PIPE || *input == AMP)
+		return (ERROR);
 	while (*input)
 	{
 		if (!open && *input == SINGLE_QUOTE)
@@ -57,6 +50,9 @@ int	lexer_multiline_check(char *input)
 			open = 0;
 		else if (open == DOUBLE_QUOTE && *input == DOUBLE_QUOTE)
 			open = 0;
+		else if (!open && (*input == PIPE || *input == AMP))
+			if (pipe_check(input))
+				return (pipe_check(input));
 		input++;
 	}
 	if (open)
@@ -69,7 +65,11 @@ int	lexer(char *input)
 	char	**buffer;
 	int		count;
 
-	ft_printf("check:%d\n", lexer_multiline_check(input));
+	while (*input && ft_isspace(*input))
+		input++;
+	ft_printf("check:%d\n", (count = lexer_multiline_check(input)));
+	if (count == ERROR)
+		return (0);
 	count = -1;
 	buffer = ft_split(input, "|&");
 	while (buffer[++count])
