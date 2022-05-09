@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 17:54:14 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/08 15:34:46 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/05/09 16:43:02 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,21 +117,3 @@ char	**ft_split(char const *s, char *c)
 	res[resc] = 0;
 	return (res);
 }
-
-// #include <stdio.h>
-// int main()
-// {
-// 	char **split;
-// 	char *buff = "arg || ( arg || echo sos && arg ) | echo a  || echo lol";
-// 	int	c = 0;
-
-// 	// c = word_count("arg ||( ar||echo sos && arg ) |echo a ||echo lol", "|&");
-// 	// printf("%d	%d	%d	%d		%d\n", word_count("|  &", "|&"), word_count(" | |", "|&"), word_count("| | ", "|&"), word_count(" | | ", "|&"), c);
-
-// 	// printf("%d\n", ft_strclen("h&e|llo &| how are you", "|&"));
-// 	printf("original: %s\n\n", buff);
-// 	split = ft_split(buff, "|&");
-// 	while (split[c])
-// 		printf("split[%d]: %s\n", c, split[c++]);
-// 	free2d(split, c);
-// }

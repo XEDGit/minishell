@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirects.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/09 16:44:56 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/05/09 16:51:56 by lmuzio           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -25,7 +37,7 @@ int	main(int argc, char **argv, char **envp)
 	commands = malloc(sizeof(t_data) * child_num);
 
 	// Assigning first command table
-	commands[0].command = "/usr/bin/ls";
+	commands[0].command = "/bin/ls";
 	commands[0].args = malloc(sizeof(char *) * 3);
 	commands[0].args[0] = strdup("/usr/bin/ls");
 	commands[0].args[1] = strdup("-a");

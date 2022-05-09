@@ -6,14 +6,14 @@
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 05:12:41 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/04/23 08:02:54 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/05/09 16:44:46 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <errno.h>
+#include <string.h>
 
 typedef struct s_data
 {
@@ -21,25 +21,13 @@ typedef struct s_data
 	pid_t		*children;
 }	t_data;
 
-int	ft_strlen(char *buf)
-{
-	int	i;
-
-	i = 0;
-	if (!buf || !*buf)
-		return (0);
-	while (*buf++)
-		i++;
-	return (i);
-}
-
 char	*ft_strdup(char *buf)
 {
 	char	*res[2];
 
 	if (!buf || !*buf)
 		return (0);
-	res[0] = malloc(ft_strlen(buf));
+	res[0] = malloc(strlen(buf));
 	res[1] = res[0];
 	while (*buf)
 		*(res[0])++ = *buf++;
@@ -48,8 +36,7 @@ char	*ft_strdup(char *buf)
 
 void	error_exit(t_data *data, int i, char *msg)
 {
-	// extern int	errno;
-	int			c;
+	int	c;
 
 	c = 0;
 	while (c < i)

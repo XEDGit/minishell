@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:32:59 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/08 19:54:53 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/05/09 17:24:56 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,52 +17,50 @@ int	pipe_check(char *input)
 	int	c;
 	int	dist;
 
+	while (*input && ft_isspace(*input))
+		input++;
+	if (*input == PIPE)
+		return (ERROR);
 	while (*input)
 	{
 		if (input[0] == PIPE && input[1] != PIPE)
 		{
 			dist = 0;
 			c = 0;
-			while (input[c] && input[c + 1] != PIPE)
-				if (!ft_isspace(input[c++]))
+			while (input[++c] && input[c] != PIPE)
+				if (!ft_isspace(input[c]))
 					dist++;
 		}
-		else if (input[0] == PIPE && input[1] == PIPE)
-			input++;
 		input++;
 	}
 	printf("pipe: %d	%d\n", c, dist);
-	if (c && dist == 1)
+	if (c && !dist)
 		return (FALSE);
 	return (TRUE);
 }
 
-// ' " |  <<
+// ' " |  << 
 int	lexer_multiline_check(char *input)
 {
-	int	single_quotes;
-	int	double_quotes;
+	int	open;
 
-	double_quotes = 0;
-	single_quotes = 0;
-	if (pipe_check(input))
-		return (PIPE);
+	open = pipe_check(input);
+	if (open)
+		return (open);
 	while (*input)
 	{
-		if (!single_quotes && !double_quotes && *input == SINGLE_QUOTE)
-			single_quotes++;
-		else if (!double_quotes && !single_quotes && *input == DOUBLE_QUOTE)
-			double_quotes++;
-		else if (single_quotes && *input == SINGLE_QUOTE)
-			single_quotes--;
-		else if (double_quotes && *input == DOUBLE_QUOTE)
-			double_quotes--;
+		if (!open && *input == SINGLE_QUOTE)
+			open = SINGLE_QUOTE;
+		else if (!open && *input == DOUBLE_QUOTE)
+			open = DOUBLE_QUOTE;
+		else if (open == SINGLE_QUOTE && *input == SINGLE_QUOTE)
+			open = 0;
+		else if (open == DOUBLE_QUOTE && *input == DOUBLE_QUOTE)
+			open = 0;
 		input++;
 	}
-	if (single_quotes)
-		return (SINGLE_QUOTE);
-	if (double_quotes)
-		return (DOUBLE_QUOTE);
+	if (open)
+		return (open);
 	return (TRUE);
 }
 

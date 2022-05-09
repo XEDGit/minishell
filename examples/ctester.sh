@@ -84,7 +84,7 @@ do
 		;;
 
 		"--h")
-			printf "Usage: tester [--h] [--a arg1 [arg...]] [--d max_depth] [--o option] [--f flag1 [flag...]]\n" >&2
+			printf "Usage: ctester [--h] [--a arg1 [arg...]] [--d max_depth] [--o option] [--f flag1 [flag...]]\n" >&2
 			exit 0
 		;;
 
@@ -165,9 +165,11 @@ then
 	then
 		printf "$FILE ${OUT_ARGS[*]}$MAGENTA\n____________________\n$RESET"
 		./output ${OUT_ARGS[*]}
+		wait $!
 	else
 		printf "$FILE$MAGENTA\n____________________\n$RESET"
 		./output
+		wait $!
 	fi
 	rm -f ./output
 fi
