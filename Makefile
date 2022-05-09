@@ -33,3 +33,9 @@ fclean:
 re: fclean all
 
 .PHONY: all run clean fclean re
+
+minishell_linux: $(PRINTF_LIB) $(SRC)
+	$(CC) $(FLAGS) -L/usr/include -lreadline -Iincludes $^ -o minishell_linux
+
+linux: minishell_linux
+	minishell_linux
