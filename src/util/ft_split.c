@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/18 17:54:14 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/09 16:43:02 by lmuzio           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   ft_split.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/01/18 17:54:14 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/05/10 22:47:41 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,52 +41,21 @@ size_t	word_count(const char *s, char *c)
 	return (cont + 1);
 }
 
-char	**free2d(char **tofree, int len)
+int	free2d(char **tofree, int len)
 {
 	while (len--)
 		free(tofree[len]);
 	free(tofree);
+	return (1);
+}
+
+int	copy_word(const char *s, char **res, int resc, int cont)
+{
+	res[resc] = malloc(cont + 1);
+	if (!res[resc])
+		return (free2d(res, resc + 1));
+	ft_strlcpy(res[resc], s, cont + 1);
 	return (0);
-}
-
-size_t	ft_strclen(const char *start, const char *end)
-{
-	int			cont;
-	const char	*temp;
-
-	cont = 0;
-	temp = end;
-	while (*end)
-	{
-		if (*start == *end++)
-		{
-			start++;
-			cont++;
-		}
-	}
-	while (*start)
-	{
-		end = temp;
-		while (*end)
-			if (*start == *end++)
-				return (cont);
-		cont++;
-		start++;
-	}
-	return (cont);
-}
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
-{
-	int	srcsize;
-
-	srcsize = ft_strclen(src, "\0");
-	if (!dstsize)
-		return (srcsize);
-	while (--dstsize && *src)
-		*dst++ = *src++;
-	*dst = 0;
-	return (srcsize);
 }
 
 char	**ft_split(char const *s, char *c)
@@ -103,15 +72,15 @@ char	**ft_split(char const *s, char *c)
 		return (0);
 	while (*s)
 	{
-		if (*s == c[0] || *s == c[1])
-			s++;
+		cont = 0;
+		while (c[cont])
+			if (c[cont++] == *s)
+				s++;
 		cont = ft_strclen(s, c);
 		if (!cont)
 			continue ;
-		res[resc] = malloc(cont + 1);
-		if (!res[resc])
-			return (free2d(res, resc + 1));
-		ft_strlcpy(res[resc++], s, cont + 1);
+		if (copy_word(s, res, resc++, cont))
+			return (0);
 		s += cont;
 	}
 	res[resc] = 0;

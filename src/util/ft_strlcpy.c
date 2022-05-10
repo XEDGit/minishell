@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minishell.c                                        :+:    :+:            */
+/*   ft_strlcpy.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/04/25 18:20:31 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/05/10 23:04:58 by lmuzio        ########   odam.nl         */
+/*   Created: 2022/05/10 20:53:46 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/05/10 22:13:27 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include <stddef.h>
 
-int	main(int argc, char *argv[], char *envp[])
+size_t	ft_strlen(const char *str);
+
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	char	*buffer;
-	char	**buffer_pipes;
-	int		count;
-	int		error_code;
+	int	srcsize;
 
-	signals_handler_setup();
-	while (1)
-	{
-		count = -1;
-		buffer = readline(TITLE);
-		if (!buffer || lexer(buffer))
-			break ;
-		free(buffer);
-	}
-	ft_dprintf(2, " exit\n");
-	exit(0);
+	srcsize = ft_strlen(src);
+	if (!dstsize)
+		return (srcsize);
+	while (--dstsize && *src)
+		*dst++ = *src++;
+	*dst = 0;
+	return (srcsize);
 }

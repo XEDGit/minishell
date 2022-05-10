@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   redirects.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/09 16:44:56 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/09 16:51:56 by lmuzio           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   redirects.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/05/09 16:44:56 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/05/10 21:17:51 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,39 @@ typedef struct s_data
 {
 	char	*command;
 	char	**args;
-	int		redirects[3];
+	int		redirs[3];
 }	t_data;
+
+void	set_cmd0(t_data *cmds)
+{
+	cmds[0].command = "/bin/ls";
+	cmds[0].args = malloc(sizeof(char *) * 3);
+	cmds[0].args[0] = strdup("/usr/bin/ls");
+	cmds[0].args[1] = strdup("-a");
+	cmds[0].args[2] = 0;
+	cmds[0].redirs[0] = 0;
+	cmds[0].redirs[1] = fd[1];
+	cmds[0].redirs[2] = 2;
+}
+
+void	set_cmd1(t_data *cmds)
+{
+	cmds[1].command = "/usr/bin/grep";
+	cmds[1].args = malloc(sizeof(char *) * (child_num + 1));
+	cmds[1].args[0] = strdup("/usr/bin/grep");
+	cmds[1].args[1] = strdup("p");
+	cmds[1].args[2] = 0;
+	cmds[1].redirs[0] = fd[0];
+	cmds[1].redirs[1] = 1;
+	cmds[1].redirs[2] = 2;
+}
+
+void	set_redirects(t_data *cmds, int i)
+{
+	dup2(cmds[i].redirs[0], 0);
+	dup2(cmds[i].redirs[1], 1);
+	dup2(cmds[i].redirs[2], 2);
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -28,45 +59,19 @@ int	main(int argc, char **argv, char **envp)
 	int			fd[2];
 	pid_t		child;
 	int			i;
-	t_data		*commands;
+	t_data		*cmds;
 
-	//  Creating pipe
 	if (pipe(fd) == -1)
 		exit(1);
-
-	commands = malloc(sizeof(t_data) * child_num);
-
-	// Assigning first command table
-	commands[0].command = "/bin/ls";
-	commands[0].args = malloc(sizeof(char *) * 3);
-	commands[0].args[0] = strdup("/usr/bin/ls");
-	commands[0].args[1] = strdup("-a");
-	commands[0].args[2] = 0;
-	commands[0].redirects[0] = 0;
-	commands[0].redirects[1] = fd[1];
-	commands[0].redirects[2] = 2;
-
-	// Assigning sencond command table
-	commands[1].command = "/usr/bin/grep";
-	commands[1].args = malloc(sizeof(char *) * (child_num + 1));
-	commands[1].args[0] = strdup("/usr/bin/grep");
-	commands[1].args[1] = strdup("p");
-	commands[1].args[2] = 0;
-	commands[1].redirects[0] = fd[0];
-	commands[1].redirects[1] = 1;
-	commands[1].redirects[2] = 2;
-
+	cmds = malloc(sizeof(t_data) * child_num);
 	i = 0;
 	while (i < child_num)
 	{
 		child = fork();
 		if (!child)
 		{
-			printf("Debug values: %d - %s	%s	0<%d 1>%d 2>%d\n", i,  commands[i].command, commands[i].args[0], commands[i].redirects[0], commands[i].redirects[1], commands[i].redirects[2]);
-			dup2(commands[i].redirects[0], 0);
-			dup2(commands[i].redirects[1], 1);
-			dup2(commands[i].redirects[2], 2);
-			if (execve(commands[i].command, commands[i].args, envp))
+			set_redirects(cmds, i);
+			if (execve(cmds[i].command, cmds[i].args, envp))
 				exit(1);
 		}
 		i++;

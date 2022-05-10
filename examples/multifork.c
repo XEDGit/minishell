@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   multifork.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/23 05:23:21 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/04/23 08:04:53 by lmuzio           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   multifork.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/04/23 05:23:21 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/05/10 21:08:07 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int	main(void)
 	children = malloc(sizeof(pid_t) * max_childs);
 	i = 0;
 	printf("Parent: %s\n\n", itoa(getpid()));
-	//create multiple children from a parent without forking any child process	:	Use this when forking a child for every pipe
 	while (i < max_childs)
 	{
 		children[i] = fork();
@@ -74,7 +73,6 @@ int	main(void)
 		}
 		i++;
 	}
-	//end
 	free(children);
 	exit(0);
 }

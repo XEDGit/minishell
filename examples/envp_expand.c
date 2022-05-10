@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   envp_expand.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/23 03:16:45 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/09 18:40:42 by lmuzio           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   envp_expand.c                                      :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/04/23 03:16:45 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/05/10 21:06:23 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,9 @@ char	*expand_var(char *key, char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*var = expand_var(argv[1], envp);
+	char	*var;
+
+	var = expand_var(argv[1], envp);
 	if (var)
 		printf("%s\n", var);
 	else

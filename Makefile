@@ -6,7 +6,7 @@ LIBS := -lreadline -L$(HOME)/.brew/opt/readline/lib
 
 HEADERS := -I$(HOME)/.brew/opt/readline/include -Iincludes
 
-FLAGS := #-g fsanitize=address #-Wextra -Wall -Werror
+FLAGS := -g -fsanitize=address #-Wextra -Wall -Werror
 
 PRINTF_PATH := src/ft_printf
 
@@ -18,7 +18,7 @@ run: all
 	./$(NAME)
 
 $(NAME): $(PRINTF_LIB) $(SRC)
-	$(CC) $(FLAGS) $(LIBS) $(HEADERS) $^ -o $(NAME)
+	$(CC) $(FLAGS) $^ -o $(NAME) $(LIBS) $(HEADERS)
 
 $(PRINTF_LIB):
 	make -C $(PRINTF_PATH)
@@ -34,8 +34,9 @@ re: fclean all
 
 .PHONY: all run clean fclean re
 
-minishell_linux: $(PRINTF_LIB) $(SRC)
-	$(CC) $(FLAGS) -L/usr/include -lreadline -Iincludes $^ -o minishell_linux
+linux_lib:
+	$(eval LIBS := -lreadline)
+	$(eval HEADERS := -Iincludes)
 
-linux: minishell_linux
-	minishell_linux
+linux: linux_lib $(NAME)
+	./minishell

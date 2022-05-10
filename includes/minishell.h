@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/25 18:25:56 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/09 19:58:43 by lmuzio           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/04/25 18:25:56 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/05/10 22:52:54 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_cmd
 	char			*cmd;
 	char			**args;
 	int				redirects[3];
-	int				parth_depth;
+	int				par_depth;
 	int				conditional;
 	struct s_cmd	*next;
 }	t_cmd;
@@ -52,9 +52,15 @@ typedef struct s_data
 
 int		signals_handler_setup(void);
 int		lexer(char *input);
-int		ft_isspace(int str);
+int		parser(char **tables);
 char	**ft_split(char const *s, char *c);
-char	**free2d(char **tofree, int len);
+int		free2d(char **tofree, int len);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strdup(const char *s1);
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t	ft_strclen(const char *start, const char *end);
+size_t	ft_strclen(const char *start, const char *end);
+size_t	ft_strlen(const char *str);
+int		ft_isspace(int str);
 
 #endif

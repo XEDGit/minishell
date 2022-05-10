@@ -1,33 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minishell.c                                        :+:    :+:            */
+/*   ft_strdup.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/04/25 18:20:31 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/05/10 23:04:58 by lmuzio        ########   odam.nl         */
+/*   Created: 2022/05/10 22:51:44 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/05/10 22:53:39 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include <stdlib.h>
 
-int	main(int argc, char *argv[], char *envp[])
+size_t	ft_strlen(const char *str);
+
+char	*ft_strdup(const char *s1)
 {
-	char	*buffer;
-	char	**buffer_pipes;
-	int		count;
-	int		error_code;
+	char	*dup;
+	char	*cur;
 
-	signals_handler_setup();
-	while (1)
-	{
-		count = -1;
-		buffer = readline(TITLE);
-		if (!buffer || lexer(buffer))
-			break ;
-		free(buffer);
-	}
-	ft_dprintf(2, " exit\n");
-	exit(0);
+	dup = malloc(ft_strlen(s1) + 1);
+	if (!dup)
+		return (0);
+	cur = dup;
+	while (*s1)
+		*cur++ = *s1++;
+	*cur = 0;
+	return (dup);
 }

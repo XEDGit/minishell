@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/08 15:32:59 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/09 19:37:04 by lmuzio           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   lexer.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/05/08 15:32:59 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/05/10 23:44:31 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,20 @@ int	pipe_check(char *input)
 		while (input[++c] && input[c] != PIPE && input[c] != AMP)
 			if (!ft_isspace(input[c]))
 				dist++;
+		if (!input[c] && !dist)
+			return (FALSE);
 	}
-	if (!input[c] && !dist)
-		return (FALSE);
 	if (c && !dist)
 		return (ERROR);
 	return (TRUE);
 }
 
-// ' " |  << 
-int	lexer_multiline_check(char *input)
+// don't forget <<
+int	lexer_multiline_check(char *input, int delimiter)
 {
 	int	open;
 
+	open = delimiter;
 	if (*input == PIPE || *input == AMP)
 		return (ERROR);
 	while (*input)
@@ -60,20 +61,65 @@ int	lexer_multiline_check(char *input)
 	return (TRUE);
 }
 
+int	repeat_readline(char **buffer, char delimiter)
+{
+	char	*input;
+	int		c;
+
+	if (delimiter == 1)
+		delimiter = 0;
+	c = 0;
+	input = readline(">");
+	if (!input)
+		return (1);
+	if (*input)
+	{
+		while (input[c] && ft_isspace(input[c]))
+			c++;
+		c = lexer_multiline_check(input + c, delimiter);
+		if (c == ERROR)
+			return (ERROR);
+		*buffer = ft_strjoin(*buffer, input);
+	}
+	else if (!delimiter)
+		c = 1;
+	else
+		c = delimiter;
+	if (c)
+		repeat_readline(buffer, c);
+	free(input);
+	return (0);
+}
+
 int	lexer(char *input)
 {
-	char	**buffer;
+	char	**tables;
+	char	*repeat_buffer;
 	int		count;
 
-	while (*input && ft_isspace(*input))
-		input++;
-	ft_printf("check:%d\n", (count = lexer_multiline_check(input)));
+	count = 0;
+	while (input[count] && ft_isspace(input[count]))
+		count++;
+	count = lexer_multiline_check(input + count, 0);
 	if (count == ERROR)
 		return (0);
-	count = -1;
-	buffer = ft_split(input, "|&");
-	while (buffer[++count])
-		printf("split[%d]: %s\n", count, buffer[count]);
-	free2d(buffer, count);
+	else
+		repeat_buffer = ft_strdup(input);
+	if (count)
+	{
+		count = repeat_readline(&repeat_buffer, count);
+		if (count == ERROR)
+			return (0);
+		else if (count)
+			return (1);
+	}
+	add_history(repeat_buffer);
+	count = 0;
+	tables = ft_split(repeat_buffer, "|&");
+	while (tables[count])
+		ft_printf("split: %s\n", tables[count++]);
+	// parser(tables);
+	free(repeat_buffer);
+	free2d(tables, count);
 	return (0);
 }
