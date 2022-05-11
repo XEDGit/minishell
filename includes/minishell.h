@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/25 18:25:56 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/05/11 04:42:11 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/05/11 23:08:33 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <errno.h>
 # include "../src/ft_printf/ft_printf.h"
 
 typedef struct s_cmd
@@ -35,6 +36,9 @@ typedef struct s_cmd
 typedef struct s_data
 {
 	t_cmd	*cmds;
+	int		**heredocs;
+	int		heredoc_c;
+	char	*input;
 	char	**paths;
 }	t_data;
 
@@ -52,6 +56,9 @@ typedef struct s_data
 
 int		signals_handler_setup(void);
 int		lexer(char *input);
+int		ampersand_check(char *input);
+int		pipe_check(char *input);
+char	*heredoc_check(char *input);
 int		parser(char **tables);
 char	**ft_split(char const *s, char *c);
 int		free2d(char **tofree, int len);
@@ -61,6 +68,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t	ft_strclen(const char *start, const char *end);
 size_t	ft_strclen(const char *start, const char *end);
 size_t	ft_strlen(const char *str);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_isspace(int str);
 
 #endif

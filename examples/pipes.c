@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/23 05:12:41 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/05/10 21:26:49 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/05/11 21:53:27 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,11 @@ char	*ft_strdup(char *buf)
 
 	if (!buf || !*buf)
 		return (0);
-	res[0] = malloc(strlen(buf));
+	res[0] = malloc(strlen(buf) + 1);
 	res[1] = res[0];
 	while (*buf)
 		*(res[0])++ = *buf++;
+	res[0][0] = 0;
 	return (res[1]);
 }
 
@@ -97,7 +98,7 @@ int	main(void)
 	t_data		data;
 
 	i = 0;
-	data.fds = malloc(child_num * sizeof(int));
+	data.fds = malloc(child_num * 2 * sizeof(int));
 	data.children = malloc(child_num * sizeof(pid_t));
 	if (!data.fds || !data.children)
 		error_exit(&data, i, "Failed to allocate struct");

@@ -6,42 +6,20 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/08 15:32:59 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/05/11 05:18:56 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/05/11 23:08:24 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	pipe_check(char *input)
-{
-	int	c;
-	int	dist;
-
-	if ((input[0] == PIPE && input[1] != PIPE) || \
-		(input[0] == AMP && input[1] != AMP))
-	{
-		dist = 0;
-		c = 0;
-		while (input[++c] && input[c] != PIPE && input[c] != AMP)
-			if (!ft_isspace(input[c]))
-				dist++;
-		if (!input[c] && !dist)
-			return (FALSE);
-	}
-	if (c && !dist)
-		return (ERROR);
-	return (TRUE);
-}
-
-// don't forget <<
 int	lexer_multiline_check(char *input, int delimiter)
 {
 	int	open;
 
+	open = delimiter;
 	while (*input && ft_isspace(*input))
 		input++;
-	open = delimiter;
-	if (*input == PIPE || *input == AMP)
+	if (*input == PIPE || *input == AMP || ampersand_check(input))
 		return (ERROR);
 	while (*input)
 	{
@@ -76,7 +54,7 @@ int	repeat_readline(char **buffer, char delimiter)
 		if (delimiter == 1)
 			delimiter = 0;
 		c = lexer_multiline_check(input, delimiter);
-		if (c == ERROR)
+		if (c == ERROR || heredoc_check(input, 0, 0))
 		{
 			free(input);
 			return (1);
@@ -91,28 +69,58 @@ int	repeat_readline(char **buffer, char delimiter)
 	return (c);
 }
 
+char	**heredoc_repeat(char *input, int *fds)
+{
+	char	*buffer;
+	int		c;
+
+	fds = malloc(sizeof(int) * 2);
+	if (pipe(fds) == ERROR)
+		exit(errno);
+	while (*input && ft_isspace(*input))
+		input++;
+	if (!*input)
+		return (ERROR);
+	c = 0;
+	while (input[c] && !ft_isspace(input[c]))
+		c++;
+	while (FALSE)
+	{
+		buffer = readline("here >");
+		if (!ft_strncmp(buffer, input, c))
+			break ;
+		else
+			write(fds[1], buffer, ft_strlen(buffer));
+	}
+	close(fds[1]);
+	return (0);
+}
+
 int	lexer(char *input)
 {
 	char	**tables;
-	char	*repeat_buffer;
+	t_data	data;
 	int		count;
 
 	count = lexer_multiline_check(input, 0);
 	if (count == ERROR)
 		return (1);
-	else
-		repeat_buffer = ft_strdup(input);
+	if (heredoc_check(input, &data) == ERROR)
+		return (1);
+	data.input = ft_strdup(input);
 	if (count)
-		count = repeat_readline(&repeat_buffer, count);
+		count = repeat_readline(&data.input, count);
 	if (count)
 	{
-		free(repeat_buffer);
+		if (data.heredoc_c)
+			free2d(data.heredocs, 0);
+		free(data.input);
 		return (count);
 	}
-	add_history(repeat_buffer);
-	tables = ft_split(repeat_buffer, "|&");
+	add_history(data.input);
+	tables = ft_split(data.input, "|&");
 	parser(tables);
-	free(repeat_buffer);
+	free(data.input);
 	free2d(tables, 0);
 	return (0);
 }
