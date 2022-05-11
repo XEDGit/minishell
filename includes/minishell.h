@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/25 18:25:56 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/05/10 22:52:54 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/05/11 04:42:11 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_data
 
 # define TRUE 0
 # define FALSE 1
-# define ERROR 2
+# define ERROR -1
 # define AND 100
 # define OR 101
 # define PIPE 124

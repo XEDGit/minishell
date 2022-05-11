@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/08 15:32:59 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/05/10 23:44:31 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/05/11 05:18:56 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int	lexer_multiline_check(char *input, int delimiter)
 {
 	int	open;
 
+	while (*input && ft_isspace(*input))
+		input++;
 	open = delimiter;
 	if (*input == PIPE || *input == AMP)
 		return (ERROR);
@@ -66,29 +68,27 @@ int	repeat_readline(char **buffer, char delimiter)
 	char	*input;
 	int		c;
 
-	if (delimiter == 1)
-		delimiter = 0;
-	c = 0;
 	input = readline(">");
 	if (!input)
-		return (1);
+		return (ERROR);
 	if (*input)
 	{
-		while (input[c] && ft_isspace(input[c]))
-			c++;
-		c = lexer_multiline_check(input + c, delimiter);
+		if (delimiter == 1)
+			delimiter = 0;
+		c = lexer_multiline_check(input, delimiter);
 		if (c == ERROR)
-			return (ERROR);
+		{
+			free(input);
+			return (1);
+		}
 		*buffer = ft_strjoin(*buffer, input);
 	}
-	else if (!delimiter)
-		c = 1;
 	else
 		c = delimiter;
 	if (c)
-		repeat_readline(buffer, c);
+		c = repeat_readline(buffer, c);
 	free(input);
-	return (0);
+	return (c);
 }
 
 int	lexer(char *input)
@@ -97,29 +97,22 @@ int	lexer(char *input)
 	char	*repeat_buffer;
 	int		count;
 
-	count = 0;
-	while (input[count] && ft_isspace(input[count]))
-		count++;
-	count = lexer_multiline_check(input + count, 0);
+	count = lexer_multiline_check(input, 0);
 	if (count == ERROR)
-		return (0);
+		return (1);
 	else
 		repeat_buffer = ft_strdup(input);
 	if (count)
-	{
 		count = repeat_readline(&repeat_buffer, count);
-		if (count == ERROR)
-			return (0);
-		else if (count)
-			return (1);
+	if (count)
+	{
+		free(repeat_buffer);
+		return (count);
 	}
 	add_history(repeat_buffer);
-	count = 0;
 	tables = ft_split(repeat_buffer, "|&");
-	while (tables[count])
-		ft_printf("split: %s\n", tables[count++]);
-	// parser(tables);
+	parser(tables);
 	free(repeat_buffer);
-	free2d(tables, count);
+	free2d(tables, 0);
 	return (0);
 }
