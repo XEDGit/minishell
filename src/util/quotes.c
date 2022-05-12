@@ -1,38 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/25 18:20:31 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/12 18:54:15 by lmuzio           ###   ########.fr       */
+/*   Created: 2022/05/12 18:52:41 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/05/12 18:52:53 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	main(int argc, char *argv[], char *envp[])
+char	*remove_quotes(char *input)
 {
-	char	*buffer;
-	int		code;
+	int		c;
+	char	ch;
+	char	*res;
 
-	signals_handler_setup();
-	(void)argc;
-	(void)argv;
-	(void)envp;
-	while (1)
+	c = 0;
+	ch = 0;
+	res = ft_strdup(input);
+	while (res[c])
 	{
-		buffer = readline(TITLE);
-		if (!buffer)
-			break ;
-		code = lexer(buffer);
-		if (code == ERROR)
-			break ;
-		if (code)
-			ft_printf("Error\n");
-		free(buffer);
+		if (!ch && (res[c] == DOUBLE_QUOTE || res[c] == SINGLE_QUOTE))
+		{
+			ch = res[c];
+			ft_strlcpy(res + c, res + c + 1, ft_strlen(res + c));
+		}
+		else if (ch && res[c] == ch)
+		{
+			ch = 0;
+			ft_strlcpy(res + c, res + c + 1, ft_strlen(res + c));
+		}
+		else
+			c++;
 	}
-	ft_dprintf(2, " exit\n");
-	exit(0);
+	return (res);
 }

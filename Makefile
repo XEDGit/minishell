@@ -6,7 +6,7 @@ LIBS := -lreadline -L$(HOME)/.brew/opt/readline/lib
 
 HEADERS := -I$(HOME)/.brew/opt/readline/include -Iincludes
 
-FLAGS := -g #-fsanitize=address #-Wextra -Wall -Werror
+FLAGS := -g #-fsanitize=address -Wextra -Wall -Werror
 
 PRINTF_PATH := src/ft_printf
 

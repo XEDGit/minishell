@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parser.c                                           :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/05/10 20:22:54 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/05/11 05:20:33 by lmuzio        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/10 20:22:54 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/05/12 19:00:19 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,11 @@ int	parser(char **tables, t_data *data)
 	while (data->heredocs[c])
 	{
 		buffer = extract_pipe(data->heredocs[c][0]);
-		printf("heredoc pipe[%d]: %s\n", c, buffer);
+		if (buffer)
+			printf("heredoc pipe[%d]: %s\n", c, buffer);
 		close(data->heredocs[c++][0]);
 		free(buffer);
 	}
+	free(data->heredocs);
 	return (0);
 }

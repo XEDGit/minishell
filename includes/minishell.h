@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/04/25 18:25:56 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/05/11 23:08:33 by lmuzio        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/25 18:25:56 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/05/12 18:53:32 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,9 @@ int		lexer(char *input);
 int		ampersand_check(char *input);
 int		pipe_check(char *input);
 int		heredoc_check(char *input, t_data *data);
-int		heredoc_repeat(char *input, int **fds);
-char    *extract_pipe(int fd);
+int		heredoc_repeat(char *input, int *fds);
+char	*extract_pipe(int fd);
+char	*remove_quotes(char *input);
 int		parser(char **tables, t_data *data);
 char	**ft_split(char const *s, char *c);
 int		free2d(char **tofree, int len);

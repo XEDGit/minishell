@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   lexer.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/05/08 15:32:59 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/05/11 23:08:24 by lmuzio        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/08 15:32:59 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/05/12 18:57:09 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,32 +69,39 @@ int	repeat_readline(char **buffer, char delimiter)
 	return (c);
 }
 
-int	heredoc_repeat(char *input, int **fds)
+int	heredoc_routine(char *input, int c, int *fds)
 {
 	char	*buffer;
+
+	buffer = readline("here >");
+	if (!buffer || !ft_strexcmp(buffer, input, c))
+		return (ERROR);
+	else
+		write(fds[1], buffer, ft_strlen(buffer));
+	printf("heredoc_routine: %s - %s - %d - %d\n", buffer, input, *input, c);
+	free(buffer);
+	return (TRUE);
+}
+
+int	heredoc_repeat(char *input, int *fds)
+{
 	int		c;
 
-	*fds = malloc(sizeof(int) * 2);
-	if (pipe(*fds) == ERROR)
+	if (pipe(fds) == ERROR)
 		exit(errno);
 	while (*input && ft_isspace(*input))
 		input++;
 	if (!*input)
 		return (ERROR);
+	input = remove_quotes(input);
 	c = 0;
 	while (input[c] && !ft_isspace(input[c]))
 		c++;
-	while (FALSE)
-	{
-		buffer = readline("here >");
-		if (!ft_strexcmp(buffer, input, c))
+	while (1)
+		if (heredoc_routine(input, c, fds) == ERROR)
 			break ;
-		else
-			write((*fds)[1], buffer, ft_strlen(buffer));
-		free(buffer);
-	}
-	free(buffer);
-	close((*fds)[1]);
+	free(input);
+	close(fds[1]);
 	return (0);
 }
 

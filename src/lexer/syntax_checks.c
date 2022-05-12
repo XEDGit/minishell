@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   syntax_checks.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/05/08 15:32:59 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/05/11 23:08:01 by lmuzio        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   syntax_checks.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/08 15:32:59 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/05/12 18:58:48 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ int	pipe_check(char *input)
 	int	c;
 	int	dist;
 
+	c = 0;
+	dist = 0;
 	if ((input[0] == PIPE && input[1] != PIPE) || \
 		(input[0] == AMP && input[1] != AMP))
 	{
-		dist = 0;
-		c = 0;
 		while (input[++c] && input[c] != PIPE && input[c] != AMP)
 			if (!ft_isspace(input[c]))
 				dist++;
@@ -51,33 +51,52 @@ int	pipe_check(char *input)
 	return (TRUE);
 }
 
+char	*skip_quotes(char *input)
+{
+	char	ch;
+
+	if (*input != DOUBLE_QUOTE && *input != SINGLE_QUOTE)
+		return (input);
+	ch = *input++;
+	while (*input && *input != ch)
+		input++;
+	return (input);
+}
+
+void	heredoc_init(char *input, t_data *data)
+{
+	data->heredoc_c = heredoc_check(input, 0);
+	data->heredocs = malloc((data->heredoc_c + 1) * sizeof(int *));
+	if (!data->heredocs)
+		exit(errno);
+	data->heredocs[data->heredoc_c] = 0;
+}
+
 int	heredoc_check(char *input, t_data *data)
 {
 	int	c;
+	int	code;
 
 	c = 0;
 	if (data)
-	{
-		data->heredoc_c = heredoc_check(input, 0);
-		data->heredocs = malloc((data->heredoc_c + 1) * sizeof(int *));
-		if (!data->heredocs)
-			exit(errno);
-		data->heredocs[data->heredoc_c] = 0;
-	}
+		heredoc_init(input, data);
 	while (*input)
 	{
-		if (*input == '<')
+		input = skip_quotes(input);
+		if (*input++ == '<')
 		{
-			input++;
 			if (*input++ == '<')
 			{
-				if (data && heredoc_repeat(input, &data->heredocs[c]) == ERROR)
-					return (ERROR);
+				if (data)
+				{
+					data->heredocs[c] = malloc(sizeof(int) * 2);
+					code = heredoc_repeat(input, data->heredocs[c]);
+					if (code == ERROR)
+						return (ERROR);
+				}
 				c++;
 			}
 		}
-		if (*input)
-			input++;
 	}
 	return (c);
 }
