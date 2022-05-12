@@ -54,7 +54,7 @@ int	repeat_readline(char **buffer, char delimiter)
 		if (delimiter == 1)
 			delimiter = 0;
 		c = lexer_multiline_check(input, delimiter);
-		if (c == ERROR || heredoc_check(input, 0, 0))
+		if (c == ERROR || heredoc_check(input, 0))
 		{
 			free(input);
 			return (1);
@@ -69,13 +69,13 @@ int	repeat_readline(char **buffer, char delimiter)
 	return (c);
 }
 
-char	**heredoc_repeat(char *input, int *fds)
+int	heredoc_repeat(char *input, int **fds)
 {
 	char	*buffer;
 	int		c;
 
-	fds = malloc(sizeof(int) * 2);
-	if (pipe(fds) == ERROR)
+	*fds = malloc(sizeof(int) * 2);
+	if (pipe(*fds) == ERROR)
 		exit(errno);
 	while (*input && ft_isspace(*input))
 		input++;
@@ -87,12 +87,14 @@ char	**heredoc_repeat(char *input, int *fds)
 	while (FALSE)
 	{
 		buffer = readline("here >");
-		if (!ft_strncmp(buffer, input, c))
+		if (!ft_strexcmp(buffer, input, c))
 			break ;
 		else
-			write(fds[1], buffer, ft_strlen(buffer));
+			write((*fds)[1], buffer, ft_strlen(buffer));
+		free(buffer);
 	}
-	close(fds[1]);
+	free(buffer);
+	close((*fds)[1]);
 	return (0);
 }
 
@@ -113,13 +115,13 @@ int	lexer(char *input)
 	if (count)
 	{
 		if (data.heredoc_c)
-			free2d(data.heredocs, 0);
+			free2dint(data.heredocs, 0);
 		free(data.input);
 		return (count);
 	}
 	add_history(data.input);
 	tables = ft_split(data.input, "|&");
-	parser(tables);
+	parser(tables, &data);
 	free(data.input);
 	free2d(tables, 0);
 	return (0);

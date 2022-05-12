@@ -6,7 +6,7 @@ LIBS := -lreadline -L$(HOME)/.brew/opt/readline/lib
 
 HEADERS := -I$(HOME)/.brew/opt/readline/include -Iincludes
 
-FLAGS := -g -fsanitize=address #-Wextra -Wall -Werror
+FLAGS := -g #-fsanitize=address #-Wextra -Wall -Werror
 
 PRINTF_PATH := src/ft_printf
 
@@ -39,4 +39,11 @@ linux_lib:
 	$(eval HEADERS := -Iincludes)
 
 linux: linux_lib $(NAME)
+	./minishell
+
+mac_lib:
+	$(eval LIBS := -lreadline -L/usr/local/opt/readline/lib)
+	$(eval HEADERS := -Iincludes -I/usr/local/opt/readline/include)
+
+mac: mac_lib $(NAME)
 	./minishell

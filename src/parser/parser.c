@@ -12,12 +12,26 @@
 
 #include <minishell.h>
 
-int	parser(char **tables)
+int	parser(char **tables, t_data *data)
 {
-	int	c;
+	int		c;
+	char	*buffer;
 
 	c = 0;
 	while (*tables)
+	{
 		printf("split[%d]: %s\n", c++, *tables++);
+	}
+	printf("--heredoc count: %d---------------------------\n", data->heredoc_c);
+	if (!data->heredoc_c)
+		return (0);
+	c = 0;
+	while (data->heredocs[c])
+	{
+		buffer = extract_pipe(data->heredocs[c][0]);
+		printf("heredoc pipe[%d]: %s\n", c, buffer);
+		close(data->heredocs[c++][0]);
+		free(buffer);
+	}
 	return (0);
 }

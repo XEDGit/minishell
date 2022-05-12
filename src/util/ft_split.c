@@ -41,6 +41,17 @@ size_t	word_count(const char *s, char *c)
 	return (cont + 1);
 }
 
+int	free2dint(int **tofree, int len)
+{
+	if (!len)
+		while (tofree[len])
+			len++;
+	while (len--)
+		free(tofree[len]);
+	free(tofree);
+	return (1);
+}
+
 int	free2d(char **tofree, int len)
 {
 	if (!len)

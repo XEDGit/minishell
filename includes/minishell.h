@@ -58,17 +58,22 @@ int		signals_handler_setup(void);
 int		lexer(char *input);
 int		ampersand_check(char *input);
 int		pipe_check(char *input);
-char	*heredoc_check(char *input);
-int		parser(char **tables);
+int		heredoc_check(char *input, t_data *data);
+int		heredoc_repeat(char *input, int **fds);
+char    *extract_pipe(int fd);
+int		parser(char **tables, t_data *data);
 char	**ft_split(char const *s, char *c);
 int		free2d(char **tofree, int len);
+int		free2dint(int **tofree, int len);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strdup(const char *s1);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t	ft_strclen(const char *start, const char *end);
 size_t	ft_strclen(const char *start, const char *end);
 size_t	ft_strlen(const char *str);
+int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_strexcmp(const char *s1, const char *s2, size_t n);
 int		ft_isspace(int str);
 
 #endif

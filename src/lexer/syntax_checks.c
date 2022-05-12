@@ -51,7 +51,7 @@ int	pipe_check(char *input)
 	return (TRUE);
 }
 
-char	*heredoc_check(char *input, t_data *data)
+int	heredoc_check(char *input, t_data *data)
 {
 	int	c;
 
@@ -60,6 +60,8 @@ char	*heredoc_check(char *input, t_data *data)
 	{
 		data->heredoc_c = heredoc_check(input, 0);
 		data->heredocs = malloc((data->heredoc_c + 1) * sizeof(int *));
+		if (!data->heredocs)
+			exit(errno);
 		data->heredocs[data->heredoc_c] = 0;
 	}
 	while (*input)
@@ -69,7 +71,7 @@ char	*heredoc_check(char *input, t_data *data)
 			input++;
 			if (*input++ == '<')
 			{
-				if (data && heredoc_repeat(input, data->heredocs[c]) == ERROR)
+				if (data && heredoc_repeat(input, &data->heredocs[c]) == ERROR)
 					return (ERROR);
 				c++;
 			}
