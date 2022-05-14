@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/08 15:32:59 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/12 18:57:09 by lmuzio           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   lexer.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/05/08 15:32:59 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/05/15 01:19:37 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ int	heredoc_repeat(char *input, int *fds)
 		return (ERROR);
 	input = remove_quotes(input);
 	c = 0;
-	while (input[c] && !ft_isspace(input[c]))
+	while (input[c] && !ft_isspace(input[c]) && \
+	input[c] != PIPE && input[c] != AMP)
 		c++;
 	while (1)
 		if (heredoc_routine(input, c, fds) == ERROR)
@@ -123,8 +124,7 @@ int	lexer(char *input)
 		count = repeat_readline(&data.input, count);
 	if (count)
 	{
-		if (data.heredoc_c)
-			free2dint(data.heredocs, 0);
+		free2dint(data.heredocs, 0);
 		free(data.input);
 		return (count);
 	}

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   pipes.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/12 18:49:33 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/12 18:53:21 by lmuzio           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   pipes.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/05/12 18:49:33 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/05/15 00:41:01 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,18 @@ char	*extract_pipe(int fd)
 	int		c;
 	int		read_ret;
 
-	c = 0;
+	c = 1;
 	size_mult = 1;
 	if (!check_fd(fd, 10, &buffer))
 		return (0);
 	while (1)
 	{
 		read_ret = read(fd, &buffer[(size_mult - 1) * 10 + c], 1);
+		buffer[(size_mult - 1) * 10 + c + 1] = 0;
 		if (!read_ret)
 			break ;
 		else if (read_ret == ERROR)
 			return (0);
-		buffer[(size_mult - 1) * 10 + c + 1] = 0;
 		if (++c == 10)
 		{
 			c = 0;

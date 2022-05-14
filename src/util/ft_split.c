@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 17:54:14 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/05/11 04:53:39 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/05/15 00:38:38 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ int	free2dint(int **tofree, int len)
 	if (!len)
 		while (tofree[len])
 			len++;
-	while (len--)
-		free(tofree[len]);
+	while (len >= 0)
+		free(tofree[len--]);
 	free(tofree);
 	return (1);
 }
@@ -57,8 +57,8 @@ int	free2d(char **tofree, int len)
 	if (!len)
 		while (tofree[len])
 			len++;
-	while (len--)
-		free(tofree[len]);
+	while (len >= 0)
+		free(tofree[len--]);
 	free(tofree);
 	return (1);
 }
