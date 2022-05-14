@@ -35,7 +35,7 @@ char	*check_fd(int fd, int buffer_size, char **buffer)
 	*buffer = malloc((buffer_size + 1) * sizeof(char));
 	if (!*buffer)
 		return (0);
-	read_ret = read(fd, &*buffer, 1);
+	read_ret = read(fd, *buffer, 1);
 	if (read_ret == ERROR)
 	{
 		free(*buffer);

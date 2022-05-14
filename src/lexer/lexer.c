@@ -75,10 +75,12 @@ int	heredoc_routine(char *input, int c, int *fds)
 
 	buffer = readline("here >");
 	if (!buffer || !ft_strexcmp(buffer, input, c))
+	{
+		free(buffer);
 		return (ERROR);
+	}
 	else
 		write(fds[1], buffer, ft_strlen(buffer));
-	printf("heredoc_routine: %s - %s - %d - %d\n", buffer, input, *input, c);
 	free(buffer);
 	return (TRUE);
 }
@@ -130,6 +132,6 @@ int	lexer(char *input)
 	tables = ft_split(data.input, "|&");
 	parser(tables, &data);
 	free(data.input);
-	free2d(tables, 0);
+	free2dint(data.heredocs, 0);
 	return (0);
 }

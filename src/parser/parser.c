@@ -17,23 +17,24 @@ int	parser(char **tables, t_data *data)
 	int		c;
 	char	*buffer;
 
-	c = 0;
-	while (*tables)
-	{
-		printf("split[%d]: %s\n", c++, *tables++);
-	}
-	printf("--heredoc count: %d---------------------------\n", data->heredoc_c);
+	c = -1;
+	while (tables[++c])
+		printf("split[%d]: %s\n", c, tables[c]);
+	free2d(tables, 0);
 	if (!data->heredoc_c)
 		return (0);
+	printf("--heredoc count: %d---------------------------\n", data->heredoc_c);
 	c = 0;
 	while (data->heredocs[c])
 	{
 		buffer = extract_pipe(data->heredocs[c][0]);
 		if (buffer)
+		{
 			printf("heredoc pipe[%d]: %s\n", c, buffer);
-		close(data->heredocs[c++][0]);
-		free(buffer);
+			free(buffer);
+		}
+		close(data->heredocs[c][0]);
+		c++;
 	}
-	free(data->heredocs);
 	return (0);
 }
