@@ -90,7 +90,7 @@ char	**ft_split(char const *s, char *c)
 		while (c[cont])
 			if (c[cont++] == *s)
 				s++;
-		cont = ft_strclen(s, c);
+		cont = ft_strclen_no_quotes(s, c);
 		if (!cont)
 			continue ;
 		if (copy_word(s, res, resc++, cont))

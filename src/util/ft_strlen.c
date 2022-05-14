@@ -12,6 +12,8 @@
 
 #include <stddef.h>
 
+int		skip_quotes(char *input);
+
 size_t	ft_strclen(const char *start, const char *end)
 {
 	int			cont;
@@ -27,6 +29,34 @@ size_t	ft_strclen(const char *start, const char *end)
 	while (*start)
 	{
 		end = temp;
+		while (*end)
+			if (*start == *end++)
+				return (cont);
+		cont++;
+		start++;
+	}
+	return (cont);
+}
+
+size_t	ft_strclen_no_quotes(const char *start, const char *end)
+{
+	int			cont;
+	const char	*temp;
+
+	cont = 0;
+	temp = end;
+	cont += skip_quotes((char *)start);
+	start += skip_quotes((char *)start);
+	while (*end)
+		if (*start == *end++)
+			cont++;
+	if (cont)
+		start++;
+	while (*start)
+	{
+		end = temp;
+		cont += skip_quotes((char *)start);
+		start += skip_quotes((char *)start);
 		while (*end)
 			if (*start == *end++)
 				return (cont);

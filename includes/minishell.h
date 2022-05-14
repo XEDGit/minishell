@@ -69,12 +69,13 @@ int		free2dint(int **tofree, int len);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strdup(const char *s1);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-size_t	ft_strclen(const char *start, const char *end);
+size_t	ft_strclen_no_quotes(const char *start, const char *end);
 size_t	ft_strclen(const char *start, const char *end);
 size_t	ft_strlen(const char *str);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_strexcmp(const char *s1, const char *s2, size_t n);
 int		ft_isspace(int str);
+int		skip_quotes(char *input);
 
 #endif

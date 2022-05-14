@@ -38,3 +38,17 @@ char	*remove_quotes(char *input)
 	}
 	return (res);
 }
+
+int	skip_quotes(char *input)
+{
+	char	ch;
+	char	*start;
+
+	start = input;
+	if (*input != DOUBLE_QUOTE && *input != SINGLE_QUOTE)
+		return (0);
+	ch = *input++;
+	while (*input && *input != ch)
+		input++;
+	return (input - start);
+}

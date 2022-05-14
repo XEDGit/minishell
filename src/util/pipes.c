@@ -12,43 +12,67 @@
 
 #include <minishell.h>
 
-char	*ft_realloc(char *src, unsigned int size)
+/* Returns 0 on error and the number of copied bytes on success 
+src gets freed and replaces with reallocated string */
+char	*ft_realloc(char **src, unsigned int new_size)
 {
 	char	*res;
 
-	res = malloc((size + 1) * sizeof(char));
-	ft_strlcpy(res, src, ft_strlen(src) + 1);
-	free(src);
+	res = malloc((new_size + 1) * sizeof(char));
+	if (!res)
+		return (0);
+	ft_strlcpy(res, *src, ft_strlen(*src) + 1);
+	free(*src);
+	*src = res;
 	return (res);
 }
 
+// Returns 0 on error or a string with the first char read on success
+char	*check_fd(int fd, int buffer_size, char **buffer)
+{
+	int		read_ret;
+
+	*buffer = malloc((buffer_size + 1) * sizeof(char));
+	if (!*buffer)
+		return (0);
+	read_ret = read(fd, &*buffer, 1);
+	if (read_ret == ERROR)
+	{
+		free(*buffer);
+		return (0);
+	}
+	if (!read_ret)
+		(*buffer)[0] = 0;
+	(*buffer)[1] = 0;
+	return (*buffer);
+}
+
+// Returns 0 on error or string pipe content
 char	*extract_pipe(int fd)
 {
 	char	*buffer;
-	int		buffer_size;
 	int		size_mult;
 	int		c;
+	int		read_ret;
 
 	c = 0;
 	size_mult = 1;
-	buffer_size = 10;
-	buffer = malloc((buffer_size + 1) * sizeof(char));
-	buffer[0] = 0;
+	if (!check_fd(fd, 10, &buffer))
+		return (0);
 	while (1)
 	{
-		if (read(fd, &buffer[(size_mult - 1) * buffer_size + c], 1) < 1)
+		read_ret = read(fd, &buffer[(size_mult - 1) * 10 + c], 1);
+		if (!read_ret)
 			break ;
-		buffer[(size_mult - 1) * buffer_size + c + 1] = 0;
-		if (++c == buffer_size)
+		else if (read_ret == ERROR)
+			return (0);
+		buffer[(size_mult - 1) * 10 + c + 1] = 0;
+		if (++c == 10)
 		{
 			c = 0;
-			buffer = ft_realloc(buffer, buffer_size * ++size_mult);
+			if (!ft_realloc(&buffer, 10 * ++size_mult))
+				return (0);
 		}
-	}
-	if (!buffer[0])
-	{
-		free(buffer);
-		return (0);
 	}
 	return (buffer);
 }

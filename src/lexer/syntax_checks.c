@@ -51,18 +51,6 @@ int	pipe_check(char *input)
 	return (TRUE);
 }
 
-char	*skip_quotes(char *input)
-{
-	char	ch;
-
-	if (*input != DOUBLE_QUOTE && *input != SINGLE_QUOTE)
-		return (input);
-	ch = *input++;
-	while (*input && *input != ch)
-		input++;
-	return (input);
-}
-
 void	heredoc_init(char *input, t_data *data)
 {
 	data->heredoc_c = heredoc_check(input, 0);
@@ -82,7 +70,7 @@ int	heredoc_check(char *input, t_data *data)
 		heredoc_init(input, data);
 	while (*input)
 	{
-		input = skip_quotes(input);
+		input += skip_quotes(input);
 		if (*input++ == '<')
 		{
 			if (*input++ == '<')
