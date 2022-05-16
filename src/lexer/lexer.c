@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/08 15:32:59 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/05/15 01:19:37 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/05/16 03:25:29 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,17 +71,21 @@ int	repeat_readline(char **buffer, char delimiter)
 
 int	heredoc_routine(char *input, int c, int *fds)
 {
-	char	*buffer;
+	char		*buffer;
+	static int	lines = 0;
 
 	buffer = readline("here >");
 	if (!buffer || !ft_strexcmp(buffer, input, c))
 	{
+		lines = 0;
 		free(buffer);
 		return (ERROR);
 	}
-	else
-		write(fds[1], buffer, ft_strlen(buffer));
+	if (lines)
+		write(fds[1], "\n", 1);
+	write(fds[1], buffer, ft_strlen(buffer));
 	free(buffer);
+	lines++;
 	return (TRUE);
 }
 

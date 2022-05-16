@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/25 18:25:56 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/12 18:53:32 by lmuzio           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/04/25 18:25:56 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/05/16 03:14:30 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_data
 # define SINGLE_QUOTE 39
 # define DOUBLE_QUOTE 34
 # define PARENTHESIS 41
+# define NEW_LINE 10
 # define TITLE "\001\e[31;1m\002 SKIRU ~> \001\e[0m\002"
 
 int		signals_handler_setup(void);

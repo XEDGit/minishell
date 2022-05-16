@@ -14,7 +14,7 @@ I=2
 
 PROJECT_PATH=$1
 
-while [[ $I -lt $ARGS_LEN ]]
+while [[ $I -le $ARGS_LEN ]]
 do
     arg=${ARGS[$I]}
 	case $arg in
@@ -39,6 +39,7 @@ do
 done
 
 eval "cat << EOF > $PROJECT_PATH/fake_malloc.c
+#define _GNU_SOURCE
 #include <dlfcn.h>
 #include <execinfo.h>
 #include <stdio.h>
