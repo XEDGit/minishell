@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   lexer.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/05/08 15:32:59 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/05/16 03:25:29 by lmuzio        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/08 15:32:59 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/05/16 20:49:20 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	lexer_multiline_check(char *input, int delimiter)
 	open = delimiter;
 	while (*input && ft_isspace(*input))
 		input++;
-	if (*input == PIPE || *input == AMP || ampersand_check(input))
+	if (*input == PIPE || *input == AMP || double_char_check(input, AMP))
 		return (ERROR);
 	while (*input)
 	{
@@ -38,7 +38,7 @@ int	lexer_multiline_check(char *input, int delimiter)
 	}
 	if (open)
 		return (open);
-	return (TRUE);
+	return (false);
 }
 
 int	repeat_readline(char **buffer, char delimiter)
@@ -59,7 +59,8 @@ int	repeat_readline(char **buffer, char delimiter)
 			free(input);
 			return (1);
 		}
-		*buffer = ft_strjoin(*buffer, input);
+		if (ft_strjoin(buffer, input) == ERROR)
+			return (ERROR);
 	}
 	else
 		c = delimiter;
@@ -86,7 +87,7 @@ int	heredoc_routine(char *input, int c, int *fds)
 	write(fds[1], buffer, ft_strlen(buffer));
 	free(buffer);
 	lines++;
-	return (TRUE);
+	return (false);
 }
 
 int	heredoc_repeat(char *input, int *fds)
@@ -94,12 +95,17 @@ int	heredoc_repeat(char *input, int *fds)
 	int		c;
 
 	if (pipe(fds) == ERROR)
-		exit(errno);
+	{
+		printf("Error: pipe() failed\n");
+		return (ERROR);
+	}
 	while (*input && ft_isspace(*input))
 		input++;
 	if (!*input)
 		return (ERROR);
 	input = remove_quotes(input);
+	if (!input)
+		return (ERROR);
 	c = 0;
 	while (input[c] && !ft_isspace(input[c]) && \
 	input[c] != PIPE && input[c] != AMP)
@@ -119,11 +125,11 @@ int	lexer(char *input)
 	int		count;
 
 	count = lexer_multiline_check(input, 0);
-	if (count == ERROR)
-		return (1);
-	if (heredoc_check(input, &data) == ERROR)
+	if (count == ERROR || heredoc_check(input, &data) == ERROR)
 		return (1);
 	data.input = ft_strdup(input);
+	if (!data.input)
+		return (1);
 	if (count)
 		count = repeat_readline(&data.input, count);
 	if (count)

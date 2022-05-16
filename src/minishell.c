@@ -6,11 +6,34 @@
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:20:31 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/12 18:54:15 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/05/16 20:29:59 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+int	semicolon_handle(char *buffer)
+{
+	char	**semi_colons_split;
+	int		counter;
+	int		code;
+
+	semi_colons_split = ft_split(buffer, ";");
+	if (!semi_colons_split)
+		return (ERROR);
+	counter = 0;
+	while (semi_colons_split[counter])
+	{
+		code = lexer(semi_colons_split[counter]);
+		if (code == ERROR)
+			break ;
+		if (code)
+			ft_printf("Error\n");
+		counter++;
+	}
+	free2d(semi_colons_split, 0);
+	return (code);
+}
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -26,13 +49,13 @@ int	main(int argc, char *argv[], char *envp[])
 		buffer = readline(TITLE);
 		if (!buffer)
 			break ;
-		code = lexer(buffer);
-		if (code == ERROR)
-			break ;
-		if (code)
-			ft_printf("Error\n");
+		if (semicolon_check(buffer))
+			printf("Error: empty command\n");
+		else
+			if (semicolon_handle(buffer))
+				printf("Error: allocation failed");
 		free(buffer);
 	}
-	ft_dprintf(2, " exit\n");
+	ft_dprintf(2, "exit\n");
 	exit(0);
 }

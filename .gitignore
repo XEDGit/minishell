@@ -1,4 +1,5 @@
 minishell
+tools/testerupdate.sh
 
 # Object files
 *.o

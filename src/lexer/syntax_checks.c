@@ -6,20 +6,22 @@
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:32:59 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/12 18:58:48 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/05/16 20:23:09 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	ampersand_check(char *input)
+int	semicolon_check(char *input)
 {
 	while (*input)
 	{
-		if (*input == AMP)
+		if (*input == ';')
 		{
 			input++;
-			if (*input != AMP)
+			while (*input && ft_isspace(*input))
+				input++;
+			if (*input == ';')
 				return (ERROR);
 			else
 				input++;
@@ -27,7 +29,25 @@ int	ampersand_check(char *input)
 		if (*input)
 			input++;
 	}
-	return (TRUE);
+	return (false);
+}
+
+int	double_char_check(char *input, char ch)
+{
+	while (*input)
+	{
+		if (*input == ch)
+		{
+			input++;
+			if (*input != ch)
+				return (ERROR);
+			else
+				input++;
+		}
+		if (*input)
+			input++;
+	}
+	return (false);
 }
 
 int	pipe_check(char *input)
@@ -44,20 +64,24 @@ int	pipe_check(char *input)
 			if (!ft_isspace(input[c]))
 				dist++;
 		if (!input[c] && !dist)
-			return (FALSE);
+			return (true);
 	}
 	if (c && !dist)
 		return (ERROR);
-	return (TRUE);
+	return (false);
 }
 
-void	heredoc_init(char *input, t_data *data)
+int	heredoc_init(char *input, t_data *data)
 {
 	data->heredoc_c = heredoc_check(input, 0);
 	data->heredocs = malloc((data->heredoc_c + 1) * sizeof(int *));
 	if (!data->heredocs)
-		exit(errno);
+	{
+		printf("Error: failed to allocate heredoc pipe\n");
+		return (ERROR);
+	}
 	data->heredocs[data->heredoc_c] = 0;
+	return (false);
 }
 
 int	heredoc_check(char *input, t_data *data)
@@ -66,8 +90,8 @@ int	heredoc_check(char *input, t_data *data)
 	int	code;
 
 	c = 0;
-	if (data)
-		heredoc_init(input, data);
+	if (data && heredoc_init(input, data) == ERROR)
+		return (ERROR);
 	while (*input)
 	{
 		input += skip_quotes(input);

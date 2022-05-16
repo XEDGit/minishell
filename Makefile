@@ -4,7 +4,7 @@ SRC := $(shell find ./src -name '*.c') #src/minishell.c src/util/signal.c src/ut
 
 LIBS := -lreadline -L$(HOME)/.brew/opt/readline/lib
 
-HEADERS := -I$(HOME)/.brew/opt/readline/include -Iincludes
+HEADERS := -I$(HOME)/.brew/opt/readline/include -Iincludes -Isrc/ft_printf
 
 FLAGS := -g #-fsanitize=address -Wextra -Wall -Werror
 
@@ -38,12 +38,15 @@ linux_lib:
 	$(eval LIBS := -lreadline)
 	$(eval HEADERS := -Iincludes)
 
-linux: linux_lib $(NAME)
+linux: linux_lib all
 	./minishell
 
 mac_lib:
 	$(eval LIBS := -lreadline -L/usr/local/opt/readline/lib)
 	$(eval HEADERS := -Iincludes -I/usr/local/opt/readline/include)
 
-mac: mac_lib $(NAME)
+mac: mac_lib all
 	./minishell
+
+malloc_wrapper: fclean
+	malloc_wrapper --d . --e examples --flags $(LIBS) $(HEADERS)

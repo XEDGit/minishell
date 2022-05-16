@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 18:52:41 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/12 18:52:53 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/05/16 20:31:55 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	*remove_quotes(char *input)
 	c = 0;
 	ch = 0;
 	res = ft_strdup(input);
+	if (!res)
+		return (0);
 	while (res[c])
 	{
 		if (!ch && (res[c] == DOUBLE_QUOTE || res[c] == SINGLE_QUOTE))
