@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 17:54:14 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/05/15 00:38:38 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/05/17 00:50:05 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	copy_word(const char *s, char **res, int resc, int cont)
 {
 	res[resc] = malloc(cont + 1);
 	if (!res[resc])
-		return (free2d(res, resc + 1));
+		return (free2d(res, resc));
 	ft_strlcpy(res[resc], s, cont + 1);
 	return (0);
 }

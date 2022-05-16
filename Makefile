@@ -36,17 +36,17 @@ re: fclean all
 
 linux_lib:
 	$(eval LIBS := -lreadline)
-	$(eval HEADERS := -Iincludes)
+	$(eval HEADERS := -Iincludes -Isrc/ft_printf)
 
 linux: linux_lib all
 	./minishell
 
 mac_lib:
 	$(eval LIBS := -lreadline -L/usr/local/opt/readline/lib)
-	$(eval HEADERS := -Iincludes -I/usr/local/opt/readline/include)
+	$(eval HEADERS := -Iincludes -I/usr/local/opt/readline/include -Isrc/ft_printf)
 
 mac: mac_lib all
 	./minishell
 
 malloc_wrapper: fclean
-	malloc_wrapper --d . --e examples --flags $(LIBS) $(HEADERS)
+	malloc_wrapper --d . --e examples --fail $(1) --flags $(LIBS) $(HEADERS)
