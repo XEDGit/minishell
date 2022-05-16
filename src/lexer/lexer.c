@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/08 15:32:59 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/16 20:49:20 by lmuzio           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   lexer.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/05/08 15:32:59 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/05/17 01:30:59 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int	lexer(char *input)
 		return (1);
 	data.input = ft_strdup(input);
 	if (!data.input)
-		return (1);
+		return (error_free2dint(data.heredocs));
 	if (count)
 		count = repeat_readline(&data.input, count);
 	if (count)

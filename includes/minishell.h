@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/25 18:25:56 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/16 20:39:04 by lmuzio           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/04/25 18:25:56 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/05/17 01:31:29 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,9 @@ int		heredoc_repeat(char *input, int *fds);
 char	*extract_pipe(int fd);
 char	*remove_quotes(char *input);
 int		parser(char **tables, t_data *data);
+int		error_free2d(void *tofree);
+int		error_free2dint(void *tofree);
+int		error_free(void *tofree);
 char	**ft_split(char const *s, char *c);
 int		free2d(char **tofree, int len);
 int		free2dint(int **tofree, int len);

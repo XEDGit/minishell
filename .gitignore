@@ -1,5 +1,6 @@
 minishell
-tools/testerupdate.sh
+malloc_wrapper
+malloc_debug
 
 # Object files
 *.o
