@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:32:59 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/16 20:23:09 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/05/17 17:26:50 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	semicolon_check(char *input)
 	return (false);
 }
 
-int	double_char_check(char *input, char ch)
+int	dchar_check(char *input, char ch)
 {
 	while (*input)
 	{

@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:57:51 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/09 16:58:04 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/05/17 17:02:57 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <errno.h>
 
 int	main(int argc, char **argv, char **envp)
 {

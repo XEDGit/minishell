@@ -1,40 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   lexer.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/05/08 15:32:59 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/05/17 01:30:59 by lmuzio        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/08 15:32:59 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/05/17 17:29:44 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	lexer_multiline_check(char *input, int delimiter)
+int	lexer_multiline_check(char *in, int delimiter)
 {
 	int	open;
 
 	open = delimiter;
-	while (*input && ft_isspace(*input))
-		input++;
-	if (*input == PIPE || *input == AMP || double_char_check(input, AMP))
+	while (*in && ft_isspace(*in))
+		in++;
+	if (!delimiter && (*in == PIPE || *in == AMP || dchar_check(in, AMP)))
 		return (ERROR);
-	while (*input)
+	while (*in)
 	{
-		if (!open && *input == SINGLE_QUOTE)
+		if (!open && *in == SINGLE_QUOTE)
 			open = SINGLE_QUOTE;
-		else if (!open && *input == DOUBLE_QUOTE)
+		else if (!open && *in == DOUBLE_QUOTE)
 			open = DOUBLE_QUOTE;
-		else if (open == SINGLE_QUOTE && *input == SINGLE_QUOTE)
+		else if (open == SINGLE_QUOTE && *in == SINGLE_QUOTE)
 			open = 0;
-		else if (open == DOUBLE_QUOTE && *input == DOUBLE_QUOTE)
+		else if (open == DOUBLE_QUOTE && *in == DOUBLE_QUOTE)
 			open = 0;
-		else if (!open && (*input == PIPE || *input == AMP))
-			if (pipe_check(input))
-				return (pipe_check(input));
-		input++;
+		else if (!open && !delimiter && (*in == PIPE || *in == AMP))
+			if (pipe_check(in))
+				return (pipe_check(in));
+		in++;
 	}
 	if (open)
 		return (open);
@@ -140,7 +140,8 @@ int	lexer(char *input)
 	}
 	add_history(data.input);
 	tables = ft_split(data.input, "|&");
-	parser(tables, &data);
+	if (tables)
+		parser(tables, &data);
 	free(data.input);
 	free2dint(data.heredocs, 0);
 	return (0);

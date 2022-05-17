@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/04/25 18:25:56 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/05/17 01:31:29 by lmuzio        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/25 18:25:56 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/05/17 17:27:01 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_data
 
 int		signals_handler_setup(void);
 int		lexer(char *input);
-int		double_char_check(char *input, char ch);
+int		dchar_check(char *input, char ch);
 int		semicolon_check(char *input);
 int		pipe_check(char *input);
 int		heredoc_check(char *input, t_data *data);

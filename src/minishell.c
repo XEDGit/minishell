@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:20:31 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/16 20:29:59 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/05/17 17:39:27 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,9 @@ int	main(int argc, char *argv[], char *envp[])
 		buffer = readline(TITLE);
 		if (!buffer)
 			break ;
-		if (semicolon_check(buffer))
-			printf("Error: empty command\n");
-		else
-			if (semicolon_handle(buffer))
-				printf("Error: allocation failed");
+		code = semicolon_handle(buffer);
+		if (code == ERROR)
+			printf("Error: allocation failed\n");
 		free(buffer);
 	}
 	ft_dprintf(2, "exit\n");
