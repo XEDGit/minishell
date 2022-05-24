@@ -64,6 +64,7 @@ int		heredoc_repeat(char *input, int *fds);
 char	*extract_pipe(int fd);
 char	*remove_quotes(char *input);
 int		parser(char **tables, t_data *data);
+void	*error_msg(char *msg);
 int		error_free2d(void *tofree);
 int		error_free2dint(void *tofree);
 int		error_free(void *tofree);
@@ -81,5 +82,10 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_strexcmp(const char *s1, const char *s2, size_t n);
 int		ft_isspace(int str);
 int		skip_quotes(char *input);
+
+// command
+t_cmd	*add_cmd(t_cmd **start);
+int		free_cmds(t_cmd *start, int exit_code);
+int		print_cmds(t_cmd *start);
 
 #endif

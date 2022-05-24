@@ -12,6 +12,12 @@
 
 #include <minishell.h>
 
+void	*error_msg(char *msg)
+{
+	printf("%s\n", msg);
+	return (0);
+}
+
 int	error_free(void *tofree)
 {
 	free(tofree);
