@@ -21,7 +21,7 @@ t_cmd	*add_cmd(t_cmd **start)
 
 	cmd = (t_cmd *) malloc(sizeof(t_cmd));
 	if (!cmd)
-		return (0);
+		return (error_msg("cmd malloc fail"));
 	set_defaults(cmd);
 	if (!*start)
 		*start = cmd;
@@ -42,6 +42,10 @@ void	free_cmd(t_cmd *cmd)
 		free(cmd->cmd);
 	if (cmd->args)
 		free2d(cmd->args, 0);
+	if (cmd->redirects[0] != STDIN_FILENO)
+		close(cmd->redirects[0]);
+	if (cmd->redirects[1] != STDOUT_FILENO)
+		close(cmd->redirects[1]);
 	free(cmd);
 }
 
@@ -54,4 +58,21 @@ int	free_cmds(t_cmd *start, int exit_code)
 		start = start->next;
 	}
 	return (exit_code);
+}
+
+int	print_cmds(t_cmd *start)
+{
+	int	i = 0;
+	while (start)
+	{
+		int	c = 1;
+		printf("\nCommand %d \n", i++);
+		printf("Cmd: %s\n", start->cmd);
+		printf("ARGS: ");
+		while (start->args && start->args[c])
+			printf("%s\t", start->args[c++]);
+		printf("\nIN: %d\nOUT: %d\n", start->redirects[0], start->redirects[1]);
+		start = start->next;
+	}
+	return (0);
 }
