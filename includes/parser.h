@@ -4,17 +4,20 @@
 #include <minishell.h>
 #include <fcntl.h>
 
+# define LEFT_REDIRECT '<'
+# define RIGHT_REDIRECT '>'
 # define MODE S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH
+
+//	file
+char    *get_filename(char **input);
 
 //	redirect
 char	*set_redirects(char *table, t_cmd *cmd, int **docs);
 
 //	in
-int		left_rdrt(char *inp, t_cmd *cmd);
-int		here_doc(char *inp, t_cmd *cmd, int ** docs);
+void	*in_redirect(char **table, t_cmd *cmd, int **docs);
 
 //	out
-int		right_rdrt(char *inp, t_cmd *cmd);
-int		append(char *inp, t_cmd *cmd);
+void	*out_redirect(char **table, t_cmd *cmd);
 
 #endif

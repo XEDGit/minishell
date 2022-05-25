@@ -19,7 +19,7 @@ void	here_docs_db(char **tables, t_data *data)
 
 	c = -1;
 	while (tables[++c])
-		printf("split[%d]: %s\n", c, tables[c]);
+		printf("table[%d]: %s\n", c, tables[c]);
 	if (!data->heredoc_c)
 		return ;
 	printf("--heredoc count: %d---------------------------\n", data->heredoc_c);
@@ -37,7 +37,7 @@ void	here_docs_db(char **tables, t_data *data)
 	}
 }
 
-int	set_data(t_cmd *cmd, char **input)
+int	set_cmd(t_cmd *cmd, char **input)
 {
 	size_t	len;
 
@@ -54,19 +54,24 @@ int	set_data(t_cmd *cmd, char **input)
 	}
 	ft_strlcpy(cmd->cmd, *input, len);
 	*input += len - 1;
+	while (**input && ft_isspace(**input))
+		(*input)++;
 	return (1);
 }
 
-int		set_cmd(char *input, t_cmd *cmd)
+int		set_data(char *input, t_cmd *cmd)
 {
 	char	*to_free;
 
 	to_free = input;
-	if (!set_data(cmd, &input))
+	if (!set_cmd(cmd, &input))
+	{
+		free(to_free);
 		return (0);
+	}
 	if (*input)
 	{
-		printf("Input di split: %s\n", input);
+		printf("\nInput di ft_split(): %s\n", input);
 		cmd->args = ft_split(input, " ");//	Split rivisitato non funziona?
 		if (!cmd->args)
 		{
@@ -98,7 +103,7 @@ int	parser(char **tables, t_data *data)
 		rest = set_redirects(*tables, cmd, data->heredocs);
 		if (!rest)
 			return (free_cmds(start, 0));
-		if (!set_cmd(rest, cmd))
+		if (!set_data(rest, cmd))
 			return (free_cmds(start, 0));
 		tables++;
 	}
