@@ -1,7 +1,7 @@
 #include <parser.h>
 
-// pass only file name -> avoid expanding input everytime
-int right_rdrt(char *file, t_cmd *cmd)
+// TODO: merge right and append funcs
+static int right_rdrt(char *file, t_cmd *cmd)
 {
     if (cmd->redirects[1] != STDOUT_FILENO)
         close(cmd->redirects[1]); // handle error
@@ -13,7 +13,7 @@ int right_rdrt(char *file, t_cmd *cmd)
     return (1);
 }
 
-int append(char *file, t_cmd *cmd)
+static int append(char *file, t_cmd *cmd)
 {
     if (cmd->redirects[1] != STDOUT_FILENO)
         close(cmd->redirects[1]); // handle error
@@ -23,4 +23,29 @@ int append(char *file, t_cmd *cmd)
         return (0); // handle error
     // close(cmd->redirects[1]);
     return (1);
+}
+
+void	*out_redirect(char **table, t_cmd *cmd)
+{
+	char	*file;
+
+	(*table)++;
+	if (**table == RIGHT_REDIRECT)
+	{
+		(*table)++;
+		file = get_filename(table);
+		if (!file)
+			return (error_msg("File name failed")); // error
+		if (!append(file, cmd))
+			return (error_msg("Append failed")); // append error
+	}
+	else
+	{
+		file = get_filename(table);
+		if (!file)
+			return (error_msg("File name failed")); // error
+		if (!right_rdrt(file, cmd))
+			return (error_msg("Right redirect failed")); // right redirect error
+	}
+	return ((void *) 1);
 }
