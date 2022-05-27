@@ -1,22 +1,32 @@
 #include <parser.h>
 
-int	left_rdrt(char *file, t_cmd *cmd)
+static int	left_rdrt(char *file, t_cmd *cmd)
 {
 	if (cmd->redirects[0] != STDIN_FILENO)
-		close(cmd->redirects[0]); // handle error
+	{
+		if (close(cmd->redirects[0]) == ERROR)
+			return (error_int("Close error", 0));
+	}
 	cmd->redirects[0] = open(file, O_RDONLY);
 	free(file);
 	if (cmd->redirects[0] == ERROR)
-		return (error_msg("open failed")); // handle error
-	// close(cmd->redirects[0]);
+		return (error_int("Open error", 0)); // handle precise error
 	return (1);
 }
 
-int	here_doc(char *inp, t_cmd *cmd, int **docs)
+static int	here_doc(t_cmd *cmd, int **docs)
 {
 	static int	count = 0;
 
-	return (0);
+	if (cmd->redirects[0] != STDIN_FILENO)
+	{
+		if (close(cmd->redirects[0]) == ERROR)
+			return (error_int("Close error", 0));
+	}
+	if (!docs[count])
+		count = 0;
+	cmd->redirects[0] = docs[count++][0];
+	return (1);
 }
 
 // check errors (<<< <> <<>)
@@ -28,8 +38,8 @@ void	*in_redirect(char **table, t_cmd *cmd, int **docs)
 	if (**table == LEFT_REDIRECT)
 	{
 		(*table)++;
-		// heredoc() TODO
-		return (error_msg("TODO heredocs"));
+		if (!here_doc(cmd, docs))
+			return (error_msg("Heredoc failed"));
 	}
 	else
 	{
