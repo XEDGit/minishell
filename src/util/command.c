@@ -62,10 +62,13 @@ int	free_cmds(t_cmd *start, int exit_code)
 
 int	print_cmds(t_cmd *start)
 {
-	int	i = 0;
+	int	i;
+	int	c;
+
+	i = 0;
 	while (start)
 	{
-		int	c = 1;
+		c = 0;
 		printf("\nCommand %d \n", i++);
 		printf("Cmd: %s\n", start->cmd);
 		printf("ARGS: ");

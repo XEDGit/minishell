@@ -18,6 +18,13 @@ void	*error_msg(char *msg)
 	return (0);
 }
 
+int	error_int(char *msg, int exit_code)
+{
+	if (msg)
+		printf("%s\n", msg);
+	return (exit_code);
+}
+
 int	error_free(void *tofree)
 {
 	free(tofree);

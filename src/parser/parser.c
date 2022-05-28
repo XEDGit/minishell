@@ -32,7 +32,6 @@ void	here_docs_db(char **tables, t_data *data)
 			printf("heredoc pipe[%d]: %s\n", c, buffer);
 			free(buffer);
 		}
-		close(data->heredocs[c][0]);
 		c++;
 	}
 }
@@ -48,10 +47,7 @@ int	set_cmd(t_cmd *cmd, char **input)
 		len++;
 	cmd->cmd = malloc(sizeof(char) * (++len));
 	if (!cmd->cmd)
-	{
-		error_msg("Malloc fail");
-		return (0);
-	}
+		return (error_int("Malloc fail", 0));
 	ft_strlcpy(cmd->cmd, *input, len);
 	*input += len - 1;
 	while (**input && ft_isspace(**input))
@@ -71,12 +67,11 @@ int		set_data(char *input, t_cmd *cmd)
 	}
 	if (*input)
 	{
-		printf("\nInput di ft_split(): %s\n", input);
-		cmd->args = ft_split(input, " ");//	Split rivisitato non funziona?
+		cmd->args = ft_split(input, " ");
 		if (!cmd->args)
 		{
 			free(to_free);
-			return (error_msg("Split fail"));
+			return (error_int("Split fail", 0));
 		}
 	}
 	free(to_free);
