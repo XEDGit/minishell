@@ -31,6 +31,7 @@ typedef struct s_cmd
 	int				redirects[3];
 	int				par_depth;
 	int				conditional;
+	struct s_cmd	*prev;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -65,6 +66,7 @@ char	*extract_pipe(int fd);
 char	*remove_quotes(char *input);
 int		parser(char **tables, t_data *data);
 void	*error_msg(char *msg);
+int		error_int(char *msg, int exit_code);
 int		error_free2d(void *tofree);
 int		error_free2dint(void *tofree);
 int		error_free(void *tofree);

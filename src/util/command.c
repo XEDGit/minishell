@@ -10,7 +10,18 @@ void	set_defaults(t_cmd *cmd)
 	cmd->redirects[2] = STDERR_FILENO;
 	cmd->par_depth = 0;
 	cmd->conditional = -1;
+	cmd->prev = 0;
 	cmd->next = 0;
+}
+
+t_cmd	*last_node(t_cmd *start)
+{
+	t_cmd	*last;
+
+	last = start;
+	while (last->next)
+		last = last->next;
+	return (last);
 }
 
 //	Append new command node to list
@@ -27,10 +38,9 @@ t_cmd	*add_cmd(t_cmd **start)
 		*start = cmd;
 	else
 	{
-		last = *start;
-		while (last->next)
-			last = last->next;
+		last = last_node(*start);
 		last->next = cmd;
+		cmd->prev = last;
 	}
 	return (cmd);
 }
@@ -38,8 +48,6 @@ t_cmd	*add_cmd(t_cmd **start)
 //	free memory allocated by a cmd node
 void	free_cmd(t_cmd *cmd)
 {
-	if (cmd->cmd)
-		free(cmd->cmd);
 	if (cmd->args)
 		free2d(cmd->args, 0);
 	if (cmd->redirects[0] != STDIN_FILENO)
