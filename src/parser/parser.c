@@ -36,22 +36,16 @@ void	here_docs_db(char **tables, t_data *data)
 	}
 }
 
-int	set_cmd(t_cmd *cmd, char **input)
+int		set_data(char *input, t_cmd *cmd)
 {
-	size_t	len;
-
-	len = 0;
-	while (**input && ft_isspace(**input))
-		(*input)++;
-	while ((*input)[len] && !ft_isspace((*input)[len]))
-		len++;
-	cmd->cmd = malloc(sizeof(char) * (++len));
-	if (!cmd->cmd)
-		return (error_int("Malloc fail", 0));
-	ft_strlcpy(cmd->cmd, *input, len);
-	*input += len - 1;
-	while (**input && ft_isspace(**input))
-		(*input)++;
+	cmd->args = ft_split(input, " ");
+	if (!cmd->args)
+	{
+		free(input);
+		return (error_int("Split fail", 0));
+	}
+	cmd->cmd = cmd->args[0];
+	free(input);
 	return (1);
 }
 
