@@ -49,26 +49,26 @@ int		set_data(char *input, t_cmd *cmd)
 	return (1);
 }
 
-int		set_data(char *input, t_cmd *cmd)
+int	set_pipes_cond(char **tables, t_cmd *cmd)
 {
-	char	*to_free;
+	int	fd[2];
 
-	to_free = input;
-	if (!set_cmd(cmd, &input))
+	if (cmd->prev)
 	{
-		free(to_free);
-		return (0);
-	}
-	if (*input)
-	{
-		cmd->args = ft_split(input, " ");
-		if (!cmd->args)
+		if (**tables != AMP && **tables != PIPE)
 		{
-			free(to_free);
-			return (error_int("Split fail", 0));
+			if (pipe(fd) == ERROR)
+				return (error_int("Pipe failed", 0));
+			cmd->redirects[0] = fd[0];
+			if (cmd->prev->redirects[1] == STDOUT_FILENO)
+				cmd->prev->redirects[1] = fd[1];
+		}
+		else
+		{
+			cmd->conditional = **tables;
+			**tables = ' ';
 		}
 	}
-	free(to_free);
 	return (1);
 }
 
@@ -88,6 +88,8 @@ int	parser(char **tables, t_data *data)
 	{
 		cmd = add_cmd(&start);
 		if (!cmd)
+			return (free_cmds(start, 0));
+		if (!set_pipes_cond(tables, cmd))
 			return (free_cmds(start, 0));
 		rest = set_redirects(*tables, cmd, data->heredocs);
 		if (!rest)
