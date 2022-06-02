@@ -60,6 +60,16 @@ char	*set_redirects(char *table, t_cmd *cmd, int **docs)
 			}
 			continue ;
 		}
+		else if (!is_open(*table) && *table == '(')
+		{
+			cmd->par_depth++;
+			table++;
+		}
+		else if (!is_open(*table) && *table == ')')
+		{
+			cmd->par_depth--;
+			table++;
+		}
 		rest[counter++] = *table++;
 	}
 	rest[counter] = 0;

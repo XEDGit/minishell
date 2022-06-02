@@ -87,7 +87,7 @@ int		skip_quotes(char *input);
 
 // command
 t_cmd	*add_cmd(t_cmd **start);
-int		free_cmds(t_cmd *start, int exit_code);
-int		print_cmds(t_cmd *start);
+int		free_cmds(t_cmd *start, char **tables, int exit_code);
+int		debug_cmds(t_cmd *start);
 
 #endif

@@ -23,6 +23,5 @@ char    *get_filename(char **input)
 	free(tmp);
 	if (!name)
 		return ((char *) error_msg("Remove quotes failed"));
-	printf("Filename: %s\n", name);
     return (name);
 }

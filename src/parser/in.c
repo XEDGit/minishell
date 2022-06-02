@@ -30,6 +30,7 @@ static int	here_doc(t_cmd *cmd, int **docs)
 }
 
 // check errors (<<< <> <<>)
+// handle differently word|filename
 void	*in_redirect(char **table, t_cmd *cmd, int **docs)
 {
 	char	*file;
@@ -38,6 +39,11 @@ void	*in_redirect(char **table, t_cmd *cmd, int **docs)
 	if (**table == LEFT_REDIRECT)
 	{
 		(*table)++;
+		// ISSUE: rivisit this func, see file.c
+		file = get_filename(table);
+		if (!file)
+			return (error_msg("File name failed")); // error
+		free(file);
 		if (!here_doc(cmd, docs))
 			return (error_msg("Heredoc failed"));
 	}
