@@ -49,13 +49,13 @@ int		set_data(char *input, t_cmd *cmd)
 	return (1);
 }
 
-int	set_pipes_cond(char **tables, t_cmd *cmd)
+int	set_pipes_cond(char *tables, t_cmd *cmd)
 {
 	int	fd[2];
 
 	if (cmd->prev)
 	{
-		if (**tables != AMP && **tables != PIPE)
+		if (*tables != AMP && *tables != PIPE)
 		{
 			if (pipe(fd) == ERROR)
 				return (error_int("Pipe failed", 0));
@@ -65,10 +65,28 @@ int	set_pipes_cond(char **tables, t_cmd *cmd)
 		}
 		else
 		{
-			cmd->conditional = **tables;
-			**tables = ' ';
+			cmd->conditional = *tables;
+			*tables = ' ';
 		}
 	}
+	return (1);
+}
+
+int	p_setter(t_cmd **lst, char *tables, int **docs)
+{
+	t_cmd	*cmd;
+	char	*rest;
+
+	cmd = add_cmd(lst);
+	if (!cmd)
+		return (0);
+	if (!set_pipes_cond(tables, cmd))
+		return (0);
+	rest = set_redirects(tables, cmd, docs);
+	if (!rest)
+		return (0);
+	if (!set_data(rest, cmd))
+		return (0);
 	return (1);
 }
 
@@ -76,31 +94,21 @@ int	set_pipes_cond(char **tables, t_cmd *cmd)
 // OUTPUT: >file or >>file
 int	parser(char **tables, t_data *data)
 {
-	t_cmd	*cmd;
 	t_cmd	*start;
 	char	**to_free;
-	char	*rest;
 
 	start = 0;
 	to_free = tables;
 	here_docs_db(tables, data);
 	while (*tables)
 	{
-		cmd = add_cmd(&start);
-		if (!cmd)
-			return (free_cmds(start, 0));
-		if (!set_pipes_cond(tables, cmd))
-			return (free_cmds(start, 0));
-		rest = set_redirects(*tables, cmd, data->heredocs);
-		if (!rest)
-			return (free_cmds(start, 0));
-		if (!set_data(rest, cmd))
-			return (free_cmds(start, 0));
+		if (!p_setter(&start, *tables, data->heredocs))
+			return (free_cmds(start, to_free, 0));
 		tables++;
 	}
 	data->cmds = start;
-	print_cmds(data->cmds);
-	free2d(to_free, 0);
-	free_cmds(start, 0);
+	if (PARSE_DEBUG)
+		debug_cmds(data->cmds);
+	free_cmds(start, to_free, 0);
 	return (0);
 }

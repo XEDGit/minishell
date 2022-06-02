@@ -58,17 +58,19 @@ void	free_cmd(t_cmd *cmd)
 }
 
 //	free the entire commands list
-int	free_cmds(t_cmd *start, int exit_code)
+int	free_cmds(t_cmd *start, char **table, int exit_code)
 {
 	while (start)
 	{
 		free_cmd(start);
 		start = start->next;
 	}
+	if (table)
+		free2d(table, 0);
 	return (exit_code);
 }
 
-int	print_cmds(t_cmd *start)
+int	debug_cmds(t_cmd *start)
 {
 	int	i;
 	int	c;
@@ -76,13 +78,12 @@ int	print_cmds(t_cmd *start)
 	i = 0;
 	while (start)
 	{
-		c = 0;
-		printf("\nCommand %d \n", i++);
-		printf("Cmd: %s\n", start->cmd);
-		printf("ARGS: ");
-		while (start->args && start->args[c])
-			printf("%s\t", start->args[c++]);
-		printf("\nIN: %d\nOUT: %d\n", start->redirects[0], start->redirects[1]);
+		c = -1;
+		printf("\n--COMMAND %d -> %s -------------------\n--ARGS", i++, start->cmd);
+		while (start->args && start->args[++c])
+			printf("\t[%d]%s\t|", c, start->args[c]);
+		printf("\n--IN: %d\n--OUT: %d\n", start->redirects[0], start->redirects[1]);
+		printf("--COND: %d\n--DEPTH: %d\n", start->conditional, start->par_depth);
 		start = start->next;
 	}
 	return (0);

@@ -4,6 +4,7 @@
 #include <minishell.h>
 #include <fcntl.h>
 
+# define PARSE_DEBUG 1
 # define LEFT_REDIRECT '<'
 # define RIGHT_REDIRECT '>'
 # define MODE S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH
