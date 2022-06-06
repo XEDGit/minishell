@@ -29,7 +29,8 @@ typedef struct s_cmd
 	char			*cmd;
 	char			**args;
 	int				redirects[3];
-	int				par_depth;
+	int				depth;
+	int				depth_next;
 	int				conditional;
 	struct s_cmd	*prev;
 	struct s_cmd	*next;

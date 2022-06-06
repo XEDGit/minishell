@@ -8,9 +8,15 @@ void	set_defaults(t_cmd *cmd)
 	cmd->redirects[0] = STDIN_FILENO;
 	cmd->redirects[1] = STDOUT_FILENO;
 	cmd->redirects[2] = STDERR_FILENO;
-	cmd->par_depth = 0;
 	cmd->conditional = -1;
-	cmd->prev = 0;
+	cmd->depth = 0;
+	if (cmd->prev)
+	{
+		cmd->depth = cmd->prev->depth;
+		if (cmd->prev->depth_next != -1)
+			cmd->depth = cmd->prev->depth_next;
+	}
+	cmd->depth_next = -1;
 	cmd->next = 0;
 }
 
@@ -33,7 +39,7 @@ t_cmd	*add_cmd(t_cmd **start)
 	cmd = (t_cmd *) malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (error_msg("cmd malloc fail"));
-	set_defaults(cmd);
+	cmd->prev = 0;
 	if (!*start)
 		*start = cmd;
 	else
@@ -42,6 +48,7 @@ t_cmd	*add_cmd(t_cmd **start)
 		last->next = cmd;
 		cmd->prev = last;
 	}
+	set_defaults(cmd);
 	return (cmd);
 }
 
@@ -83,7 +90,7 @@ int	debug_cmds(t_cmd *start)
 		while (start->args && start->args[++c])
 			printf("\t[%d]%s\t|", c, start->args[c]);
 		printf("\n--IN: %d\n--OUT: %d\n", start->redirects[0], start->redirects[1]);
-		printf("--COND: %d\n--DEPTH: %d\n", start->conditional, start->par_depth);
+		printf("--COND: %c\n--DEPTH: %d\n", start->conditional, start->depth);
 		start = start->next;
 	}
 	return (0);

@@ -55,9 +55,14 @@ int	set_redirects(char *table, t_cmd *cmd, int **docs)
 			continue ;
 		}
 		else if (!open && *table == '(')
-			cmd->par_depth++;// += ft_memset(table, ' ', 1);
+			cmd->depth++;// += ft_memset(table, ' ', 1);
 		else if (!open && *table == ')')
-			cmd->par_depth--;
+		{
+			if (cmd->depth_next == -1)
+				cmd->depth_next = cmd->depth - 1;
+			else
+				cmd->depth_next--;
+		}
 		table++;
 	}
 	return (1);
