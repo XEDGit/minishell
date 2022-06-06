@@ -36,16 +36,13 @@ void	here_docs_db(char **tables, t_data *data)
 	}
 }
 
-int		set_data(char *input, t_cmd *cmd)
+int	set_data(char *input, t_cmd *cmd)
 {
+	printf("Split input: %s$\n", input);
 	cmd->args = ft_split(input, " ");
 	if (!cmd->args)
-	{
-		free(input);
 		return (error_int("Split fail", 0));
-	}
 	cmd->cmd = cmd->args[0];
-	free(input);
 	return (1);
 }
 
@@ -72,22 +69,18 @@ int	set_pipes_cond(char *tables, t_cmd *cmd)
 	return (1);
 }
 
-int	p_setter(t_cmd **lst, char *tables, int **docs)
+int	p_setter(t_cmd **lst, char *table, int **docs)
 {
 	t_cmd	*cmd;
 	char	*rest;
 
 	cmd = add_cmd(lst);
-	if (!cmd)
-		return (0);
-	if (!set_pipes_cond(tables, cmd))
-		return (0);
-	rest = set_redirects(tables, cmd, docs);
-	if (!rest)
-		return (0);
-	if (!set_data(rest, cmd))
-		return (0);
-	return (1);
+	if (cmd && \
+	set_pipes_cond(table, cmd) && \
+	set_redirects(table, cmd, docs) && \
+	set_data(table, cmd))
+		return (1);
+	return (0);
 }
 
 // INPUT: <<word  or <file
