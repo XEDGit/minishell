@@ -3,7 +3,7 @@
 //	return true if inside unclosed quotes
 static int	is_open(char c)
 {
-	static int	open = 0;
+	static int	open;
 
 	if (!open && c == SINGLE_QUOTE)
 		open = SINGLE_QUOTE;
@@ -27,51 +27,38 @@ static int	is_redirect(char c)
 
 static int	try_redirect(char **table, t_cmd *cmd, int **docs)
 {
+	char	*from;
+	void	*red;
+
+	from = *table;
 	if (**table == RIGHT_REDIRECT)
-	{
-		if (!out_redirect(table, cmd))
-			return (0);
-	}
+		red = out_redirect(table, cmd);
 	else if (**table == LEFT_REDIRECT)
-	{
-		if (!in_redirect(table, cmd, docs))
-			return (0);
-	}
+		red = in_redirect(table, cmd, docs);
+	if (!red)
+		return (0);
+	memset(from, ' ', *table - from);
 	return (1);
 }
 
-char	*set_redirects(char *table, t_cmd *cmd, int **docs)
+int	set_redirects(char *table, t_cmd *cmd, int **docs)
 {
-	char	*rest;
-	int		counter;
-	
-	counter = 0;
-	rest = malloc(sizeof(char) * (ft_strlen(table) + 1));
-	if (!rest)
-		return (0);
+	int	open;
+
 	while (*table)
 	{
-		if (!is_open(*table) && is_redirect(*table))
+		open = is_open(*table);
+		if (!open && is_redirect(*table))
 		{
 			if (!try_redirect(&table, cmd, docs))
-			{
-				free(rest);
 				return (0);
-			}
 			continue ;
 		}
-		else if (!is_open(*table) && *table == '(')
-		{
-			cmd->par_depth++;
-			table++;
-		}
-		else if (!is_open(*table) && *table == ')')
-		{
+		else if (!open && *table == '(')
+			cmd->par_depth++;// += ft_memset(table, ' ', 1);
+		else if (!open && *table == ')')
 			cmd->par_depth--;
-			table++;
-		}
-		rest[counter++] = *table++;
+		table++;
 	}
-	rest[counter] = 0;
-	return (rest);
+	return (1);
 }

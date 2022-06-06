@@ -13,7 +13,7 @@
 char    *get_filename(char **input);
 
 //	redirect
-char	*set_redirects(char *table, t_cmd *cmd, int **docs);
+int		set_redirects(char *table, t_cmd *cmd, int **docs);
 
 //	in
 void	*in_redirect(char **table, t_cmd *cmd, int **docs);
