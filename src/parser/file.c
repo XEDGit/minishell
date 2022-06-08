@@ -1,19 +1,33 @@
 #include <parser.h>
 
-// Retrive and expand the redirect word(filename)
-// TODO handle edge cases
-char    *get_filename(char **input)
+int	get_length(char *input)
 {
-    char    *tmp;
-    char    *name;
 	int		len;
 
 	len = 0;
-    while (ft_isspace(**input))
-        (*input)++;
-	tmp = *input;
-	while (*tmp && !ft_isspace(*tmp++))// check other metachars
+	while (input[len] && !ft_isspace(input[len]))
+	{
+		if (!is_open(input[len]) && (input[len] == '<' || input[len] == '>'))
+			break ;
 		len++;
+	}
+	return (len);
+}
+
+// Retrive and expand the redirect word(filename)
+// TODO handle edge cases
+char	*get_filename(char **input)
+{
+	char	*tmp;
+	char	*name;
+	int		len;
+
+	while (ft_isspace(**input))
+		(*input)++;
+	tmp = *input;
+	len = get_length(*input);
+	if (!len)
+		return ((char *) error_msg(""));
 	tmp = malloc(sizeof(char) * (++len));
 	if (!tmp)
 		return ((char *) error_msg("Malloc failed"));
@@ -23,5 +37,5 @@ char    *get_filename(char **input)
 	free(tmp);
 	if (!name)
 		return ((char *) error_msg("Remove quotes failed"));
-    return (name);
+	return (name);
 }

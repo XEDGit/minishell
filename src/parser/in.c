@@ -34,8 +34,12 @@ char	*skip_word(char **input)
 {
 	while (ft_isspace(**input))
         (*input)++;
-	while (**input && !ft_isspace(**input))// check meta
+	while (**input && !ft_isspace(**input))
+	{
+		if (!is_open(**input) && (**input == '<' || **input == '>'))
+			break ;
 		(*input)++;
+	}
 	return (*input);
 }
 

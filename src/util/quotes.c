@@ -12,6 +12,22 @@
 
 #include <minishell.h>
 
+//	return true if inside unclosed quotes
+int	is_open(char c)
+{
+	static int	open;
+
+	if (!open && c == SINGLE_QUOTE)
+		open = SINGLE_QUOTE;
+	else if (!open && c == DOUBLE_QUOTE)
+		open = DOUBLE_QUOTE;
+	else if (open == SINGLE_QUOTE && c == SINGLE_QUOTE)
+		open = 0;
+	else if (open == DOUBLE_QUOTE && c == DOUBLE_QUOTE)
+		open = 0;
+	return (open);
+}
+
 char	*remove_quotes(char *input)
 {
 	int		c;
