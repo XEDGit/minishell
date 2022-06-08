@@ -87,21 +87,21 @@ int	p_setter(t_cmd **lst, char *table, int **docs)
 // OUTPUT: >file or >>file
 int	parser(char **tables, t_data *data)
 {
-	t_cmd	*start;
+	t_cmd	*cmds;
 	char	**to_free;
 
-	start = 0;
+	cmds = 0;
 	to_free = tables;
-	here_docs_db(tables, data);
+	// here_docs_db(tables, data);
 	while (*tables)
 	{
-		if (!p_setter(&start, *tables, data->heredocs))
-			return (free_cmds(start, to_free, 0));
+		if (!p_setter(&cmds, *tables, data->heredocs))
+			return (free_cmds(cmds, to_free, 0));
 		tables++;
 	}
-	data->cmds = start;
+	data->cmds = cmds;
 	if (PARSE_DEBUG)
 		debug_cmds(data->cmds);
-	free_cmds(start, to_free, 0);
+	free_cmds(cmds, to_free, 0);
 	return (0);
 }
