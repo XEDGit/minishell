@@ -48,5 +48,5 @@ mac_lib:
 mac: mac_lib all
 	./minishell
 
-malloc_wrapper: fclean
-	malloc_wrapper --d . --e examples --fail $(1) --flags $(LIBS) $(HEADERS)
+mem:
+	memdetect  . $(LIBS) $(HEADERS) -e examples -fail $(1)

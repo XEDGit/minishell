@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/10 20:22:54 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/12 19:00:19 by lmuzio           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parser.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/05/10 20:22:54 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/06/08 17:32:23 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	parser(char **tables, t_data *data)
 
 	cmds = 0;
 	to_free = tables;
-	// here_docs_db(tables, data);
+	here_docs_db(tables, data);
 	while (*tables)
 	{
 		if (!p_setter(&cmds, *tables, data->heredocs))

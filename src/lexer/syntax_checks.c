@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   syntax_checks.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/08 15:32:59 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/17 17:26:50 by lmuzio           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   syntax_checks.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/05/08 15:32:59 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/06/08 16:52:04 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,9 @@ int	pipe_check(char *input)
 
 	c = 0;
 	dist = 0;
+	if ((input[0] == PIPE && input[1] == PIPE && input[2] == PIPE) || \
+		(input[0] == AMP && input[1] == AMP && input[2] == AMP))
+		return (ERROR);
 	if ((input[0] == PIPE && input[1] != PIPE) || \
 		(input[0] == AMP && input[1] != AMP))
 	{

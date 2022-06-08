@@ -1,5 +1,5 @@
 minishell
-malloc_wrapper
+memdetect
 malloc_debug
 
 # Object files
