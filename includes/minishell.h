@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/25 18:25:56 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/06/08 20:49:24 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/06/09 00:03:40 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int		error_free(void *tofree);
 int		free2d(char **tofree, int len);
 int		free2dint(int **tofree, int len);
 int		skip_quotes(char *input);
+int		isopen(char **input);
 
 // command
 t_cmd	*add_cmd(t_cmd **start);

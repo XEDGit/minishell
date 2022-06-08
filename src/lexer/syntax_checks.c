@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/08 15:32:59 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/06/08 21:13:29 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/06/08 23:16:08 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,5 +116,7 @@ int	parenthesis_check(char *input)
 			return (true);
 		input++;
 	}
+	if (depth)
+		return (true);
 	return (false);
 }

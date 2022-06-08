@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/12 18:52:41 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/06/08 22:10:52 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/06/08 23:59:45 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,14 @@ int	skip_quotes(char *input)
 {
 	char	ch;
 	char	*start;
+	int		c;
 
+	c = 0;
 	start = input;
-	if (*input != DOUBLE_QUOTE && *input != SINGLE_QUOTE)
+	if (input[c] != DOUBLE_QUOTE && input[c] != SINGLE_QUOTE)
 		return (0);
-	ch = *input++;
-	while (*input && *input != ch)
-		input++;
-	return (input - start + 1);
+	ch = input[c++];
+	while (input[c] && input[c] != ch)
+		c++;
+	return (c + 1);
 }

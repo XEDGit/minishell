@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/08 19:05:18 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/06/08 21:00:53 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/06/08 22:41:38 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	heredoc_routine(char *input, int c, int *fds)
 	static int	lines = 0;
 
 	buffer = readline("here >");
-	if (!buffer || !ft_strexcmp(buffer, input, c))
+	if (!buffer || !ft_strexcmp(buffer, input, c, "<>"))
 	{
 		lines = 0;
 		free(buffer);
