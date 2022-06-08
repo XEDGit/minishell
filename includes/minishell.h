@@ -15,6 +15,7 @@
 
 # include <stdio.h>
 # include <stdlib.h>
+# include <ft_libc.h>
 # include <unistd.h>
 # include <sys/types.h>
 # include <readline/readline.h>
@@ -71,20 +72,8 @@ int		error_int(char *msg, int exit_code);
 int		error_free2d(void *tofree);
 int		error_free2dint(void *tofree);
 int		error_free(void *tofree);
-char	**ft_split(char const *s, char *c);
 int		free2d(char **tofree, int len);
 int		free2dint(int **tofree, int len);
-int		ft_strjoin(char **s1, char const *s2);
-void	*ft_memset(void *b, int c, size_t len);
-char	*ft_strdup(const char *s1);
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-size_t	ft_strclen_no_quotes(const char *start, const char *end);
-size_t	ft_strclen(const char *start, const char *end);
-size_t	ft_strlen(const char *str);
-int		ft_strcmp(const char *s1, const char *s2);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-int		ft_strexcmp(const char *s1, const char *s2, size_t n);
-int		ft_isspace(int str);
 int		skip_quotes(char *input);
 
 // command

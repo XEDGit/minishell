@@ -39,7 +39,7 @@ void	here_docs_db(char **tables, t_data *data)
 int	set_data(char *input, t_cmd *cmd)
 {
 	printf("Split input: %s$\n", input);
-	cmd->args = ft_split(input, " ");
+	cmd->args = strsplit(input, ' ');
 	if (!cmd->args)
 		return (error_int("Split fail", 0));
 	cmd->cmd = cmd->args[0];
@@ -92,6 +92,7 @@ int	parser(char **tables, t_data *data)
 
 	cmds = 0;
 	to_free = tables;
+	add_history(data->input);
 	here_docs_db(tables, data);
 	while (*tables)
 	{
