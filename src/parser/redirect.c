@@ -37,7 +37,7 @@ static int	try_redirect(char **table, t_cmd *cmd, int **docs)
 		red = in_redirect(table, cmd, docs);
 	if (!red)
 		return (0);
-	memset(from, ' ', *table - from);
+	ft_memset(from, ' ', *table - from);
 	return (1);
 }
 
@@ -54,9 +54,9 @@ int	set_redirects(char *table, t_cmd *cmd, int **docs)
 				return (0);
 			continue ;
 		}
-		else if (!open && *table == '(')
-			cmd->depth++;// += ft_memset(table, ' ', 1);
-		else if (!open && *table == ')')
+		else if (!open && *table == '(' && ft_memset(table, ' ', 1))
+			cmd->depth++;
+		else if (!open && *table == ')' && ft_memset(table, ' ', 1))
 		{
 			if (cmd->depth_next == -1)
 				cmd->depth_next = cmd->depth - 1;

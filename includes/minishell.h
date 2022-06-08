@@ -75,6 +75,7 @@ char	**ft_split(char const *s, char *c);
 int		free2d(char **tofree, int len);
 int		free2dint(int **tofree, int len);
 int		ft_strjoin(char **s1, char const *s2);
+void	*ft_memset(void *b, int c, size_t len);
 char	*ft_strdup(const char *s1);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t	ft_strclen_no_quotes(const char *start, const char *end);
