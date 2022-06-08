@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/08 15:32:59 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/06/08 16:52:04 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/06/08 21:13:29 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,44 +74,47 @@ int	pipe_check(char *input)
 	return (false);
 }
 
-int	heredoc_init(char *input, t_data *data)
+int	lexer_multiline_check(char *in, int delimiter)
 {
-	data->heredoc_c = heredoc_check(input, 0);
-	data->heredocs = malloc((data->heredoc_c + 1) * sizeof(int *));
-	if (!data->heredocs)
-	{
-		printf("Error: failed to allocate heredoc pipe\n");
+	int	open;
+
+	open = delimiter;
+	while (*in && *in == ' ')
+		in++;
+	if (!delimiter && (*in == PIPE || *in == AMP || dchar_check(in, AMP)))
 		return (ERROR);
+	while (*in)
+	{
+		if (!open && *in == SINGLE_QUOTE)
+			open = SINGLE_QUOTE;
+		else if (!open && *in == DOUBLE_QUOTE)
+			open = DOUBLE_QUOTE;
+		else if (open == SINGLE_QUOTE && *in == SINGLE_QUOTE)
+			open = 0;
+		else if (open == DOUBLE_QUOTE && *in == DOUBLE_QUOTE)
+			open = 0;
+		else if (!open && !delimiter && (*in == PIPE || *in == AMP))
+			if (pipe_check(in))
+				return (pipe_check(in));
+		in++;
 	}
-	data->heredocs[data->heredoc_c] = 0;
+	if (open)
+		return (open);
 	return (false);
 }
 
-int	heredoc_check(char *input, t_data *data)
+int	parenthesis_check(char *input)
 {
-	int	c;
-	int	code;
+	int	depth;
 
-	c = 0;
-	if (data && heredoc_init(input, data) == ERROR)
-		return (ERROR);
+	depth = 0;
 	while (*input)
 	{
-		input += skip_quotes(input);
-		if (*input++ == '<')
-		{
-			if (*input++ == '<')
-			{
-				if (data)
-				{
-					data->heredocs[c] = malloc(sizeof(int) * 2);
-					code = heredoc_repeat(input, data->heredocs[c]);
-					if (code == ERROR)
-						return (ERROR);
-				}
-				c++;
-			}
-		}
+		if (*input == '(')
+			depth++;
+		else if (*input == ')' && --depth == -1)
+			return (true);
+		input++;
 	}
-	return (c);
+	return (false);
 }

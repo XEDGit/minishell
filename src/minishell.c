@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/25 18:20:31 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/17 17:39:27 by lmuzio           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/04/25 18:20:31 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/06/08 22:20:49 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	semicolon_handle(char *buffer)
 	int		counter;
 	int		code;
 
-	semi_colons_split = ft_split(buffer, ";");
+	semi_colons_split = strsplit(buffer, ';');
 	if (!semi_colons_split)
 		return (ERROR);
 	counter = 0;

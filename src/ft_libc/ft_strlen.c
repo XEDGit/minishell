@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/10 20:53:46 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/05/10 22:12:40 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/06/08 22:17:17 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ size_t	ft_strclen_no_quotes(const char *start, const char *end)
 	while (*end)
 		if (*start == *end++)
 			cont++;
-	if (cont)
+	if (cont && *start)
 		start++;
 	while (*start)
 	{

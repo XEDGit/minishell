@@ -1,45 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/08 15:32:59 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/05/17 17:29:44 by lmuzio           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   lexer.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/05/08 15:32:59 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/06/08 21:12:09 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-int	lexer_multiline_check(char *in, int delimiter)
-{
-	int	open;
-
-	open = delimiter;
-	while (*in && ft_isspace(*in))
-		in++;
-	if (!delimiter && (*in == PIPE || *in == AMP || dchar_check(in, AMP)))
-		return (ERROR);
-	while (*in)
-	{
-		if (!open && *in == SINGLE_QUOTE)
-			open = SINGLE_QUOTE;
-		else if (!open && *in == DOUBLE_QUOTE)
-			open = DOUBLE_QUOTE;
-		else if (open == SINGLE_QUOTE && *in == SINGLE_QUOTE)
-			open = 0;
-		else if (open == DOUBLE_QUOTE && *in == DOUBLE_QUOTE)
-			open = 0;
-		else if (!open && !delimiter && (*in == PIPE || *in == AMP))
-			if (pipe_check(in))
-				return (pipe_check(in));
-		in++;
-	}
-	if (open)
-		return (open);
-	return (false);
-}
 
 int	repeat_readline(char **buffer, char delimiter)
 {
@@ -70,52 +41,43 @@ int	repeat_readline(char **buffer, char delimiter)
 	return (c);
 }
 
-int	heredoc_routine(char *input, int c, int *fds)
+int	io_routine(char *input, char ch)
 {
-	char		*buffer;
-	static int	lines = 0;
+	char	ch2;
 
-	buffer = readline("here >");
-	if (!buffer || !ft_strexcmp(buffer, input, c))
-	{
-		lines = 0;
-		free(buffer);
-		return (ERROR);
-	}
-	if (lines)
-		write(fds[1], "\n", 1);
-	write(fds[1], buffer, ft_strlen(buffer));
-	free(buffer);
-	lines++;
+	ch2 = '<';
+	if (ch == '<')
+		ch2 = '>';
+	if ((*++input == ch && *++input == ch) || *input == ch2)
+		return (true);
+	if (*input == ch)
+		input++;
+	while (*input && *input == ' ')
+		input++;
+	if (*input == ch || *input == ch2)
+		return (true);
 	return (false);
 }
 
-int	heredoc_repeat(char *input, int *fds)
+int	io_check(char *input)
 {
-	int		c;
-
-	if (pipe(fds) == ERROR)
+	while (*input)
 	{
-		printf("Error: pipe() failed\n");
-		return (ERROR);
-	}
-	while (*input && ft_isspace(*input))
+		if (*input == '<' && io_routine(input, '<'))
+			return (true);
+		else if (*input == '>' && io_routine(input, '>'))
+			return (true);
 		input++;
-	if (!*input)
-		return (ERROR);
-	input = remove_quotes(input);
-	if (!input)
-		return (ERROR);
-	c = 0;
-	while (input[c] && !ft_isspace(input[c]) && \
-	input[c] != PIPE && input[c] != AMP)
-		c++;
-	while (1)
-		if (heredoc_routine(input, c, fds) == ERROR)
-			break ;
-	free(input);
-	close(fds[1]);
-	return (0);
+	}
+	return (false);
+}
+
+int	syntax_check(char *input, t_data *data)
+{
+	if (parenthesis_check(input) || io_check(input) || \
+	heredoc_check(input, data) == ERROR)
+		return (true);
+	return (false);
 }
 
 int	lexer(char *input)
@@ -125,7 +87,7 @@ int	lexer(char *input)
 	int		count;
 
 	count = lexer_multiline_check(input, 0);
-	if (count == ERROR || heredoc_check(input, &data) == ERROR)
+	if (count == ERROR || syntax_check(input, &data))
 		return (1);
 	data.input = ft_strdup(input);
 	if (!data.input)
@@ -138,7 +100,6 @@ int	lexer(char *input)
 		free(data.input);
 		return (count);
 	}
-	add_history(data.input);
 	tables = ft_split(data.input, "|&");
 	if (tables)
 		parser(tables, &data);
