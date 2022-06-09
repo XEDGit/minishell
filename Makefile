@@ -50,3 +50,7 @@ mac: mac_lib all
 
 mem:
 	memdetect  . $(LIBS) $(HEADERS) -e examples -fail $(1)
+
+tester:
+	make
+	python3 tester.py

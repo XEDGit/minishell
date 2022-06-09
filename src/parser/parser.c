@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/10 20:22:54 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/06/08 17:32:23 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/06/09 01:59:23 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	here_docs_db(char **tables, t_data *data)
 
 int	set_data(char *input, t_cmd *cmd)
 {
-	printf("Split input: %s$\n", input);
+	printf("Split in: %s$\n", input);
 	cmd->args = strsplit(input, ' ');
 	if (!cmd->args)
 		return (error_int("Split fail", 0));

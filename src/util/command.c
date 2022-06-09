@@ -86,11 +86,11 @@ int	debug_cmds(t_cmd *start)
 	while (start)
 	{
 		c = -1;
-		printf("\n--COMMAND %d -> %s -------------------\n--ARGS", i++, start->cmd);
+		printf("-CMD[%2d]: %s$-------\n-ARG", i++, start->cmd);
 		while (start->args && start->args[++c])
-			printf("\t[%d]%s\t|", c, start->args[c]);
-		printf("\n--IN: %d\n--OUT: %d\n", start->redirects[0], start->redirects[1]);
-		printf("--COND: %c\n--DEPTH: %d\n", start->conditional, start->depth);
+			printf("[%2d]: %s$", c, start->args[c]);
+		printf("\n----IN:\t%d\n---OUT:\t%d\n", start->redirects[0], start->redirects[1]);
+		printf("--COND: %c\n-DEPTH: %d\n", start->conditional, start->depth);
 		start = start->next;
 	}
 	return (0);
