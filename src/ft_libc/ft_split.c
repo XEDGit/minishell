@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 17:54:14 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/05/17 00:50:05 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/06/13 19:00:38 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,30 @@ int	free2dint(int **tofree, int len)
 		while (tofree[len])
 			len++;
 	while (len >= 0)
-		free(tofree[len--]);
+	{
+		if (tofree[len])
+		{
+			close(tofree[len][1]);
+			free(tofree[len--]);
+		}
+		len--;
+	}
 	free(tofree);
 	return (1);
 }
 
 int	free2d(char **tofree, int len)
 {
+	if (!tofree)
+		return (true);
 	if (!len)
 		while (tofree[len])
 			len++;
 	while (len >= 0)
-		free(tofree[len--]);
+		if (tofree[len--])
+			free(tofree[len + 1]);
 	free(tofree);
-	return (1);
+	return (true);
 }
 
 int	copy_word(const char *s, char **res, int resc, int cont)

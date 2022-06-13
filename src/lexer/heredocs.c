@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/08 19:05:18 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/06/08 22:41:38 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/06/13 18:50:06 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,24 @@ int	heredoc_repeat(char *input, int *fds)
 	return (0);
 }
 
-int	heredoc_init(char *input, t_data *data)
+int	heredoc_init(char *input, t_data *data, int *c)
 {
+	int	**mall;
+	int	rcount;
+
+	if (data->heredocs)
+	{
+		*c = data->heredoc_c;
+		data->heredoc_c += heredoc_check(input, 0);
+		mall = malloc((data->heredoc_c + 1) * sizeof(int *));
+		mall[data->heredoc_c] = 0;
+		rcount = -1;
+		while (data->heredocs[++rcount])
+			mall[rcount] = data->heredocs[rcount];
+		free(data->heredocs);
+		data->heredocs = mall;
+		return (false);
+	}
 	data->heredoc_c = heredoc_check(input, 0);
 	data->heredocs = malloc((data->heredoc_c + 1) * sizeof(int *));
 	if (!data->heredocs)
@@ -92,7 +108,7 @@ int	heredoc_check(char *input, t_data *data)
 	int	code;
 
 	c = 0;
-	if (data && heredoc_init(input, data) == ERROR)
+	if (data && heredoc_init(input, data, &c) == ERROR)
 		return (ERROR);
 	while (*input)
 	{

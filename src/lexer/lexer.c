@@ -6,13 +6,13 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/08 15:32:59 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/06/08 21:12:09 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/06/13 18:56:22 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	repeat_readline(char **buffer, char delimiter)
+int	repeat_readline(char **buffer, char delimiter, t_data *data)
 {
 	char	*input;
 	int		c;
@@ -25,7 +25,7 @@ int	repeat_readline(char **buffer, char delimiter)
 		if (delimiter == 1)
 			delimiter = 0;
 		c = lexer_multiline_check(input, delimiter);
-		if (c == ERROR || heredoc_check(input, 0))
+		if (c == ERROR)
 		{
 			free(input);
 			return (1);
@@ -35,8 +35,8 @@ int	repeat_readline(char **buffer, char delimiter)
 	}
 	else
 		c = delimiter;
-	if (c)
-		c = repeat_readline(buffer, c);
+	if (!syntax_check(input, data) && c)
+		c = repeat_readline(buffer, c, data);
 	free(input);
 	return (c);
 }
@@ -74,7 +74,7 @@ int	io_check(char *input)
 
 int	syntax_check(char *input, t_data *data)
 {
-	if (parenthesis_check(input) || io_check(input) || \
+	if (io_check(input) || \
 	heredoc_check(input, data) == ERROR)
 		return (true);
 	return (false);
@@ -86,6 +86,7 @@ int	lexer(char *input)
 	t_data	data;
 	int		count;
 
+	data.heredocs = 0;
 	count = lexer_multiline_check(input, 0);
 	if (count == ERROR || syntax_check(input, &data))
 		return (1);
@@ -93,8 +94,8 @@ int	lexer(char *input)
 	if (!data.input)
 		return (error_free2dint(data.heredocs));
 	if (count)
-		count = repeat_readline(&data.input, count);
-	if (count)
+		count = repeat_readline(&data.input, count, &data);
+	if (count || parenthesis_check(data.input))
 	{
 		free2dint(data.heredocs, 0);
 		free(data.input);
