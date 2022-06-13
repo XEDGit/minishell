@@ -70,5 +70,5 @@ int	skip_quotes(char *input)
 	ch = input[c++];
 	while (input[c] && input[c] != ch)
 		c++;
-	return (c + 1);
+	return (c);
 }

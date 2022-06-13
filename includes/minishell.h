@@ -77,7 +77,7 @@ int		error_free(void *tofree);
 int		free2d(char **tofree, int len);
 int		free2dint(int **tofree, int len);
 int		skip_quotes(char *input);
-int		isopen(char **input);
+int		is_open(char c);
 
 // command
 t_cmd	*add_cmd(t_cmd **start);

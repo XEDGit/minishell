@@ -18,7 +18,7 @@ int	semicolon_handle(char *buffer)
 	int		counter;
 	int		code;
 
-	semi_colons_split = strsplit(buffer, ';');
+	semi_colons_split = ft_split(buffer, ";");
 	if (!semi_colons_split)
 		return (ERROR);
 	counter = 0;
@@ -49,6 +49,7 @@ int	main(int argc, char *argv[], char *envp[])
 		buffer = readline(TITLE);
 		if (!buffer)
 			break ;
+		add_history(buffer);
 		code = semicolon_handle(buffer);
 		if (code == ERROR)
 			printf("Error: allocation failed\n");

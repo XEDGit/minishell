@@ -1,5 +1,4 @@
 import subprocess
-from time import sleep
 
 fd = open("TODO", "r")
 tests = fd.readlines()

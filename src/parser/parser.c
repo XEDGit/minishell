@@ -92,7 +92,6 @@ int	parser(char **tables, t_data *data)
 
 	cmds = 0;
 	to_free = tables;
-	add_history(data->input);
 	here_docs_db(tables, data);
 	while (*tables)
 	{
