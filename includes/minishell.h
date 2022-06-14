@@ -17,7 +17,6 @@
 # include <stdlib.h>
 # include <ft_libc.h>
 # include <unistd.h>
-# include <sys/types.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>

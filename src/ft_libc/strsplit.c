@@ -1,23 +1,6 @@
-#include <minishell.h>
+#include <ft_libc.h>
 
-static char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	size_t	actual_length;
-	char	*substr;
-
-	actual_length = 0;
-	if (start >= ft_strlen(s))
-		start = ft_strlen(s);
-	while (s[actual_length + start] && actual_length < len)
-		actual_length++;
-	substr = malloc(sizeof(char) * (actual_length + 1));
-	if (!substr)
-		return (0);
-	ft_strlcpy(substr, s + start, actual_length + 1);
-	return (substr);
-}
-
-static int	count_size(char const *s, char c)
+static int	count_size(char *s, char c)
 {
 	int	count;
 
@@ -31,57 +14,42 @@ static int	count_size(char const *s, char c)
 	return (count);
 }
 
-static int	split(char **arr, int arr_index, char const *s, char del)
+static char	**split(char **arr, char *s, char del)
 {
-	int	counter;
-	int	split_len;
+	int	index;
+	int	count;
 
-	counter = 0;
-	split_len = 0;
-	while (s[counter])
+	index = 0;
+	count = 0;
+	while (*s)
 	{
-		while (s[counter] == del)
-			counter++;
-		while (s[counter + split_len] != del && s[counter + split_len])
-			split_len++;
-		if (split_len)
+		while (*s == del)
+			s++;
+		while (s[count] && s[count] != del)
+			count++;
+		if (count)
 		{
-			arr[arr_index] = ft_substr(s, counter, split_len);
-			if (!arr[arr_index])
-				return (0);
-			arr_index++;
+			arr[index++] = s;
+			ft_memset(s + count, '\0', 1);
+			s = s + count + 1;
+			count = 0;
 		}
-		counter += split_len;
-		split_len = 0;
 	}
-	arr[arr_index] = 0;
-	return (1);
+	arr[index] = 0;
+	return (arr);
 }
 
-static void	free_arr(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i])
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
-}
-
-char	**strsplit(char const *s, char c)
+char	**strsplit(char *s, char c)
 {
 	char	**arr;
+	int		size;
 
-	arr = (char **)malloc(sizeof(char *) * (count_size(s, c) + 1));
+
+	size = count_size(s, c);
+	if (!size)
+		return (0);
+	arr = (char **)malloc(sizeof(char *) * (size + 1));
 	if (!arr)
 		return (0);
-	if (!split(arr, 0, s, c))
-	{
-		free_arr(arr);
-		return (0);
-	}
-	return (arr);
+	return (split(arr, s, c));
 }
