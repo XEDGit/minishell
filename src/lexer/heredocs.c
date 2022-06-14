@@ -88,19 +88,6 @@ int	heredoc_init(char *input, t_data *data, int *c)
 	return (false);
 }
 
-int	free_heredocs(int **tofree, int len)
-{
-	while (len >= 0)
-	{
-		if (tofree[len])
-			close(tofree[len][1]);
-		free(tofree[len]);
-		len--;
-	}
-	free(tofree);
-	return (ERROR);
-}
-
 int	heredoc_check(char *input, t_data *data)
 {
 	int	c;
@@ -118,10 +105,10 @@ int	heredoc_check(char *input, t_data *data)
 			{
 				data->heredocs[c] = malloc(sizeof(int) * 2);
 				if (!data->heredocs[c])
-					return (free_heredocs(data->heredocs, c - 1));
+					return (ERROR);
 				code = heredoc_repeat(++input, data->heredocs[c]);
 				if (code == ERROR)
-					return (free_heredocs(data->heredocs, c));
+					return (ERROR);
 			}
 			c++;
 		}

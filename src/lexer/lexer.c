@@ -87,31 +87,30 @@ int	syntax_check(char *input, t_data *data)
 	return (false);
 }
 
-int	lexer(char *input)
+int	lexer(char *input, t_data *data)
 {
 	char	**tables;
-	t_data	data;
 	int		count;
 
-	data.heredocs = 0;
 	count = lexer_multiline_check(input, 0);
-	if (count == ERROR || syntax_check(input, &data))
+	if (count == ERROR || syntax_check(input, data))
 		return (1);
-	data.input = ft_strdup(input);
-	if (!data.input)
-		return (error_free2dint(data.heredocs));
+	data->input = ft_strdup(input);
+	if (!data->input)
+		return (error_free2dint(data->heredocs));
 	if (count)
-		count = repeat_readline(&data.input, count, &data);
-	if (count || parenthesis_check(data.input))
+		count = repeat_readline(&data->input, count, data);
+	add_history(data->input);
+	if (count || parenthesis_check(data->input))
 	{
-		free2dint(data.heredocs, 0);
-		free(data.input);
+		free2dint(data->heredocs, 0);
+		free(data->input);
 		return (count);
 	}
-	tables = ft_split(data.input, "|&");
+	tables = ft_split(data->input, "|&");
 	if (tables)
-		parser(tables, &data);
-	free(data.input);
-	free2dint(data.heredocs, 0);
+		parser(tables, data);
+	free(data->input);
+	free2dint(data->heredocs, 0);
 	return (0);
 }

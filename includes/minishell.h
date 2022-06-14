@@ -58,7 +58,7 @@ typedef struct s_data
 # define TITLE "\001\e[31;1m\002 SKIRU ~> \001\e[0m\002"
 
 int		signals_handler_setup(void);
-int		lexer(char *input);
+int		lexer(char *input, t_data *data);
 int		dchar_check(char *input, char ch);
 int		semicolon_check(char *input);
 int		pipe_check(char *input);

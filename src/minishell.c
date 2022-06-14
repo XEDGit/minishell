@@ -17,6 +17,7 @@ int	semicolon_handle(char *buffer)
 	char	**semi_colons_split;
 	int		counter;
 	int		code;
+	t_data	data;
 
 	semi_colons_split = ft_split(buffer, ";");
 	if (!semi_colons_split)
@@ -24,7 +25,8 @@ int	semicolon_handle(char *buffer)
 	counter = 0;
 	while (semi_colons_split[counter])
 	{
-		code = lexer(semi_colons_split[counter]);
+		data = (t_data){0,0,0,0};
+		code = lexer(semi_colons_split[counter], &data);
 		if (code == ERROR)
 			break ;
 		if (code)
@@ -49,7 +51,6 @@ int	main(int argc, char *argv[], char *envp[])
 		buffer = readline(TITLE);
 		if (!buffer)
 			break ;
-		add_history(buffer);
 		code = semicolon_handle(buffer);
 		if (code == ERROR)
 			printf("Error: allocation failed\n");
