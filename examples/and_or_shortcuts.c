@@ -20,4 +20,6 @@ int	main(void)
 	if (0 && *s++)
 		;
 	write(1, s, 5);
+	if (1 && 0 || write(1, "s",1))
+		;
 }

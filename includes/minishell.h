@@ -78,6 +78,7 @@ int		free2d(char **tofree, int len);
 int		free2dint(int **tofree, int len);
 int		skip_quotes(char *input);
 int		is_open(char c);
+int     	syntax_check(char *input, t_data *data);
 
 // command
 t_cmd	*add_cmd(t_cmd **start);

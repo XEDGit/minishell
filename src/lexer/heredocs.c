@@ -70,6 +70,8 @@ int	heredoc_init(char *input, t_data *data, int *c)
 		*c = data->heredoc_c;
 		data->heredoc_c += heredoc_check(input, 0);
 		mall = malloc((data->heredoc_c + 1) * sizeof(int *));
+		if (!mall)
+			return (ERROR);
 		mall[data->heredoc_c] = 0;
 		rcount = -1;
 		while (data->heredocs[++rcount])
@@ -81,10 +83,7 @@ int	heredoc_init(char *input, t_data *data, int *c)
 	data->heredoc_c = heredoc_check(input, 0);
 	data->heredocs = malloc((data->heredoc_c + 1) * sizeof(int *));
 	if (!data->heredocs)
-	{
-		printf("Error: failed to allocate heredoc pipe\n");
 		return (ERROR);
-	}
 	data->heredocs[data->heredoc_c] = 0;
 	return (false);
 }

@@ -51,7 +51,7 @@ int	free2dint(int **tofree, int len)
 		if (tofree[len])
 		{
 			close(tofree[len][1]);
-			free(tofree[len--]);
+			free(tofree[len]);
 		}
 		len--;
 	}

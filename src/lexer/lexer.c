@@ -18,9 +18,7 @@ int	repeat_readline(char **buffer, char delimiter, t_data *data)
 	int		c;
 
 	input = readline(">");
-	if (!input)
-		return (ERROR);
-	if (*input)
+	if (input && *input)
 	{
 		if (delimiter == 1)
 			delimiter = 0;
@@ -35,7 +33,9 @@ int	repeat_readline(char **buffer, char delimiter, t_data *data)
 	}
 	else
 		c = delimiter;
-	if (!syntax_check(input, data) && c)
+	if (!input || syntax_check(input, data))
+		return (ERROR);
+	if (c)
 		c = repeat_readline(buffer, c, data);
 	free(input);
 	return (c);
@@ -64,9 +64,9 @@ int	io_check(char *input)
 	while (*input)
 	{
 		if (*input == '<' && io_routine(input, '<'))
-			return (true);
+			return ('<');
 		else if (*input == '>' && io_routine(input, '>'))
-			return (true);
+			return ('>');
 		input++;
 	}
 	return (false);
@@ -74,9 +74,16 @@ int	io_check(char *input)
 
 int	syntax_check(char *input, t_data *data)
 {
-	if (io_check(input) || \
-	heredoc_check(input, data) == ERROR)
+	if (io_check(input))
+	{
+		ft_dprintf(2, "Error: Parsing failed at char '%c'\n", io_check(input));
 		return (true);
+	}
+	if (heredoc_check(input, data) == ERROR)
+	{
+		ft_dprintf(2, "Error: Failed creating pipe for heredoc (<)\n");
+		return (true);
+	}
 	return (false);
 }
 
