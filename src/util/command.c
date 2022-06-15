@@ -67,10 +67,14 @@ void	free_cmd(t_cmd *cmd)
 //	free the entire commands list
 int	free_cmds(t_cmd *start, char **table, int exit_code)
 {
+	t_cmd	*cmd;
+
+	cmd = start;
 	while (start)
 	{
-		free_cmd(start);
-		start = start->next;
+		cmd = start;
+		start = cmd->next;
+		free_cmd(cmd);
 	}
 	if (table)
 		free2d(table, 0);
