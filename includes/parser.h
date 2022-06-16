@@ -9,6 +9,16 @@
 # define RIGHT_REDIRECT '>'
 # define MODE S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH
 
+typedef struct s_var
+{
+	char	*p;
+	int		length;
+	char	c;
+}	t_var;
+
+//	expand
+int		expander(char **tables, t_cmd *cmd);
+
 //	file
 char    *get_filename(char **input);
 
@@ -20,5 +30,9 @@ void	*in_redirect(char **table, t_cmd *cmd, int **docs);
 
 //	out
 void	*out_redirect(char **table, t_cmd *cmd);
+
+int	is_del(char c);
+t_var	*get_var_name(t_var *res, char *str);
+int	var_name_length(char *str);
 
 #endif
