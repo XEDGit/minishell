@@ -69,16 +69,17 @@ int	set_pipes_cond(char *tables, t_cmd *cmd)
 	return (1);
 }
 
-int	p_setter(t_cmd **lst, char *table, int **docs)
+int	p_setter(t_cmd **lst, char **tables, int **docs)
 {
 	t_cmd	*cmd;
 	char	*rest;
 
 	cmd = add_cmd(lst);
 	if (cmd && \
-	set_pipes_cond(table, cmd) && \
-	set_redirects(table, cmd, docs) && \
-	set_data(table, cmd))
+	set_pipes_cond(*tables, cmd) && \
+	expander(tables, cmd) && \
+	set_redirects(*tables, cmd, docs) && 
+	set_data(*tables, cmd))
 		return (1);
 	return (0);
 }
@@ -95,7 +96,7 @@ int	parser(char **tables, t_data *data)
 	here_docs_db(tables, data);
 	while (*tables)
 	{
-		if (!p_setter(&cmds, *tables, data->heredocs))
+		if (!p_setter(&cmds, tables, data->heredocs))
 			return (free_cmds(cmds, to_free, 0));
 		tables++;
 	}
