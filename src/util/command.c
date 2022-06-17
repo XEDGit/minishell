@@ -8,6 +8,7 @@ void	set_defaults(t_cmd *cmd)
 	cmd->redirects[0] = STDIN_FILENO;
 	cmd->redirects[1] = STDOUT_FILENO;
 	cmd->redirects[2] = STDERR_FILENO;
+	cmd->is_pipe = 0;
 	cmd->conditional = -1;
 	cmd->depth = 0;
 	if (cmd->prev)

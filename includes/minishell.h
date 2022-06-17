@@ -29,6 +29,7 @@ typedef struct s_cmd
 	char			*cmd;
 	char			**args;
 	int				redirects[3];
+	int				is_pipe;
 	int				depth;
 	int				depth_next;
 	int				conditional;

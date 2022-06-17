@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/10 20:22:54 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/06/09 01:59:23 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/06/17 19:16:00 by nmolinel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,29 +46,6 @@ int	set_data(char *input, t_cmd *cmd)
 	return (1);
 }
 
-int	set_pipes_cond(char *tables, t_cmd *cmd)
-{
-	int	fd[2];
-
-	if (cmd->prev)
-	{
-		if (*tables != AMP && *tables != PIPE)
-		{
-			if (pipe(fd) == ERROR)
-				return (error_int("Pipe failed", 0));
-			cmd->redirects[0] = fd[0];
-			if (cmd->prev->redirects[1] == STDOUT_FILENO)
-				cmd->prev->redirects[1] = fd[1];
-		}
-		else
-		{
-			cmd->conditional = *tables;
-			*tables = ' ';
-		}
-	}
-	return (1);
-}
-
 int	p_setter(t_cmd **lst, char **tables, int **docs)
 {
 	t_cmd	*cmd;
@@ -76,9 +53,9 @@ int	p_setter(t_cmd **lst, char **tables, int **docs)
 
 	cmd = add_cmd(lst);
 	if (cmd && \
-	set_pipes_cond(*tables, cmd) && \
 	expander(tables, cmd) && \
 	set_redirects(*tables, cmd, docs) && 
+	set_pipe_cond(*tables, cmd) && \
 	set_data(*tables, cmd))
 		return (1);
 	return (0);

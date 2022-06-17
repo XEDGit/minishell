@@ -53,16 +53,13 @@ int	set_vars(char **vars, char *input)
 		if (*input == '$' && open != SINGLE_QUOTE)// check delimiter and null
 		{
 			get_var_name(&var, ++input);
-			printf("VARNAME: %s$\n", var.p);
+			// printf("VARNAME: %s$\n", var.p);
 			vars[i] = getenv(var.p);
-			printf("EXPANDE: %s$\n", vars[i]);
-			printf("VARLENG: %d\n", var.length);
+			// printf("EXPANDE: %s$\n", vars[i]);
+			// printf("VARLENG: %d\n", var.length);
 			var.p[var.length] = var.c;
 			if (!vars[i])
-			{
-				printf("Error: \"%s\" is not a variable\n", var.p);
-				return (0);
-			}
+				return (!printf("Error: \"%s\" is not a variable\n", var.p));
 			i++;
 		}
 		input++;
@@ -126,13 +123,11 @@ char	*expand_vars(char **vars, char *input)
 
 int	expander(char **tables, t_cmd *cmd)
 {
-	// printf("$PWD:%s\n", s);
 	char	**vars;
 	int		n_vars;
 	char	*new_table;
 
 	n_vars = count_vars(*tables);
-	printf("Amount of $ found: %d\n", n_vars);
 	if (n_vars)
 	{
 		vars = malloc(sizeof(char *) * (n_vars + 1));
@@ -147,7 +142,6 @@ int	expander(char **tables, t_cmd *cmd)
 		free(vars);
 		if (!new_table)
 			return (error_int("Expansion failed", 0));
-		printf("NEWTABLE: %s$\n", new_table);
 		free(*tables);
 		*tables = new_table;
 	}
