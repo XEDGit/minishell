@@ -37,20 +37,18 @@ char	*remove_quotes(char *input)
 	c = 0;
 	ch = 0;
 	res = ft_strdup(input);
-	if (!res)
-		return (0);
-	while (res[c])
+	while (res && res[c] && res[c] != ' ')
 	{
-		if (!ch && (res[c] == DOUBLE_QUOTE || res[c] == SINGLE_QUOTE))
+		if (res[c] == SINGLE_QUOTE || res[c] == DOUBLE_QUOTE)
 		{
-			ch = res[c];
+			if (!ch)
+				ch = res[c];
+			else
+				ch = 0;
 			ft_strlcpy(res + c, res + c + 1, ft_strlen(res + c));
 		}
-		else if (ch && res[c] == ch)
-		{
-			ch = 0;
-			ft_strlcpy(res + c, res + c + 1, ft_strlen(res + c));
-		}
+		else if (!ch && (res[c] == '<' || res[c] == '>'))
+			res[c] = 0;
 		else
 			c++;
 	}
