@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   strsplit.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/01 16:09:34 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/08/01 16:09:39 by lmuzio           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <ft_libc.h>
 
 static int	count_size(char *s, char c)
@@ -43,7 +55,6 @@ char	**strsplit(char *s, char c)
 {
 	char	**arr;
 	int		size;
-
 
 	size = count_size(s, c);
 	if (!size)

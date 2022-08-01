@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/01 16:12:02 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/08/01 16:12:48 by lmuzio           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARSER_H
 # define PARSER_H
 
-#include <minishell.h>
-#include <fcntl.h>
+# include <minishell.h>
+# include <fcntl.h>
 
 # define PARSE_DEBUG 1
 # define LEFT_REDIRECT '<'
@@ -20,7 +32,7 @@ typedef struct s_var
 int		expander(char **tables, t_cmd *cmd);
 
 //	file
-char    *get_filename(char **input);
+char	*get_filename(char **input);
 
 //	redirect
 int		set_redirects(char *table, t_cmd *cmd, int **docs);
@@ -34,8 +46,8 @@ void	*in_redirect(char **table, t_cmd *cmd, int **docs);
 //	out
 void	*out_redirect(char **table, t_cmd *cmd);
 
-int	is_del(char c);
+int		is_del(char c);
 t_var	*get_var_name(t_var *res, char *str);
-int	var_name_length(char *str);
+int		var_name_length(char *str);
 
 #endif

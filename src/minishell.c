@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/04/25 18:20:31 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/06/08 22:20:49 by lmuzio        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/25 18:20:31 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/08/01 16:14:35 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ int	semicolon_handle(char *buffer)
 	counter = 0;
 	while (semi_colons_split[counter])
 	{
-		data = (t_data){0,0,0,0};
+		data = (t_data){0, 0, 0, 0};
 		code = lexer(semi_colons_split[counter], &data);
-		if (code == ERROR)
-			break ;
 		if (code)
 			ft_printf("Error\n");
+		if (code == ERROR)
+			break ;
 		counter++;
 	}
 	free2d(semi_colons_split, 0);
