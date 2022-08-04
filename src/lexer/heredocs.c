@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/08 19:05:18 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/06/13 18:50:06 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/08/04 22:28:00 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,4 +114,23 @@ int	heredoc_check(char *input, t_data *data)
 		}
 	}
 	return (c);
+}
+
+int	check_double_commands(char *str, int c, int diff)
+{
+	if (c == 0 && diff == -1)
+		return (false);
+	c = c + diff;
+	while (ft_isspace(str[c]))
+		c += diff;
+	if (str[c] && c >= 0 && str[c] != '|' && str[c] != '&')
+	{
+		if (diff == -1)
+			diff = 40;
+		else
+			diff = str[c];
+		ft_dprintf(2, "Error parsing symbol '%c'\n", diff);
+		return (true);
+	}
+	return (false);
 }

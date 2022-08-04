@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   syntax_checks.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/08 15:32:59 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/08/01 17:26:05 by lmuzio           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   syntax_checks.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/05/08 15:32:59 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/08/04 22:29:01 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,16 +106,23 @@ int	lexer_multiline_check(char *in, int delimiter)
 int	parenthesis_check(char *input)
 {
 	int	depth;
+	int	temp;
+	int	c;
 
-//	TO CHECK CASE LIKE "cat (echo)" IT PASSES SYNTAX CHECK
+	c = 0;
 	depth = 0;
-	while (*input)
+	while (input[c])
 	{
-		if (*input == '(')
+		if (input[c] == '(')
+		{
+			if (check_double_commands(input, c, -1))
+				return (true);
 			depth++;
-		else if (*input == ')' && --depth == -1)
+		}
+		else if (input[c] == ')' && (--depth == -1 || \
+				check_double_commands(input, c, 1)))
 			return (true);
-		input++;
+		c++;
 	}
 	if (depth)
 		return (true);

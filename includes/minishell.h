@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/25 18:25:56 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/08/01 16:10:32 by lmuzio           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/04/25 18:25:56 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/08/04 22:08:29 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int		free2dint(int **tofree, int len);
 int		skip_quotes(char *input);
 int		is_open(char c);
 int		syntax_check(char *input, t_data *data);
+int		check_double_commands(char *str, int c, int diff);
 
 // command
 t_cmd	*add_cmd(t_cmd **start);
