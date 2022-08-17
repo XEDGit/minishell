@@ -33,7 +33,7 @@ static int	here_doc(t_cmd *cmd, int **docs)
 char	*skip_word(char **input)
 {
 	while (ft_isspace(**input))
-        (*input)++;
+		(*input)++;
 	while (**input && !ft_isspace(**input))
 	{
 		if (!is_open(**input) && (**input == '<' || **input == '>'))

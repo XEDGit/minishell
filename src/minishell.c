@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/25 18:20:31 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/08/01 16:14:35 by lmuzio           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/04/25 18:20:31 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/08/17 21:37:41 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	main(int argc, char *argv[], char *envp[])
 			break ;
 		code = semicolon_handle(buffer);
 		if (code == ERROR)
-			printf("Error: allocation failed\n");
+			printf("Shell error: malloc() failed\n");
 		free(buffer);
 	}
 	ft_dprintf(2, "exit\n");

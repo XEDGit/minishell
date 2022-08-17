@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/25 18:25:56 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/08/04 22:08:29 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/08/17 20:15:42 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 # include <errno.h>
 # include <stdbool.h>
 # include <ft_printf.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
 
 typedef struct s_cmd
 {
@@ -80,6 +83,8 @@ int		skip_quotes(char *input);
 int		is_open(char c);
 int		syntax_check(char *input, t_data *data);
 int		check_double_commands(char *str, int c, int diff);
+
+int		executer(t_data *data);
 
 // command
 t_cmd	*add_cmd(t_cmd **start);

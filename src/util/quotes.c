@@ -6,13 +6,17 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/12 18:52:41 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/06/08 23:59:45 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/08/17 18:53:49 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-//	return true if inside unclosed quotes
+/*
+* This function is to use inside a loop
+* Returns true (0) if inside unclosed quotes,
+* otherwise if c is ' or " returns the corresponding ascii value 
+*/
 int	is_open(char c)
 {
 	static int	open;

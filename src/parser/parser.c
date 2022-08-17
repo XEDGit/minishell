@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/10 20:22:54 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/06/17 19:16:00 by nmolinel      ########   odam.nl         */
+/*   Updated: 2022/08/17 21:30:52 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	p_setter(t_cmd **lst, char **tables, int **docs)
 	cmd = add_cmd(lst);
 	if (cmd && \
 	expander(tables, cmd) && \
-	set_redirects(*tables, cmd, docs) && 
+	set_redirects(*tables, cmd, docs) && \
 	set_pipe_cond(*tables, cmd) && \
 	set_data(*tables, cmd))
 		return (1);
@@ -78,8 +78,9 @@ int	parser(char **tables, t_data *data)
 		tables++;
 	}
 	data->cmds = cmds;
-	if (PARSE_DEBUG)
-		debug_cmds(data->cmds);
+	// if (PARSE_DEBUG)
+	// 	debug_cmds(data->cmds);
+	executer(data);
 	free_cmds(cmds, to_free, 0);
 	return (0);
 }
