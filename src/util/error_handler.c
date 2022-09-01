@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/17 01:26:56 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/05/17 01:30:39 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/01 19:29:59 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	*error_msg(char *msg)
 {
-	printf("%s\n", msg);
+	ft_dprintf(2, "%s\n", msg);
 	return (0);
 }
 
 int	error_int(char *msg, int exit_code)
 {
 	if (msg)
-		printf("%s\n", msg);
+		ft_dprintf(2, "%s\n", msg);
 	return (exit_code);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/25 18:25:56 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/08/17 20:15:42 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/01 18:20:33 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct s_data
 # define NEW_LINE '\n'
 # define TITLE "\001\e[31;1m\002 SKIRU ~> \001\e[0m\002"
 
-int		signals_handler_setup(void);
+int		signals_handler_setup(int mode);
 int		lexer(char *input, t_data *data);
 int		dchar_check(char *input, char ch);
 int		semicolon_check(char *input);

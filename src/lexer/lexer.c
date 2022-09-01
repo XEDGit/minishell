@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/08 15:32:59 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/06/13 18:56:22 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/08/19 22:55:44 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int	lexer(char *input, t_data *data)
 	tables = ft_split(data->input, "|&");
 	if (tables)
 		parser(tables, data);
+	free2d(data->paths, 0);
 	free(data->input);
 	free2dint(data->heredocs, 0);
 	return (0);

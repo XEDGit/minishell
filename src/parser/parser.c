@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/10 20:22:54 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/08/17 21:30:52 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/01 18:55:41 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	here_docs_db(char **tables, t_data *data)
 
 int	set_data(char *input, t_cmd *cmd)
 {
-	printf("Split in: %s$\n", input);
 	cmd->args = ft_split(input, " ");
 	if (!cmd->args)
 		return (error_int("Split fail", 0));
@@ -70,7 +69,7 @@ int	parser(char **tables, t_data *data)
 
 	cmds = 0;
 	to_free = tables;
-	here_docs_db(tables, data);
+	// here_docs_db(tables, data);
 	while (*tables)
 	{
 		if (!p_setter(&cmds, tables, data->heredocs))
@@ -79,7 +78,7 @@ int	parser(char **tables, t_data *data)
 	}
 	data->cmds = cmds;
 	// if (PARSE_DEBUG)
-	// 	debug_cmds(data->cmds);
+		// debug_cmds(data->cmds);
 	executer(data);
 	free_cmds(cmds, to_free, 0);
 	return (0);
