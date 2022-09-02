@@ -6,11 +6,11 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/12 18:52:41 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/08/17 18:53:49 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/02 19:12:29 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include <shared.h>
 
 /*
 * This function is to use inside a loop

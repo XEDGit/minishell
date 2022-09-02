@@ -6,11 +6,11 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/08 15:32:59 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/08/04 22:29:01 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/02 19:05:51 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include <lexer.h>
 
 int	semicolon_check(char *input)
 {

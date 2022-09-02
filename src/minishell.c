@@ -6,11 +6,11 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/25 18:20:31 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/01 18:19:50 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/02 19:04:08 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include <shared.h>
 
 int	semicolon_handle(char *buffer)
 {
@@ -53,9 +53,9 @@ int	main(int argc, char *argv[], char *envp[])
 			break ;
 		code = semicolon_handle(buffer);
 		if (code == ERROR)
-			printf("Shell error: malloc() failed\n");
+			ft_dprintf(2, "Shell error: malloc() failed\n");
 		free(buffer);
 	}
-	ft_dprintf(2, "exit\n");
+	ft_dprintf(2, "exit");
 	exit(0);
 }

@@ -1,4 +1,4 @@
-#include <minishell.h>
+#include <shared.h>
 
 //	set default values for command node
 void	set_defaults(t_cmd *cmd)

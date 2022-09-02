@@ -2,7 +2,7 @@ SRC := ft_printf.c ft_number.c
 
 OUT := $(SRC:.c=.o)
 
-FLAGS := -Wall -Werror -Wextra -c -g
+FLAGS := -Wall -Werror -Wextra -c -g -I../../includes
 
 all:
 	@gcc $(FLAGS) $(SRC) && ar cr libftprintf.a $(OUT)

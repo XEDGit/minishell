@@ -6,11 +6,11 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 17:54:14 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/06/13 19:00:38 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/02 19:05:22 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include <shared.h>
 
 size_t	word_count(const char *s, char *c)
 {

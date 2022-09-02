@@ -6,11 +6,11 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/02 22:44:04 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/01 18:29:23 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/02 19:12:43 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include <shared.h>
 #include <termios.h>
 
 static void	exec_signal_handler(int code)

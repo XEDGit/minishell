@@ -6,11 +6,11 @@
 /*   By: lmuzio <lmuzio@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/17 01:26:56 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/01 19:29:59 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/02 19:12:20 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include <shared.h>
 
 void	*error_msg(char *msg)
 {

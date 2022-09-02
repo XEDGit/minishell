@@ -6,11 +6,11 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/08 19:05:18 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/01 19:44:15 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/02 19:05:33 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include <lexer.h>
 
 int	heredoc_routine(char *input, int c, int *fds)
 {

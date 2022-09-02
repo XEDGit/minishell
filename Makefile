@@ -1,10 +1,10 @@
 NAME := minishell
 
-SRC := $(shell find ./src -name '*.c') #src/minishell.c src/util/signal.c src/util/ft_split.c src/util/ft_isspace.c src/lexer/lexer.c
+SRC := $(shell find ./src -name '*.c')
 
 LIBS := -lreadline -L$(HOME)/.brew/opt/readline/lib
 
-HEADERS := -I$(HOME)/.brew/opt/readline/include -Iincludes -Isrc/ft_printf
+HEADERS := -I$(HOME)/.brew/opt/readline/include -Iincludes
 
 FLAGS := -g #-fsanitize=address -Wextra -Wall -Werror
 

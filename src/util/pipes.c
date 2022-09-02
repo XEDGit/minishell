@@ -6,11 +6,11 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/12 18:49:33 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/05/15 00:41:01 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/02 19:08:09 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include <shared.h>
 
 /* Returns 0 on error and the number of copied bytes on success 
 src gets freed and replaces with reallocated string */
