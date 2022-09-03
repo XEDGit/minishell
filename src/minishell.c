@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/25 18:20:31 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/02 19:04:08 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/03 14:55:20 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,6 @@ int	main(int argc, char *argv[], char *envp[])
 			ft_dprintf(2, "Shell error: malloc() failed\n");
 		free(buffer);
 	}
-	ft_dprintf(2, "exit");
+	ft_dprintf(2, "exit\n");
 	exit(0);
 }

@@ -6,38 +6,51 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/02 18:36:19 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/02 18:40:44 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/02 21:40:00 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <executer.h>
 
+char	*build_path(char *temp_path, char *temp_cmd, int len)
+{
+	char		*res_path;
+	int			c;
+
+	c = 0;
+	res_path = malloc(len);
+	if (!res_path)
+		return ((char *)error_msg("malloc fail in path builder"));
+	while (*++temp_path)
+		res_path[c++] = *temp_path;
+	res_path[c++] = '/';
+	while (*++temp_cmd)
+		res_path[c++] = *temp_cmd;
+	res_path[c] = 0;
+	return (res_path);
+}
+
 char	*check_paths(char **paths, char *cmd)
 {
 	char		*res_path;
-	char		*temp_path;
-	char		*temp_cmd;
-	int			c;
 	struct stat	statbuf;
 
-	while (*paths)
+	if (!stat(cmd, &statbuf))
+		return (cmd);
+	while (paths && *paths)
 	{
-		c = 0;
-		temp_cmd = cmd - 1;
-		temp_path = *paths - 1;
-		res_path = malloc(ft_strlen(*paths) + ft_strlen(cmd) + 2);
-		while (*++temp_path)
-			res_path[c++] = *temp_path;
-		res_path[c++] = '/';
-		while (*++temp_cmd)
-			res_path[c++] = *temp_cmd;
-		res_path[c] = 0;
-		if (!stat(res_path, &statbuf))
+		res_path = build_path(*paths - 1, cmd - 1, \
+			ft_strlen(*paths) + ft_strlen(cmd) + 2);
+		if (!res_path || !stat(res_path, &statbuf))
+		{
+			free(cmd);
 			return (res_path);
+		}
 		free(res_path);
 		paths++;
 	}
 	ft_dprintf(2, "%s: command not found\n", cmd);
+	free(cmd);
 	return (0);
 }
 

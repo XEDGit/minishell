@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/17 19:22:13 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/02 18:40:35 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/03 14:54:58 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,34 +26,34 @@ int	execute_cmd(t_cmd *cmd)
 	if (cmd->redirects[2] != 2)
 		dup2(cmd->redirects[2], 2);
 	clean_redirects(cmd);
-	exit(execve(cmd->cmd, cmd->args, 0));
+	execve(cmd->cmd, cmd->args, 0);
 }
 
 int	executer(t_data *data)
 {
 	pid_t	child_pid;
 	char	*new_cmd;
+	t_cmd	*start;
 
 	data->paths = ft_split(getenv("PATH"), ":");
+	start = data->cmds;
 	signals_handler_setup(1);
-	while (data->cmds)
+	while (start)
 	{
-		new_cmd = check_paths(data->paths, data->cmds->cmd);
-		if (new_cmd != NULL)
+		start->args[0] = check_paths(data->paths, start->cmd);
+		if (start->args[0] != NULL)
 		{
-			data->cmds->cmd = new_cmd;
-			if (data->cmds->is_pipe)
-				open_pipe(data->cmds);
+			start->cmd = start->args[0];
+			if (start->is_pipe)
+				open_pipe(start);
 			child_pid = fork();
 			if (!child_pid)
-				execute_cmd(data->cmds);
-			free(data->cmds->cmd);
-			clean_redirects(data->cmds);
+				execute_cmd(start);
+			clean_redirects(start);
 		}
-		data->cmds = data->cmds->next;
+		start = start->next;
 	}
-	while (wait(0) != -1) // make function to watch on child exit status
+	while (wait(0) != -1) // make function to watch on child exit code-status
 		;
-	signals_handler_setup(0);
 	return (0);
 }

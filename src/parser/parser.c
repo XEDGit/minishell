@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/10 20:22:54 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/01 18:55:41 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/02 21:31:51 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	parser(char **tables, t_data *data)
 	// if (PARSE_DEBUG)
 		// debug_cmds(data->cmds);
 	executer(data);
+	signals_handler_setup(0);
 	free_cmds(cmds, to_free, 0);
 	return (0);
 }
