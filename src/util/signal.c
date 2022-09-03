@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   signal.c                                           :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/05/02 22:44:04 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/02 19:12:43 by lmuzio        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   signal.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/02 22:44:04 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/09/03 17:45:49 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ static void	exec_signal_handler(int code)
 	else if (code == SIGQUIT)
 		ft_printf("Quit\n");
 	return ;
+}
+
+static void	child_signal_handler(int code)
+{
+	exit(code);
 }
 
 static void	def_signal_handler(int code)

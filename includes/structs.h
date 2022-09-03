@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   structs.h                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/09/02 18:38:24 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/02 18:51:36 by lmuzio        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   structs.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/02 18:38:24 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/09/03 17:52:43 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ typedef struct s_data
 	int		heredoc_c;
 	char	*input;
 	char	**paths;
+	char	**envp;
+	char	**envl;
 }	t_data;
 
 // t_cmd library
