@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/10 20:22:54 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/02 21:31:51 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/04 03:25:25 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,11 @@ int	p_setter(t_cmd **lst, char **tables, int **docs)
 int	parser(char **tables, t_data *data)
 {
 	t_cmd	*cmds;
+	int		exit;
 	char	**to_free;
 
 	cmds = 0;
+	exit = 0;
 	to_free = tables;
 	// here_docs_db(tables, data);
 	while (*tables)
@@ -79,8 +81,8 @@ int	parser(char **tables, t_data *data)
 	data->cmds = cmds;
 	// if (PARSE_DEBUG)
 		// debug_cmds(data->cmds);
-	executer(data);
-	signals_handler_setup(0);
+	if (executer(data))
+		exit = 1;
 	free_cmds(cmds, to_free, 0);
-	return (0);
+	return (exit);
 }

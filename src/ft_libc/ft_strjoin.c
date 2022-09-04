@@ -6,14 +6,14 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 17:53:58 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/02 19:04:58 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/04 01:20:50 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <shared.h>
 
-/* joins two strings and frees s1,
-return -1 and free s2 if fail or 0 on success
+/* Joins two strings and frees s1,
+return -1 and free s2 on fail, return 0 on success
 and assign new string to s1 variable */
 int	ft_strjoin(char **s1, char const *s2)
 {

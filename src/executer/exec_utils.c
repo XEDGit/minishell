@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exec_utils.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/02 18:36:19 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/09/03 19:13:52 by lmuzio           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   exec_utils.c                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/09/02 18:36:19 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/09/04 02:42:56 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,39 @@ char	*build_path(char *temp_path, char *temp_cmd, int len)
 	return (res_path);
 }
 
-char	*check_paths(char **paths, char *cmd)
+int	check_file(char *path)
 {
-	char		*res_path;
 	struct stat	statbuf;
 
-	if (!stat(cmd, &statbuf))
+	stat(path, &statbuf);
+	if (access(path, F_OK))
+		return (false);
+	if (S_ISDIR(statbuf.st_mode))
+	{
+		ft_printf("'%s' is a directory\n", path);
+		return (2);
+	}
+	if (!S_ISREG(statbuf.st_mode))
+		return (false);
+	if (access(path, X_OK))
+		return (error_int("User doesn't \
+		have permissions to execute\n", false));
+	return (true);
+}
+
+char	*check_paths(char **paths, char *cmd)
+{
+	char	*res_path;
+	int		file_type;
+
+	file_type = check_file(cmd);
+	if (file_type == 1)
 		return (cmd);
 	while (paths && *paths)
 	{
 		res_path = build_path(*paths - 1, cmd - 1, \
 			ft_strlen(*paths) + ft_strlen(cmd) + 2);
-		if (!res_path || !stat(res_path, &statbuf))
+		if (!res_path || check_file(res_path) == 1)
 		{
 			free(cmd);
 			return (res_path);
@@ -49,7 +70,8 @@ char	*check_paths(char **paths, char *cmd)
 		free(res_path);
 		paths++;
 	}
-	ft_dprintf(2, "%s: command not found\n", cmd);
+	if (file_type == 0)
+		ft_dprintf(2, "%s: command not found\n", cmd);
 	free(cmd);
 	return (0);
 }

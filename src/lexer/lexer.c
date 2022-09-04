@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/08 15:32:59 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/02 19:05:42 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/04 05:34:24 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	syntax_check(char *input, t_data *data)
 	}
 	if (heredoc_check(input, data) == ERROR)
 	{
-		ft_dprintf(2, "Error: Failed creating pipe for heredoc (<)\n");
+		ft_dprintf(2, "Error: Failed creating pipe for heredoc\n");
 		return (true);
 	}
 	return (false);
@@ -108,10 +108,10 @@ int	lexer(char *input, t_data *data)
 		return (count);
 	}
 	tables = ft_split(data->input, "|&");
-	if (tables)
-		parser(tables, data);
+	if (tables && parser(tables, data))
+		count = 2;
 	free2d(data->paths, 0);
 	free(data->input);
 	free2dint(data->heredocs, 0);
-	return (0);
+	return (count);
 }

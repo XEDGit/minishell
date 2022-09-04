@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/08 19:05:18 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/02 19:05:33 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/04 05:34:09 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	heredoc_repeat(char *input, int *fds)
 
 	if (pipe(fds) == ERROR)
 	{
-		ft_dprintf(2, "Error opening pipe\n");
+		ft_dprintf(2, "Error opening pipe for heredoc\n");
 		return (ERROR);
 	}
 	while (*input && ft_isspace(*input))

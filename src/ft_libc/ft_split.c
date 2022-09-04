@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 17:54:14 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/02 19:05:22 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/04 03:18:42 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	free2dint(int **tofree, int len)
 		if (tofree[len])
 		{
 			close(tofree[len][1]);
+			close(tofree[len][0]);
 			free(tofree[len]);
 		}
 		len--;

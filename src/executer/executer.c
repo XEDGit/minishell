@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   executer.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/17 19:22:13 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/09/03 19:16:44 by lmuzio           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   executer.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/08/17 19:22:13 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/09/04 03:37:21 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,27 @@ int	executer(t_data *data)
 {
 	char	*new_cmd;
 	t_cmd	*start;
+	int		builtin;
 
 	data->paths = ft_split(getenv("PATH"), ":");
 	start = data->cmds;
 	signals_handler_setup(1);
 	while (start)
 	{
-		start->args[0] = check_paths(data->paths, start->cmd);
-		if (start->args[0] != NULL)
-			parse_cmd(start, data->envp);
+		builtin = 0;
+		builtin = check_builtin(data->cmds);
+		if (builtin == 2)
+			return (1);
+		if (!builtin)
+		{
+			start->args[0] = check_paths(data->paths, start->cmd);
+			if (start->args[0] != NULL)
+				parse_cmd(start, data->envp);
+		}
 		start = start->next;
 	}
 	while (wait(0) != -1)
 		;
+	signals_handler_setup(0);
 	return (0);
 }

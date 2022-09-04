@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/25 18:20:31 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/09/03 18:51:00 by lmuzio           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/04/25 18:20:31 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/09/04 05:30:53 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ int	semicolon_handle(char *buffer, char **envp, char **envl)
 	{
 		data = (t_data){0, 0, 0, 0, 0, envp, envl};
 		code = lexer(semi_colons_split[counter], &data);
-		if (code)
+		if (code == 1)
 			ft_printf("Error\n");
-		if (code == ERROR)
+		if (code == ERROR || code == 2)
 			break ;
 		counter++;
 	}
@@ -48,7 +48,7 @@ char	**parse_envp(char *envp[])
 		i++;
 	new = malloc(sizeof(char **) * (i + 1));
 	if (!new)
-		return (0);
+		return (error_msg("Error: enviromental variable allocation\n"));
 	i = 0;
 	while (envp && envp[i])
 	{
@@ -66,6 +66,13 @@ char	**parse_envp(char *envp[])
 	return (new);
 }
 
+int	error_handle(char **buffer, int code)
+{
+	if (code == ERROR)
+		ft_dprintf(2, "Shell error: malloc() failed\n");
+	free(*buffer);
+}
+
 int	main(int argc, char *argv[], char *envp[])
 {
 	char	*buffer;
@@ -74,8 +81,8 @@ int	main(int argc, char *argv[], char *envp[])
 	char	**envl;
 
 	signals_handler_setup(0);
-	(void)argc;
 	(void)argv;
+	(void)argc;
 	new_envp = parse_envp(envp);
 	envl = parse_envp(0);
 	while (1)
@@ -84,12 +91,12 @@ int	main(int argc, char *argv[], char *envp[])
 		if (!buffer)
 			break ;
 		code = semicolon_handle(buffer, new_envp, envl);
-		if (code == ERROR)
-			ft_dprintf(2, "Shell error: malloc() failed\n");
-		free(buffer);
+		error_handle(&buffer, code);
+		if (code == 2)
+			break ;
 	}
 	free2d(envl, 0);
 	free2d(new_envp, 0);
-	ft_dprintf(2, "exit\n");
-	exit(0);
+	if (code != 2)
+		ft_printf("exit\n");
 }
