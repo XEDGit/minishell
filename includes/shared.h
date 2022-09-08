@@ -39,6 +39,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+extern int	g_exit_code;
+
 void	*error_msg(char *msg);
 int		error_int(char *msg, int exit_code);
 int		error_free2d(void *tofree);

@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 
+int		ft_isdigit(char ch);
 char	**ft_split(char const *s, char *c);
 int		ft_strjoin(char **s1, char const *s2);
 void	*ft_memset(void *b, int c, size_t len);
@@ -30,6 +31,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_strexcmp(const char *s1, const char *s2, size_t n, const char *del);
 int		ft_isspace(int str);
+int		ft_atoi(const char *str);
 char	**strsplit(char *s, char c);
 
 #endif

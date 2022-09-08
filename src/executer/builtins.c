@@ -16,20 +16,19 @@ int	check_builtin(t_cmd *cmd)
 {
 	int			i;
 	static char	*builtins[] = {
-		"cd", "echo",
-		"export", "unset",
-		"env", "pwd",
-		0
+		"cd", "echo", "export", "unset", "env", "pwd", 0
 	};
 	static void	(*funcs[])(char **args) = {
-		&ft_cd, &ft_echo,
-		&ft_export, &ft_unset,
-		&ft_env, &ft_pwd
+		&ft_cd, &ft_echo, &ft_export, &ft_unset, &ft_env, &ft_pwd
 	};
 
 	i = 0;
 	if (!ft_strcmp("exit", cmd->cmd))
+	{
+		if (cmd->args[1])
+			g_exit_code = ft_atoi(cmd->args[1]);
 		return (2);
+	}
 	while (builtins[i])
 	{
 		if (!ft_strcmp(builtins[i++], cmd->cmd))

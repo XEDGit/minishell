@@ -11,12 +11,9 @@
 /* ************************************************************************** */
 
 #include <executer.h>
-#include <shared.h>
 
 void	execute_cmd(t_cmd *cmd, char **envp)
 {
-	int	exit_code;
-
 	if (cmd->is_pipe)
 		close(cmd->next->redirects[0]);
 	if (cmd->redirects[0] != 0)
@@ -27,6 +24,20 @@ void	execute_cmd(t_cmd *cmd, char **envp)
 		dup2(cmd->redirects[2], 2);
 	clean_redirects(cmd);
 	execve(cmd->cmd, cmd->args, envp);
+}
+
+int     watch_child(void)
+{
+        int     statbuf;
+        int     exit_code;
+
+        while (wait(&statbuf) != -1)
+                ;
+        if (WIFSIGNALED(statbuf))
+                exit_code = WTERMSIG(statbuf);
+        else
+                exit_code = WEXITSTATUS(statbuf);
+        return (exit_code);
 }
 
 int	parse_cmd(t_cmd *start, char **envp)
@@ -40,8 +51,7 @@ int	parse_cmd(t_cmd *start, char **envp)
 	if (!child_pid)
 		execute_cmd(start, envp);
 	if (start->next && start->next->conditional != -1)
-		while (wait(0) != -1)
-			;
+		g_exit_code = watch_child();
 	clean_redirects(start);
 	return (0);
 }
@@ -69,8 +79,7 @@ int	executer(t_data *data)
 		}
 		start = start->next;
 	}
-	while (wait(0) != -1)
-		;
+	g_exit_code = watch_child();
 	signals_handler_setup(0);
 	return (0);
 }

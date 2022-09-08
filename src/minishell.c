@@ -12,6 +12,8 @@
 
 #include <shared.h>
 
+int	g_exit_code;
+
 int	semicolon_handle(char *buffer, char **envp, char **envl)
 {
 	char	**semi_colons_split;
@@ -99,4 +101,5 @@ int	main(int argc, char *argv[], char *envp[])
 	free2d(new_envp, 0);
 	if (code != 2)
 		ft_printf("exit\n");
+	exit(g_exit_code);
 }
