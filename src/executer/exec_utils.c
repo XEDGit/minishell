@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/02 18:36:19 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/04 02:42:56 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/07 21:19:42 by xed           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ int	check_file(char *path)
 		return (false);
 	if (S_ISDIR(statbuf.st_mode))
 	{
-		ft_printf("'%s' is a directory\n", path);
+		if (ft_strchr(path, '/'))
+			ft_printf("'%s' is a directory\n", path);
 		return (2);
 	}
 	if (!S_ISREG(statbuf.st_mode))
@@ -70,7 +71,7 @@ char	*check_paths(char **paths, char *cmd)
 		free(res_path);
 		paths++;
 	}
-	if (file_type == 0)
+	if (!ft_strchr(cmd, '/'))
 		ft_dprintf(2, "%s: command not found\n", cmd);
 	free(cmd);
 	return (0);

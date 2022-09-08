@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/17 19:22:13 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/04 03:37:21 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/07 21:53:26 by xed           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	executer(t_data *data)
 	while (start)
 	{
 		builtin = 0;
-		builtin = check_builtin(data->cmds);
+		builtin = check_builtin(start, data->envp, data->envl);
 		if (builtin == 2)
 			return (1);
 		if (!builtin)
