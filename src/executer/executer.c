@@ -26,18 +26,20 @@ void	execute_cmd(t_cmd *cmd, char **envp)
 	execve(cmd->cmd, cmd->args, envp);
 }
 
-int     watch_child(void)
+void	watch_child(pid_t pid)
 {
-        int     statbuf;
-        int     exit_code;
+	int     statbuf;
+	int     exit_code;
 
-        while (wait(&statbuf) != -1)
-                ;
-        if (WIFSIGNALED(statbuf))
-                exit_code = WTERMSIG(statbuf);
-        else
-                exit_code = WEXITSTATUS(statbuf);
-        return (exit_code);
+	if (waitpid(pid, &statbuf, 0) != pid)
+		return ;
+	if (WIFEXITED(statbuf))
+	{
+		if (WIFSIGNALED(statbuf))
+			g_exit_code = WTERMSIG(statbuf);
+		else
+			g_exit_code = WEXITSTATUS(statbuf);
+	}
 }
 
 int	parse_cmd(t_cmd *start, char **envp)
@@ -51,14 +53,15 @@ int	parse_cmd(t_cmd *start, char **envp)
 	if (!child_pid)
 		execute_cmd(start, envp);
 	if (start->next && start->next->conditional != -1)
-		g_exit_code = watch_child();
+		watch_child(child_pid);
 	clean_redirects(start);
-	return (0);
+	return (child_pid);
 }
 
 int	executer(t_data *data)
 {
-	char	*new_cmd;
+	int		piping;
+	pid_t	child_pid;
 	t_cmd	*start;
 	int		builtin;
 
@@ -67,19 +70,23 @@ int	executer(t_data *data)
 	signals_handler_setup(1);
 	while (start)
 	{
+		if (start->is_pipe)
+			piping = start->is_pipe;
+		if (start->conditional != -1)
+			piping = 0;
 		builtin = 0;
-		builtin = check_builtin(start, data->envp, data->envl);
+		builtin = check_builtin(start, data->envp, data->envl, piping);
 		if (builtin == 2)
 			return (1);
 		if (!builtin)
 		{
 			start->args[0] = check_paths(data->paths, start->cmd);
 			if (start->args[0] != NULL)
-				parse_cmd(start, data->envp);
+				child_pid = parse_cmd(start, data->envp);
 		}
 		start = start->next;
 	}
-	g_exit_code = watch_child();
+	watch_child(child_pid);
 	signals_handler_setup(0);
 	return (0);
 }
