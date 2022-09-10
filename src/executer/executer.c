@@ -65,6 +65,7 @@ int	executer(t_data *data)
 	t_cmd	*start;
 	int		builtin;
 
+	piping = 0;
 	data->paths = ft_split(getenv("PATH"), ":");
 	start = data->cmds;
 	signals_handler_setup(1);
@@ -77,7 +78,7 @@ int	executer(t_data *data)
 		builtin = 0;
 		builtin = check_builtin(start, data->envp, data->envl, piping);
 		if (builtin == 2)
-			return (1);
+			return (2);
 		if (!builtin)
 		{
 			start->args[0] = check_paths(data->paths, start->cmd);

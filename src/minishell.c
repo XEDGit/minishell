@@ -85,6 +85,7 @@ int	main(int argc, char *argv[], char *envp[])
 	signals_handler_setup(0);
 	(void)argv;
 	(void)argc;
+	dup2(2, 1);
 	new_envp = parse_envp(envp);
 	envl = parse_envp(0);
 	while (1)

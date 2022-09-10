@@ -14,8 +14,10 @@
 
 int	ft_cd(char **args, char **envp, char **envl)
 {
-	// edit_variable("PWD", args[1]);
-	chdir(args[1]);
+	// ft_edit_variable("OLD_PWD", ft_get_variable("PWD", envp));
+	// ft_edit_variable("PWD", args[1]);
+	if (args[1] && chdir(args[1]) == -1)
+		return (1);
 	return (0);
 }
 

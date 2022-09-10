@@ -108,8 +108,8 @@ int	lexer(char *input, t_data *data)
 		return (count);
 	}
 	tables = ft_split(data->input, "|&");
-	if (tables && parser(tables, data))
-		count = 2;
+	if (tables)
+		count = parser(tables, data);
 	free2d(data->paths, 0);
 	free(data->input);
 	free2dint(data->heredocs, 0);

@@ -41,10 +41,10 @@ void	exec_builtin(t_cmd *cmd, char **envp, char **envl, int i)
 	exit(g_exit_code);
 }
 
-int	exec_single_builtin(t_cmd *cmd, char **envp, char **envl, int i)
+void	exec_single_builtin(t_cmd *cmd, char **envp, char **envl, int i)
 {
 	static int	(*funcs[])(char **args, char **envp, char **envl) = {
-		&ft_cd, &ft_echo, &ft_export, &ft_unset, &ft_env, &ft_pwd
+	&ft_cd, &ft_echo, &ft_export, &ft_unset, &ft_env, &ft_pwd
 	};
 
 	if (cmd->redirects[0] != 0)
@@ -54,13 +54,10 @@ int	exec_single_builtin(t_cmd *cmd, char **envp, char **envl, int i)
 	if (cmd->redirects[2] != 2)
 		dup2(cmd->redirects[2], 2);
 	clean_redirects(cmd);
-	if (!ft_strcmp("exit", cmd->cmd))
-	{
-		if (cmd->args[1])
-			g_exit_code = ft_atoi(cmd->args[1]);
-		return (2);
-	}
-	return (funcs[i](cmd->args, envp, envl));
+	if (i == 6 && cmd->args[1])
+		g_exit_code = ft_atoi(cmd->args[1]);
+	else if (i != 6)
+		g_exit_code = funcs[i](cmd->args, envp, envl);
 }
 
 int	check_builtin(t_cmd *cmd, char **envp, char **envl, int piping)
@@ -89,7 +86,7 @@ if (!ft_strcmp("code", cmd->cmd))
 			else
 				exec_single_builtin(cmd, envp, envl, i - 1);
 			clean_redirects(cmd);
-			if (i == 6 && piping)
+			if (i == 7 && !piping)
 				return (2);
 			return (true);
 		}

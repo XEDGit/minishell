@@ -30,40 +30,51 @@ char	*build_path(char *temp_path, char *temp_cmd, int len)
 	return (res_path);
 }
 
-int	check_file(char *path)
+int	check_file(char *path, int initial)
 {
 	struct stat	statbuf;
 
 	stat(path, &statbuf);
 	if (access(path, F_OK))
+	{
+		if (initial)
+			return (error_int("File or folder not found", false));
 		return (false);
+	}
 	if (S_ISDIR(statbuf.st_mode))
 	{
-		if (ft_strchr(path, '/'))
-			ft_printf("'%s' is a directory\n", path);
-		return (2);
+		g_exit_code = 126;
+		ft_printf("'%s' is a directory", path);
+		return (true);
 	}
-	if (!S_ISREG(statbuf.st_mode))
-		return (false);
-	if (access(path, X_OK))
+	if (S_ISREG(statbuf.st_mode) && access(path, X_OK))
+	{
+		g_exit_code = 126;
 		return (error_int("User doesn't \
-		have permissions to execute\n", false));
+have permissions to execute", true));
+	}
 	return (true);
 }
 
 char	*check_paths(char **paths, char *cmd)
 {
 	char	*res_path;
-	int		file_type;
 
-	file_type = check_file(cmd);
-	if (file_type == 1)
-		return (cmd);
+	if (ft_strchr(cmd, '/'))
+	{
+		if (check_file(cmd, true) == true)
+			return (cmd);
+		else
+		{
+			free(cmd);
+			return (false);
+		}
+	}
 	while (paths && *paths)
 	{
 		res_path = build_path(*paths - 1, cmd - 1, \
 			ft_strlen(*paths) + ft_strlen(cmd) + 2);
-		if (!res_path || check_file(res_path) == 1)
+		if (!res_path || check_file(res_path, false) == true)
 		{
 			free(cmd);
 			return (res_path);

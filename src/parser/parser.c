@@ -75,14 +75,14 @@ int	parser(char **tables, t_data *data)
 	while (*tables)
 	{
 		if (!p_setter(&cmds, tables, data->heredocs))
-			return (free_cmds(cmds, to_free, 0));
+			return (free_cmds(cmds, to_free, -1));
 		tables++;
 	}
 	data->cmds = cmds;
 	// if (PARSE_DEBUG)
 		// debug_cmds(data->cmds);
 	if (executer(data))
-		exit = 1;
+		exit = 2;
 	free_cmds(cmds, to_free, 0);
 	return (exit);
 }
