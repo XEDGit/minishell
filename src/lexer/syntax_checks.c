@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/08 15:32:59 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/02 19:05:51 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/11 18:37:47 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,8 @@ int	parenthesis_check(char *input)
 	{
 		if (input[c] == '(')
 		{
-			if (check_double_commands(input, c, -1) || input[c + 1] == ')')
+			if (check_double_commands(input, c, -1) || \
+			*find_next_char(input + c) == ')')
 				return (error_int("Error parsing syntax near '('", true));
 			depth++;
 		}

@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/04 02:24:53 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/07 22:00:47 by xed           ########   odam.nl         */
+/*   Updated: 2022/09/11 18:29:18 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	check_builtin(t_cmd *cmd, char **envp, char **envl, int piping)
 
 	i = 0;
 //temp command for seeing last exit code
-if (!ft_strcmp("code", cmd->cmd))
+if (cmd->cmd && !ft_strcmp("code", cmd->cmd))
 	{
 		ft_printf("g_exit_code = %d\n", g_exit_code);
 		return (true);
@@ -77,13 +77,13 @@ if (!ft_strcmp("code", cmd->cmd))
 //
 	while (builtins[i])
 	{
-		if (!ft_strcmp(builtins[i++], cmd->cmd))
+		if (!cmd->cmd || !ft_strcmp(builtins[i++], cmd->cmd))
 		{
 			if (cmd->is_pipe && open_pipe(cmd))
 				return (error_int("pipe command failed\n", 0));
-			if (piping)
+			if (cmd->cmd && piping)
 				exec_builtin(cmd, envp, envl, i - 1);
-			else
+			else if (cmd->cmd)
 				exec_single_builtin(cmd, envp, envl, i - 1);
 			clean_redirects(cmd);
 			if (i == 7 && !piping)
