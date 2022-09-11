@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/04 03:04:17 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/07 21:48:46 by xed           ########   odam.nl         */
+/*   Updated: 2022/09/11 20:30:58 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ int	ft_echo(char **args, char **envp, char **envl)
 	args = &args[start + 1];
 	while (args && args[i])
 	{
-		ft_printf("%s", args[i++]);
-		if (i)
+		ft_printf("%s", args[i]);
+		if (i++)
 			ft_printf(" ");
 	}
 	if (!start)

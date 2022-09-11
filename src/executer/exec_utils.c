@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/02 18:36:19 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/07 21:19:42 by xed           ########   odam.nl         */
+/*   Updated: 2022/09/12 00:45:12 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,14 @@ int	check_file(char *path, int initial)
 	if (access(path, F_OK))
 	{
 		if (initial)
-			return (error_int("File or folder not found", false));
+			return (error_int("File or folder not found", path, 1, false));
 		return (false);
 	}
 	if (S_ISDIR(statbuf.st_mode))
-	{
-		g_exit_code = 126;
-		ft_printf("'%s' is a directory", path);
-		return (true);
-	}
+		return (error_int("'%s' is a directory", path, 126, true));
 	if (S_ISREG(statbuf.st_mode) && access(path, X_OK))
-	{
-		g_exit_code = 126;
 		return (error_int("User doesn't \
-have permissions to execute", true));
-	}
+have permissions to execute", path, 126, true));
 	return (true);
 }
 
@@ -83,7 +76,7 @@ char	*check_paths(char **paths, char *cmd)
 		paths++;
 	}
 	if (!ft_strchr(cmd, '/'))
-		ft_dprintf(2, "%s: command not found\n", cmd);
+		ft_dprintf(2, SHELLNAME"%s: command not found\n", cmd);
 	free(cmd);
 	return (0);
 }
@@ -93,19 +86,19 @@ int	open_pipe(t_cmd *cmd)
 	int	p[2];
 
 	if (pipe(p) == -1)
-		exit(error_int("Error: pipe opening failed\n", 1));
+		exit(error_int("Error: pipe opening failed\n", cmd->cmd, 1, 1));
 	if (cmd->redirects[1] == 1)
 		cmd->redirects[1] = p[1];
 	else
 	{
 		if (close(p[1]) == -1 || close(p[0]) == -1)
-			return (error_int("Error: pipe closing failed\n", 1));
+			return (error_int("Error: pipe closing failed\n", cmd->cmd, 1, 1));
 		return (0);
 	}
 	if (cmd->next->redirects[0] == 0)
 		cmd->next->redirects[0] = p[0];
 	else if (close(p[0]) == -1)
-		return (error_int("Error: pipe closing failed\n", 1));
+		return (error_int("Error: pipe closing failed\n", cmd->cmd, 1, 1));
 	return (0);
 }
 
@@ -130,6 +123,6 @@ int	clean_redirects(t_cmd *cmd)
 		cmd->redirects[2] = -1;
 	}
 	if (err)
-		return (error_int("Error: pipe cleanup failed\n", 1));
+		return (error_int("Error: pipe cleanup failed\n", 0, 1, 1));
 	return (0);
 }

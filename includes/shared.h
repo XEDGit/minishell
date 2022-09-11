@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/02 18:43:30 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/02 19:13:28 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/12 00:49:23 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define PARENTHESIS ')'
 # define NEW_LINE '\n'
 # define TITLE "\001\e[31;1m\002 SKIRU ~> \001\e[0m\002"
+# define SHELLNAME "SkiruSh: "
 
 // internal
 # include <ft_libc.h>
@@ -42,13 +43,14 @@
 extern int	g_exit_code;
 
 void	*error_msg(char *msg);
-int		error_int(char *msg, int exit_code);
+int		error_int(char *msg, char *cmd, int exit_code, int return_val);
 int		error_free2d(void *tofree);
 int		error_free2dint(void *tofree);
 int		error_free(void *tofree);
 int		signals_handler_setup(int mode);
 int		free2d(char **tofree, int len);
 int		free2dint(int **tofree, int len);
+char	*ft_get_env(char **vars, char *name);
 int		lexer(char *input, t_data *data);
 int		parser(char **tables, t_data *data);
 int		executer(t_data *data);

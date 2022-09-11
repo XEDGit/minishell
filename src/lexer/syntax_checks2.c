@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/11 18:33:40 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/11 18:35:22 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/12 01:22:25 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,4 @@ char	*find_next_char(char *start)
 	while (*start && *start == ' ')
 		start++;
 	return (start);
-	
 }

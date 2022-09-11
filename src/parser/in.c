@@ -5,12 +5,18 @@ static int	left_rdrt(char *file, t_cmd *cmd)
 	if (cmd->redirects[0] != STDIN_FILENO)
 	{
 		if (close(cmd->redirects[0]) == ERROR)
-			return (error_int("Close error", 0));
+		{
+			g_exit_code = 1;
+			return (false); // handle precise error
+		}
 	}
 	cmd->redirects[0] = open(file, O_RDONLY);
 	free(file);
 	if (cmd->redirects[0] == ERROR)
-		return (error_int("Open error", 0)); // handle precise error
+	{
+		g_exit_code = 1;
+		return (false); // handle precise error
+	}
 	return (1);
 }
 
@@ -21,7 +27,7 @@ static int	here_doc(t_cmd *cmd, int **docs)
 	if (cmd->redirects[0] != STDIN_FILENO)
 	{
 		if (close(cmd->redirects[0]) == ERROR)
-			return (error_int("Close error", 0));
+			return (error_int("Close error", cmd->cmd, 1, 0));
 	}
 	if (!docs[count])
 		count = 0;

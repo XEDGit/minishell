@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/25 18:20:31 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/04 05:30:53 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/12 01:15:52 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,10 @@ char	**parse_envp(char *envp[])
 	return (new);
 }
 
-int	error_handle(char **buffer, int code)
+void	error_handle(char **buffer, int code)
 {
-	if (code == ERROR)
-		ft_dprintf(2, "Shell error: malloc() failed\n");
+	// if (code == ERROR)
+		// ft_dprintf(2, "Shell error: malloc() failed\n");
 	free(*buffer);
 }
 
@@ -83,9 +83,9 @@ int	main(int argc, char *argv[], char *envp[])
 	char	**envl;
 
 	signals_handler_setup(0);
+	rl_outstream = stderr;
 	(void)argv;
 	(void)argc;
-	dup2(2, 1);
 	new_envp = parse_envp(envp);
 	envl = parse_envp(0);
 	while (1)
@@ -101,6 +101,6 @@ int	main(int argc, char *argv[], char *envp[])
 	free2d(envl, 0);
 	free2d(new_envp, 0);
 	if (code != 2)
-		ft_printf("exit\n");
+		ft_dprintf(2, "exit\n");
 	exit(g_exit_code);
 }

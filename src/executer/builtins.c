@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/04 02:24:53 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/11 18:29:18 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/12 00:32:47 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ if (cmd->cmd && !ft_strcmp("code", cmd->cmd))
 		if (!cmd->cmd || !ft_strcmp(builtins[i++], cmd->cmd))
 		{
 			if (cmd->is_pipe && open_pipe(cmd))
-				return (error_int("pipe command failed\n", 0));
+				return (error_int("Pipe opening failed\n", cmd->cmd, 1, 0));
 			if (cmd->cmd && piping)
 				exec_builtin(cmd, envp, envl, i - 1);
 			else if (cmd->cmd)

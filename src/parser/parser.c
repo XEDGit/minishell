@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/10 20:22:54 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/04 03:25:25 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/12 00:41:18 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	set_data(char *input, t_cmd *cmd)
 {
 	cmd->args = ft_split(input, " ");
 	if (!cmd->args)
-		return (error_int("Split fail", 0));
+		return (error_int("Parser split fail", cmd->cmd, 1, 0));
 	cmd->cmd = cmd->args[0];
 	return (1);
 }

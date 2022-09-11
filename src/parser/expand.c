@@ -101,7 +101,7 @@ char	*expand_vars(char **vars, char *input)
 
 	out = malloc((sizeof(char) * (get_out_size(vars, input) + 1)));
 	if (!out)
-		return (error_msg("Allocation failed"));
+		return (false);
 	i = 0;
 	index = 0;
 	while (*input)
@@ -132,7 +132,7 @@ int	expander(char **tables, t_cmd *cmd)
 	{
 		vars = malloc(sizeof(char *) * (n_vars + 1));
 		if (!vars)
-			return (error_int("Allocation failed", 0));
+			return (error_int("Expander allocation failed", 0, 1, 0));
 		if (!set_vars(vars, *tables))
 		{
 			free(vars);
@@ -141,7 +141,7 @@ int	expander(char **tables, t_cmd *cmd)
 		new_table = expand_vars(vars, *tables);
 		free(vars);
 		if (!new_table)
-			return (error_int("Expansion failed", 0));
+			return (error_int("Expander allocation failed", 0, 1, 0));
 		free(*tables);
 		*tables = new_table;
 	}
