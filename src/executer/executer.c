@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/17 19:22:13 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/07 21:53:26 by xed           ########   odam.nl         */
+/*   Updated: 2022/09/11 18:21:28 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,22 @@ void	watch_child(pid_t pid)
 	}
 }
 
-int	parse_cmd(t_cmd *start, char **envp)
+int	parse_cmd(t_cmd *start, char **envp, char **paths)
 {
 	pid_t	child_pid;
 
+	start->args[0] = check_paths(paths, start->cmd);
 	start->cmd = start->args[0];
 	if (start->is_pipe && open_pipe(start))
 		return (error_int("pipe command failed\n", 0));
-	child_pid = fork();
-	if (!child_pid)
-		execute_cmd(start, envp);
-	if (start->next && start->next->conditional != -1)
-		watch_child(child_pid);
+	if (start->args[0])
+	{
+		child_pid = fork();
+		if (!child_pid)
+			execute_cmd(start, envp);
+		if (start->next && start->next->conditional != -1)
+			watch_child(child_pid);
+	}
 	clean_redirects(start);
 	return (child_pid);
 }
@@ -80,11 +84,7 @@ int	executer(t_data *data)
 		if (builtin == 2)
 			return (2);
 		if (!builtin)
-		{
-			start->args[0] = check_paths(data->paths, start->cmd);
-			if (start->args[0] != NULL)
-				child_pid = parse_cmd(start, data->envp);
-		}
+			child_pid = parse_cmd(start, data->envp, data->paths);
 		start = start->next;
 	}
 	watch_child(child_pid);
