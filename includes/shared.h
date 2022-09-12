@@ -28,6 +28,7 @@
 // internal
 # include <ft_libc.h>
 # include <structs.h>
+# include <env.h>
 # include <ft_printf.h>
 
 // external
@@ -50,7 +51,6 @@ int		error_free(void *tofree);
 int		signals_handler_setup(int mode);
 int		free2d(char **tofree, int len);
 int		free2dint(int **tofree, int len);
-char	*ft_get_env(char **vars, char *name);
 int		lexer(char *input, t_data *data);
 int		parser(char **tables, t_data *data);
 int		executer(t_data *data);

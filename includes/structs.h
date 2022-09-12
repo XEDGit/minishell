@@ -13,6 +13,8 @@
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
+#include <env.h>
+
 typedef struct s_cmd
 {
 	char			*cmd;
@@ -33,8 +35,7 @@ typedef struct s_data
 	int		heredoc_c;
 	char	*input;
 	char	**paths;
-	char	**envp;
-	char	**envl;
+	t_env	*env;
 }	t_data;
 
 // t_cmd library

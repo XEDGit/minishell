@@ -45,6 +45,8 @@ mac_lib:
 	$(eval LIBS := -lreadline -L/usr/local/opt/readline/lib)
 	$(eval HEADERS := -Iincludes -I/usr/local/opt/readline/include -Isrc/ft_printf)
 
+m: mac_lib all
+
 mac: mac_lib all
 	./minishell
 
