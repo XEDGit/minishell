@@ -7,6 +7,57 @@ t_buffvar	*buff_free(t_buffvar *buff)
 	return (0);
 }
 
+/**
+ * Returns index of buff, if there are no occurencies returns -1.
+ * offset is the skippable length in buff[index] to get the content of var.
+*/
+int	buff_contains(t_buffvar *buff, char *to_find, size_t *offset)
+{
+	int		i;
+	size_t	n;
+
+	i = 0;
+	n = 0;
+	while (i < buff->index)
+	{
+		n = ft_strchr(buff->mem[i], '=') - buff->mem[i];
+		if (!ft_strncmp(buff->mem[i], to_find, n))
+		{
+			if (offset)
+				*offset = n + 1;
+			return (i);
+		}
+		i++;
+	}
+	return (-1);
+}
+
+/**
+ * Checks available space in buff.
+ * If no space left returns a mem copy with B_INCRSIZE more slots.
+*/
+t_buffvar	*buff_checker(t_buffvar *buff)
+{
+	int		i;
+	char	**new_mem;
+
+	if (buff->index < (buff->size - 1))
+		return (buff);
+	buff->size += B_INCRSIZE;
+	new_mem = malloc(sizeof(char *) * buff->size);
+	if (!new_mem)
+		return (0);
+	i = 0;
+	while (i < buff->index)
+	{
+		new_mem[i] = buff->mem[i];
+		i++;
+	}
+	free2d(buff->mem, i - 1);
+	buff->mem = new_mem;
+	return (buff);
+}
+
 // TODO add buff expander
 t_buffvar	*buff_create(char **envp)
 {

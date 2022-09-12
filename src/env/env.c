@@ -1,6 +1,4 @@
-#include <ft_libc.h>
-#include <unistd.h>
-#include <env.h>
+#include <shared.h>
 
 t_env	*env_free(t_env *env)
 {
@@ -27,52 +25,110 @@ t_env	*env_create(char **envp)
 }
 
 /**
-*	mode 0 both
-*	mode 1 envp only
-*	mode 2 envl only
-*	Returns 0 on error or value of variable
+*	Remove a variable.
+*	mode 1 envp only,
+*	mode 2 envl only,
+*	Returns env, 0 if error.
 */
-char	*ft_get_env(t_env *env, char *name, int mode)
+t_env	*env_remove(t_env *env, char *var, int mode)
 {
 	t_buffvar	*buff;
+	int			index;
+	char 		**split;
+	char		*dup;
 
 	buff = env->envp;
 	if (mode == 2)
 		buff = env->envl;
-	while (i < buff->index)
+	split = ft_split(var, "=");
+	if (!split)
+		return (0);
+	index = buff_contains(buff, split[0], 0);
+	free2d(split, 0);
+	if (index < 0)
+		return (env);
+	free(buff->mem[index]);
+	while (index < buff->index)
 	{
-		n = ft_strchr(buff->mem[i], '=') - buff->mem[i];
-		if (!ft_strncmp(buff->mem[i], name, n))
-		{
-			n++;
-			out = malloc(sizeof(char) * ft_strlen(buff->mem[i] + n) + 1);
-			if (out)
-				ft_strlcpy(out, buff->mem[i] + n, ft_strlen(buff->mem[i] + n) + 1);
-			return (out);
-		}
-		i++;
+		buff->mem[index] = buff->mem[index + 1];
+		index++;
 	}
-	if (mode == 1 || mode == 2)
+	buff->index--;
+	return (env);
+}
+
+/**
+* Add new variable or edit one that already exixsts.
+*	mode 1 envp only,
+*	mode 2 envl only,
+*	Returns env, 0 if error.
+*/
+t_env	*env_add(t_env *env, char *var, int mode)
+{
+	t_buffvar	*buff;
+	int			index;
+	char 		**split;
+	char		*dup;
+
+
+	buff = env->envp;
+	if (mode == 2)
+		buff = env->envl;
+	if (!buff_checker(buff))// TO TEST
+		return (0);
+	split = ft_split(var, "=");
+	if (!split)
+		return (0);
+	index = buff_contains(buff, split[0], 0);
+	free2d(split, 0);
+	dup = ft_strdup(var);
+	if (!dup)
+		return (0);
+	if (index >= 0)
 	{
-		out = malloc(sizeof(char));
+		free(buff->mem[index]);
+		buff->mem[index] = dup;
+	}
+	else
+		buff->mem[buff->index++] = dup;
+	return (env);
+}
+
+/**
+*	mode 0 both
+*	mode 1 envp only
+*	mode 2 envl only
+*	Returns value of variable, 0 if error
+*/
+char	*env_get(t_env *env, char *name, int mode)
+{
+	t_buffvar	*buff;
+	size_t		n;
+	int			i;
+	char		*out;
+
+	buff = env->envp;
+	if (mode == 2)
+		buff = env->envl;
+	i = buff_contains(buff, name, &n);
+	if (i >= 0)
+	{
+		out = malloc(sizeof(char) * ft_strlen(buff->mem[i] + n) + 1);
 		if (out)
-			*out = 0;
+			ft_strlcpy(out, buff->mem[i] + n, ft_strlen(buff->mem[i] + n) + 1);
 		return (out);
 	}
-	i = 0;
-	buff = env->envl;
-	while (i < buff->index)
+	if (!mode)
 	{
-		n = ft_strchr(buff->mem[i], '=') - buff->mem[i];
-		if (!ft_strncmp(buff->mem[i], name, n))
+		buff = env->envl;
+		i = buff_contains(buff, name, &n);
+		if (i >= 0)
 		{
-			n++;
 			out = malloc(sizeof(char) * ft_strlen(buff->mem[i] + n) + 1);
 			if (out)
 				ft_strlcpy(out, buff->mem[i] + n, ft_strlen(buff->mem[i] + n) + 1);
 			return (out);
 		}
-		i++;
 	}
 	out = malloc(sizeof(char));
 	if (out)
