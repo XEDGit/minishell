@@ -6,14 +6,14 @@
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 18:38:24 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/09/03 17:52:43 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/09/12 20:01:42 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-#include <env.h>
+# include <env.h>
 
 typedef struct s_cmd
 {

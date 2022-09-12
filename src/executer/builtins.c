@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   builtins.c                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/09/04 02:24:53 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/12 00:32:47 by lmuzio        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   builtins.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/04 02:24:53 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/09/12 20:05:27 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <executer.h>
 
-void	exec_builtin(t_cmd *cmd, char **envp, char **envl, int i)
+void	exec_builtin(t_cmd *cmd, t_env *envs, int i)
 {
-	static int	(*funcs[])(char **args, char **envp, char **envl) = {
+	pid_t		pid;
+	static int	(*funcs[])(char **args, t_env *env) = {
 		&ft_cd, &ft_echo, &ft_export, &ft_unset, &ft_env, &ft_pwd
 	};
-	pid_t	pid;
 
 	pid = fork();
 	if (pid)
@@ -37,14 +37,14 @@ void	exec_builtin(t_cmd *cmd, char **envp, char **envl, int i)
 			g_exit_code = ft_atoi(cmd->args[1]);
 		exit(g_exit_code);
 	}
-	g_exit_code = funcs[i](cmd->args, envp, envl);
+	g_exit_code = funcs[i](cmd->args, envs);
 	exit(g_exit_code);
 }
 
-void	exec_single_builtin(t_cmd *cmd, char **envp, char **envl, int i)
+void	exec_single_builtin(t_cmd *cmd, t_env *env, int i)
 {
-	static int	(*funcs[])(char **args, char **envp, char **envl) = {
-	&ft_cd, &ft_echo, &ft_export, &ft_unset, &ft_env, &ft_pwd
+	static int	(*funcs[])(char **args, t_env *env) = {
+		&ft_cd, &ft_echo, &ft_export, &ft_unset, &ft_env, &ft_pwd
 	};
 
 	if (cmd->redirects[0] != 0)
@@ -57,10 +57,10 @@ void	exec_single_builtin(t_cmd *cmd, char **envp, char **envl, int i)
 	if (i == 6 && cmd->args[1])
 		g_exit_code = ft_atoi(cmd->args[1]);
 	else if (i != 6)
-		g_exit_code = funcs[i](cmd->args, envp, envl);
+		g_exit_code = funcs[i](cmd->args, env);
 }
 
-int	check_builtin(t_cmd *cmd, char **envp, char **envl, int piping)
+int	check_builtin(t_cmd *cmd, t_env *env, int piping)
 {
 	int			i;
 	static char	*builtins[] = {
@@ -82,9 +82,9 @@ if (cmd->cmd && !ft_strcmp("code", cmd->cmd))
 			if (cmd->is_pipe && open_pipe(cmd))
 				return (error_int("Pipe opening failed\n", cmd->cmd, 1, 0));
 			if (cmd->cmd && piping)
-				exec_builtin(cmd, envp, envl, i - 1);
+				exec_builtin(cmd, env, i - 1);
 			else if (cmd->cmd)
-				exec_single_builtin(cmd, envp, envl, i - 1);
+				exec_single_builtin(cmd, env, i - 1);
 			clean_redirects(cmd);
 			if (i == 7 && !piping)
 				return (2);

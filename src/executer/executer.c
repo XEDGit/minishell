@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   executer.c                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/08/17 19:22:13 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/12 00:25:49 by lmuzio        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   executer.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/17 19:22:13 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/09/12 20:08:21 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,11 @@ int	executer_loop(t_cmd *start, t_data *data)
 		if (start->conditional != -1)
 			piping = 0;
 		builtin = 0;
-		builtin = check_builtin(start, data->envp, data->envl, piping);
+		builtin = check_builtin(start, data->env, piping);
 		if (builtin == 2)
 			return (true);
 		if (!builtin)
-			child_pid = parse_cmd(start, data->envp, data->paths);
+			child_pid = parse_cmd(start, data->env->envp->mem, data->paths);
 		start = start->next;
 	}
 	watch_child(child_pid);
@@ -91,7 +91,7 @@ int	executer(t_data *data)
 	t_cmd	*start;
 	char	*paths;
 
-	paths = ft_get_env(data->envp, "PATH");
+	paths = env_get(data->env, "PATH", 0);
 	data->paths = ft_split(paths, ":");
 	free(paths);
 	start = data->cmds;

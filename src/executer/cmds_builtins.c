@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   cmds_builtins.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/09/04 03:04:17 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/11 20:30:58 by lmuzio        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   cmds_builtins.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/04 03:04:17 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/09/12 20:10:22 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <executer.h>
 
-int	ft_cd(char **args, char **envp, char **envl)
+int	ft_cd(char **args, t_env *env)
 {
-	// ft_edit_variable("OLD_PWD", ft_get_variable("PWD", envp));
+	// env_add("OLD_PWD", ft_get_variable("PWD", envp));
 	// ft_edit_variable("PWD", args[1]);
 	if (args[1] && chdir(args[1]) == -1)
 		return (1);
 	return (0);
 }
 
-int	ft_echo(char **args, char **envp, char **envl)
+int	ft_echo(char **args, t_env *env)
 {
 	int	start;
 	int	i;
@@ -44,12 +44,15 @@ int	ft_echo(char **args, char **envp, char **envl)
 			ft_printf(" ");
 	}
 	if (!start)
-	ft_printf("\n");
+		ft_printf("\n");
 	return (0);
 }
 
-int	ft_env(char **args, char **envp, char **envl)
+int	ft_env(char **args, t_env *env)
 {
+	char	**envp;
+
+	envp = env->envp->mem;
 	while (envp && *envp)
 		ft_printf("%s\n", *envp++);
 	return (0);

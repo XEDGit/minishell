@@ -1,14 +1,16 @@
-int	ft_unset(char **args, char **envp, char **envl)
+#include <shared.h>
+
+int	ft_unset(char **args, t_env *env)
 {
 	return (0);
 }
 
-int	ft_export(char **args, char **envp, char **envl)
+int	ft_export(char **args, t_env *env)
 {
 	return (0);
 }
 
-int	ft_pwd(char **args, char **envp, char **envl)
+int	ft_pwd(char **args, t_env *env)
 {
 	return (0);
 }
