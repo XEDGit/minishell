@@ -25,29 +25,29 @@ static int	try_redirect(char **table, t_cmd *cmd, int **docs)
 	return (1);
 }
 
-int	set_redirects(char *table, t_cmd *cmd, int **docs)
+int	set_redirects(t_cmd *cmd, int **docs)
 {
 	int	open;
 
-	while (*table)
-	{
-		open = is_open(*table);
-		if (!open && is_redirect(*table))
-		{
-			if (!try_redirect(&table, cmd, docs))
-				return (0);
-			continue ;
-		}
-		else if (!open && *table == '(' && ft_memset(table, ' ', 1))
-			cmd->depth++;
-		else if (!open && *table == ')' && ft_memset(table, ' ', 1))
-		{
-			if (cmd->depth_next == -1)
-				cmd->depth_next = cmd->depth - 1;
-			else
-				cmd->depth_next--;
-		}
-		table++;
-	}
+	// while (*table)
+	// {
+	// 	open = is_open(*table);
+	// 	if (!open && is_redirect(*table))
+	// 	{
+	// 		if (!try_redirect(&table, cmd, docs))
+	// 			return (0);
+	// 		continue ;
+	// 	}
+	// 	else if (!open && *table == '(' && ft_memset(table, ' ', 1))
+	// 		cmd->depth++;
+	// 	else if (!open && *table == ')' && ft_memset(table, ' ', 1))
+	// 	{
+	// 		if (cmd->depth_next == -1)
+	// 			cmd->depth_next = cmd->depth - 1;
+	// 		else
+	// 			cmd->depth_next--;
+	// 	}
+	// 	table++;
+	// }
 	return (1);
 }

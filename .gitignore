@@ -1,8 +1,7 @@
 minishell
-memdetect
+minishell-tester
 TODO
 test
-malloc_debug
 
 # Object files
 *.o

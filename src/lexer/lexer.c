@@ -41,37 +41,6 @@ int	repeat_readline(char **buffer, char delimiter, t_data *data)
 	return (c);
 }
 
-int	io_routine(char *input, char ch)
-{
-	char	ch2;
-
-	ch2 = '<';
-	if (ch == '<')
-		ch2 = '>';
-	if ((*++input == ch && *++input == ch) || *input == ch2)
-		return (true);
-	if (*input == ch)
-		input++;
-	while (*input && *input == ' ')
-		input++;
-	if (*input == ch || *input == ch2)
-		return (true);
-	return (false);
-}
-
-int	io_check(char *input)
-{
-	while (*input)
-	{
-		if (*input == '<' && io_routine(input, '<'))
-			return ('<');
-		else if (*input == '>' && io_routine(input, '>'))
-			return ('>');
-		input++;
-	}
-	return (false);
-}
-
 int	syntax_check(char *input, t_data *data)
 {
 	if (io_check(input))
@@ -110,7 +79,6 @@ int	lexer(char *input, t_data *data)
 	tables = ft_split(data->input, "|&");
 	if (tables)
 		count = parser(tables, data);
-	free2d(data->paths, 0);
 	free(data->input);
 	free2dint(data->heredocs, 0);
 	return (count);

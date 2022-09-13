@@ -76,7 +76,7 @@ char	*check_paths(char **paths, char *cmd)
 		paths++;
 	}
 	if (!ft_strchr(cmd, '/'))
-		ft_dprintf(2, SHELLNAME"%s: command not found\n", cmd);
+		error_int("command not found", cmd, 127, 0);
 	free(cmd);
 	return (0);
 }

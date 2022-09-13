@@ -25,6 +25,7 @@ void	watch_child(pid_t pid);
 char	*check_paths(char **paths, char *cmd);
 int		open_pipe(t_cmd *cmd);
 int		clean_redirects(t_cmd *cmd);
+int		set_redirects(t_cmd *cmd, int **docs);
 int		signals_handler_setup(int mode);
 int		check_builtin(t_cmd *cmd, t_env *env, int piping);
 int		ft_cd(char **args, t_env *env);

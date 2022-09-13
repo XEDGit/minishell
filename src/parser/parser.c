@@ -29,7 +29,7 @@ void	here_docs_db(char **tables, t_data *data)
 		buffer = extract_pipe(data->heredocs[c][0]);
 		if (buffer)
 		{
-			printf("heredoc pipe[%d]: %s\n", c, buffer);
+			ft_dprintf(2, "heredoc pipe[%d]: %s\n", c, buffer);
 			free(buffer);
 		}
 		c++;
@@ -53,7 +53,6 @@ int	p_setter(t_cmd **lst, char **tables, int **docs)
 	cmd = add_cmd(lst);
 	if (cmd && \
 	expander(tables, cmd) && \
-	set_redirects(*tables, cmd, docs) && \
 	set_pipe_cond(*tables, cmd) && \
 	set_data(*tables, cmd))
 		return (1);
@@ -80,7 +79,7 @@ int	parser(char **tables, t_data *data)
 	}
 	data->cmds = cmds;
 	// if (PARSE_DEBUG)
-		// debug_cmds(data->cmds);
+		debug_cmds(data->cmds);
 	if (executer(data))
 		exit = 2;
 	free_cmds(cmds, to_free, 0);
