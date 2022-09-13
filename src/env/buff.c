@@ -21,7 +21,7 @@ int	buff_contains(t_buffvar *buff, char *to_find, size_t *offset)
 	while (i < buff->index)
 	{
 		n = ft_strchr(buff->mem[i], '=') - buff->mem[i];
-		if (!ft_strncmp(buff->mem[i], to_find, n))
+		if (!ft_strncmp(buff->mem[i], to_find, n))// Check exact length
 		{
 			if (offset)
 				*offset = n + 1;
@@ -53,12 +53,11 @@ t_buffvar	*buff_checker(t_buffvar *buff)
 		new_mem[i] = buff->mem[i];
 		i++;
 	}
-	free2d(buff->mem, i - 1);
+	free(buff->mem);
 	buff->mem = new_mem;
 	return (buff);
 }
 
-// TODO add buff expander
 t_buffvar	*buff_create(char **envp)
 {
 	int			i;
@@ -91,5 +90,6 @@ t_buffvar	*buff_create(char **envp)
 		ft_strlcpy(buff->mem[buff->index], envp[buff->index], len);
 		buff->index++;
 	}
+	buff->mem[buff->index] = 0;
 	return (buff);
 }

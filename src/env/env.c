@@ -53,7 +53,7 @@ t_env	*env_remove(t_env *env, char *var, int mode)
 		buff->mem[index] = buff->mem[index + 1];
 		index++;
 	}
-	buff->index--;
+	buff->mem[--buff->index] = 0;
 	return (env);
 }
 
@@ -74,8 +74,6 @@ t_env	*env_add(t_env *env, char *var, int mode)
 	buff = env->envp;
 	if (mode == 2)
 		buff = env->envl;
-	if (!buff_checker(buff))// TO TEST
-		return (0);
 	split = ft_split(var, "=");
 	if (!split)
 		return (0);
@@ -90,7 +88,12 @@ t_env	*env_add(t_env *env, char *var, int mode)
 		buff->mem[index] = dup;
 	}
 	else
+	{
+		if (!buff_checker(buff))// TO TEST
+			return (0);
 		buff->mem[buff->index++] = dup;
+		buff->mem[buff->index] = 0;
+	}
 	return (env);
 }
 
