@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/10 20:22:54 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/12 00:41:18 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/16 01:20:48 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	parser(char **tables, t_data *data)
 	}
 	data->cmds = cmds;
 	// if (PARSE_DEBUG)
-		debug_cmds(data->cmds);
+		// debug_cmds(data->cmds);
 	if (executer(data))
 		exit = 2;
 	free_cmds(cmds, to_free, 0);

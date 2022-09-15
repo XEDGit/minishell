@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 17:57:39 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/06/08 22:51:12 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/16 01:46:06 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,5 @@ int	ft_strcmp(const char *s1, const char *s2)
 		s1++;
 		s2++;
 	}
-	if (!*s1 || !*s2)
-		return (0);
 	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
