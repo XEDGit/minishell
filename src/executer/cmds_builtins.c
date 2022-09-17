@@ -53,7 +53,7 @@ int	ft_env(char **args, t_env *env)
 	char	**envp;
 
 	envp = env->envp->mem;
-	while (envp && *envp)
+	while (envp && *envp && ft_strchr(*envp, '='))
 		ft_printf("%s\n", *envp++);
 	return (0);
 }
