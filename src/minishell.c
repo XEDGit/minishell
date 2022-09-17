@@ -59,6 +59,7 @@ int	main(int argc, char *argv[], char *envp[])
 	env = env_create(envp);
 	if (!env)
 		return (44);//handle error
+	env_add(env, "OLDPWD", 1);
 	while (1)
 	{
 		buffer = readline(TITLE);

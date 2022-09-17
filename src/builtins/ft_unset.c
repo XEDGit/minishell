@@ -15,6 +15,6 @@
 int	ft_unset(char **args, t_env *env)
 {
 	while (++args && *args)
-		env_remove (env, *args, 0);
+		env_remove(env, *args, 0);
 	return (0);
 }
