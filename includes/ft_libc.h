@@ -33,6 +33,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_strexcmp(const char *s1, const char *s2, size_t n, const char *del);
 int		ft_isspace(int str);
 int		ft_atoi(const char *str);
+char	*ft_itoa(int n);
 char	**strsplit(char *s, char c);
 
 #endif
