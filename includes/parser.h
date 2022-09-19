@@ -36,9 +36,7 @@ int		expander(char **tables, t_cmd *cmd);
 char	*get_filename(char **input);
 
 //	redirect
-// int		set_redirects(char *table, t_cmd *cmd, int **docs);
-
-//	redirect
+int		is_redirect(char c);
 int		set_pipe_cond(char *tables, t_cmd *cmd);
 
 //	in

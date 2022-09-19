@@ -38,9 +38,19 @@ void	here_docs_db(char **tables, t_data *data)
 
 int	set_data(char *input, t_cmd *cmd)
 {
+	int		i;
+	char	*temp;
+
 	cmd->args = ft_split(input, " ");
 	if (!cmd->args)
 		return (error_int("Parser split fail", cmd->cmd, 1, 0));
+	i = 1;
+	while (cmd->args[0] && is_redirect(cmd->args[0][0]))
+	{
+		temp = cmd->args[0];
+		cmd->args[0] = cmd->args[i];
+		cmd->args[i++] = temp;
+	}
 	cmd->cmd = cmd->args[0];
 	return (1);
 }
