@@ -58,8 +58,6 @@ int	set_vars(char **vars, char *input)
 			// printf("EXPANDE: %s$\n", vars[i]);
 			// printf("VARLENG: %d\n", var.length);
 			var.p[var.length] = var.c;
-			if (!vars[i])
-				return (!printf("Error: \"%s\" is not a variable\n", var.p));
 			i++;
 		}
 		input++;
@@ -121,7 +119,7 @@ char	*expand_vars(char **vars, char *input)
 	return (out);
 }
 
-int	expander(char **tables, t_cmd *cmd)
+int	var_expand(char **tables, t_env *env)
 {
 	char	**vars;
 	int		n_vars;
@@ -146,4 +144,43 @@ int	expander(char **tables, t_cmd *cmd)
 		*tables = new_table;
 	}
 	return (1);
+}
+
+char	*clean_quotes(char *table)
+{
+	int	i;
+	int	open;
+
+	i = 0;
+	while (*table)
+	{
+		open = is_open(*table);
+		if ((!open && (*table == '\'' || *table == '\"')) || \
+		(open && *table == open))
+			*table = ' ';
+		table++;
+	}
+	
+	return table;
+}
+
+//	Correct order:
+//	- tilde expansion
+//	- variable expansion
+//	- * pattern
+//	- unquoted ' " removed
+int	expander(char **tables, t_env *env)
+{
+	int	i;
+
+	i = 0;
+	while (tables[i])
+	{
+		if (!ft_tilde_expand(&tables[i], env) || !var_expand(&tables[i], env))
+			return (false);
+		// wildcard TODO
+		clean_quotes(tables[i]);
+		i++;
+	}
+	return (true);
 }

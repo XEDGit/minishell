@@ -30,7 +30,8 @@ typedef struct s_var
 }	t_var;
 
 //	expand
-int		expander(char **tables, t_cmd *cmd);
+int		expander(char **tables, t_env *env);
+char	*ft_tilde_expand(char **table, t_env *env);
 
 //	file
 char	*get_filename(char **input);
