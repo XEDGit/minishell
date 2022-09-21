@@ -13,6 +13,8 @@ int	var_name_length(char *str)
 	int	len;
 
 	len = 0;
+	if (*str == '?')
+		return (1);
 	while (*str && !is_del(*str++))
 		len++;
 	return (len);
@@ -66,7 +68,10 @@ int	set_vars(char **vars, char *input, t_env *env)
 		open = is_open(*input);
 		if (*input == '$' && open != SINGLE_QUOTE)// check delimiter and null
 		{
-			vars[i] = get_var(++input, env);
+			if (*(++input) == '?')
+				vars[i] = ft_itoa(g_exit_code);
+			else
+				vars[i] = get_var(input, env);
 			if (!vars[i])
 			{
 				free2d(vars, 0);

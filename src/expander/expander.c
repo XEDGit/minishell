@@ -30,7 +30,6 @@ int	expander(char **tables, t_env *env)
 	i = 0;
 	while (tables[i])
 	{
-		ft_printf("TABLE N.%d: is_open->%c$\n", i+1, is_open('s'));
 		if (!ft_tilde_expand(&tables[i], env) || !vars_expansion(&tables[i], env))
 			return (false);
 		// wildcard TODO
