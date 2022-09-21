@@ -21,7 +21,8 @@ int	buff_contains(t_buffvar *buff, char *to_find, size_t *offset)
 	while (i < buff->index)
 	{
 		n = ft_strchr(buff->mem[i], '=') - buff->mem[i];
-		if (!ft_strncmp(buff->mem[i], to_find, n))// Check exact length
+		if (!ft_strncmp(buff->mem[i], to_find, n) && \
+		!ft_strncmp(buff->mem[i], to_find, ft_strlen(to_find)))
 		{
 			if (offset)
 				*offset = n + 1;
