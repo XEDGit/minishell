@@ -55,7 +55,10 @@ char	*ft_tilde_expand(char **table, t_env *env)
 		return (0);
 	size = tilde_count(*table) * ft_strlen(home);
 	if (!size)
+	{
+		free(home);
 		return (*table);
+	}
 	size += ft_strlen(*table);
 	new_table = malloc(sizeof(char) * size);
 	if (!new_table)
