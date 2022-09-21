@@ -20,6 +20,7 @@
 
 int		dchar_check(char *input, char ch);
 char	*find_next_char(char *start);
+int		io_check(char *input);
 int		semicolon_check(char *input);
 int		pipe_check(char *input);
 int		lexer_multiline_check(char *in, int delimiter);

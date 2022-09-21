@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/10 20:22:54 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/12 00:41:18 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/16 01:20:48 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	here_docs_db(char **tables, t_data *data)
 		buffer = extract_pipe(data->heredocs[c][0]);
 		if (buffer)
 		{
-			printf("heredoc pipe[%d]: %s\n", c, buffer);
+			ft_dprintf(2, "heredoc pipe[%d]: %s\n", c, buffer);
 			free(buffer);
 		}
 		c++;
@@ -38,9 +38,19 @@ void	here_docs_db(char **tables, t_data *data)
 
 int	set_data(char *input, t_cmd *cmd)
 {
+	int		i;
+	char	*temp;
+
 	cmd->args = ft_split(input, " ");
 	if (!cmd->args)
 		return (error_int("Parser split fail", cmd->cmd, 1, 0));
+	i = 1;
+	while (cmd->args[0] && is_redirect(cmd->args[0][0]))
+	{
+		temp = cmd->args[0];
+		cmd->args[0] = cmd->args[i];
+		cmd->args[i++] = temp;
+	}
 	cmd->cmd = cmd->args[0];
 	return (1);
 }
@@ -53,7 +63,6 @@ int	p_setter(t_cmd **lst, char **tables, t_data *data)
 	cmd = add_cmd(lst);
 	if (cmd && \
 	expander(tables, data->env) && \
-	set_redirects(*tables, cmd, data->heredocs) && \
 	set_pipe_cond(*tables, cmd) && \
 	set_data(*tables, cmd))
 		return (1);

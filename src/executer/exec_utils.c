@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/02 18:36:19 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/12 00:45:12 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/09/14 14:07:06 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,7 @@ char	*check_paths(char **paths, char *cmd)
 		paths++;
 	}
 	if (!ft_strchr(cmd, '/'))
-		ft_dprintf(2, SHELLNAME"%s: command not found\n", cmd);
-	free(cmd);
+		error_int("command not found", cmd, 127, 0);
 	return (0);
 }
 

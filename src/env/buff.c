@@ -59,10 +59,29 @@ t_buffvar	*buff_checker(t_buffvar *buff)
 	return (buff);
 }
 
+t_buffvar	*buff_copy(t_buffvar *buff, char **envp)
+{
+	int	len;
+
+	while (envp && envp[buff->index])
+	{
+		len = ft_strlen(envp[buff->index]) + 1;
+		buff->mem[buff->index] = malloc(sizeof(char) * len);
+		if (!buff->mem[buff->index])
+		{
+			free2d(buff->mem, buff->index - 1);
+			return (error_msg("Error: enviromental variable allocation\n"));
+		}
+		ft_strlcpy(buff->mem[buff->index], envp[buff->index], len);
+		buff->index++;
+	}
+	buff->mem[buff->index] = 0;
+	return (buff);
+}
+
 t_buffvar	*buff_create(char **envp)
 {
 	int			i;
-	int			len;
 	t_buffvar	*buff;
 
 	buff = malloc(sizeof(t_buffvar));
@@ -79,18 +98,7 @@ t_buffvar	*buff_create(char **envp)
 	if (!buff->mem)
 		return (0);
 	buff->mem[buff->size - 1] = 0;// not necessary but can avoid future bugs
-	while (envp && envp[buff->index])
-	{
-		len = ft_strlen(envp[buff->index]) + 1;
-		buff->mem[buff->index] = malloc(sizeof(char) * len);
-		if (!buff->mem[buff->index])
-		{
-			free2d(buff->mem, buff->index - 1);
-			return (error_msg("Error: enviromental variable allocation\n"));
-		}
-		ft_strlcpy(buff->mem[buff->index], envp[buff->index], len);
-		buff->index++;
-	}
-	buff->mem[buff->index] = 0;
+	if (!buff_copy(buff, envp))
+		return (0);
 	return (buff);
 }

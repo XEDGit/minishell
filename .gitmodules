@@ -1,0 +1,3 @@
+[submodule "new_minishell_tester"]
+	path = new_minishell_tester
+	url = https://github.com/xedgit/new_minishell_tester.git

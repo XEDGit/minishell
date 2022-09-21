@@ -56,7 +56,7 @@ int	main(int argc, char *argv[], char *envp[])
 	rl_outstream = stderr;
 	(void)argv;
 	(void)argc;
-	env = env_create(envp);
+	env = env_setup(envp);
 	if (!env)
 		return (44);//handle error
 	while (1)

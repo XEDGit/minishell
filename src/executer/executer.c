@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   executer.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/17 19:22:13 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/09/12 20:08:21 by lmuzio           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   executer.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/08/17 19:22:13 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/09/14 14:05:43 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,40 +23,55 @@ void	execute_cmd(t_cmd *cmd, char **envp)
 	execve(cmd->cmd, cmd->args, envp);
 }
 
-void	watch_child(pid_t pid)
-{
-	int	statbuf;
-	int	exit_code;
-
-	if (waitpid(pid, &statbuf, 0) != pid)
-		return ;
-	if (WIFEXITED(statbuf))
-	{
-		if (WIFSIGNALED(statbuf))
-			g_exit_code = WTERMSIG(statbuf);
-		else
-			g_exit_code = WEXITSTATUS(statbuf);
-	}
-}
-
-int	parse_cmd(t_cmd *start, char **envp, char **paths)
+int	parse_cmd(t_cmd *start, t_data *data)
 {
 	pid_t	child_pid;
+	char	*new_paths;
 
-	start->args[0] = check_paths(paths, start->cmd);
-	start->cmd = start->args[0];
+	start->cmd = check_paths(data->paths, start->cmd);
 	if (start->is_pipe && open_pipe(start))
-		return (false);
-	if (start->args[0])
+		return (error_int("Failed to open pipe", start->cmd, 1, false));
+	if (start->cmd)
 	{
+		start->args[0] = start->cmd;
 		child_pid = fork();
 		if (!child_pid)
-			execute_cmd(start, envp);
+			execute_cmd(start, data->env->envp->mem);
 		if (start->next && start->next->conditional != -1)
+		{
 			watch_child(child_pid);
+			new_paths = env_get(data->env, "PATH", 0);
+			free2d(data->paths, 0);
+			data->paths = ft_split(new_paths, ":");
+			free(new_paths);
+		}
 	}
 	clean_redirects(start);
 	return (child_pid);
+}
+
+int	condition_check(t_cmd **cmd, int *piping)
+{
+	int	ret;
+
+	*piping = false;
+	if ((*cmd)->conditional == '|')
+	{
+		if (g_exit_code == 0)
+			ret = true;
+		else
+			ret = false;
+	}
+	else if ((*cmd)->conditional == '&')
+	{
+		if (g_exit_code != 0)
+			ret = true;
+		else
+			ret = false;
+	}
+	if (ret)
+		*cmd = (*cmd)->next;
+	return (ret);
 }
 
 int	executer_loop(t_cmd *start, t_data *data)
@@ -70,34 +85,42 @@ int	executer_loop(t_cmd *start, t_data *data)
 	{
 		if (start->is_pipe)
 			piping = start->is_pipe;
-		if (start->conditional != -1)
-			piping = 0;
+		if (start->conditional != -1 && condition_check(&start, &piping))
+			continue ;
+		// if (!set_redirects(start, data->heredocs))
+		// {
+		// 	start = start->next;
+		// 	continue ;
+		// }
 		builtin = 0;
 		builtin = check_builtin(start, data->env, piping);
 		if (builtin == 2)
 			return (true);
 		if (!builtin)
-			child_pid = parse_cmd(start, data->env->envp->mem, data->paths);
+			child_pid = parse_cmd(start, data);
 		start = start->next;
 	}
-	watch_child(child_pid);
+	if (child_pid)
+		watch_child(child_pid);
 	return (false);
 }
 
 int	executer(t_data *data)
 {
-	int		piping;
+	int		ret;
 	pid_t	child_pid;
 	t_cmd	*start;
 	char	*paths;
 
+	ret = 0;
 	paths = env_get(data->env, "PATH", 0);
 	data->paths = ft_split(paths, ":");
 	free(paths);
 	start = data->cmds;
 	signals_handler_setup(1);
 	if (executer_loop(start, data))
-		return (2);
+		ret = 2;
 	signals_handler_setup(0);
-	return (0);
+	free2d(data->paths, 0);
+	return (ret);
 }

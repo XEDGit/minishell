@@ -26,11 +26,12 @@ t_env	*env_create(char **envp)
 
 /**
 *	Remove a variable.
+*	mode 0 envp + envl,
 *	mode 1 envp only,
 *	mode 2 envl only,
 *	Returns env, 0 if error.
 */
-t_env	*env_remove(t_env *env, char *var, int mode)
+t_env	*env_remove(t_env *env, char *varname, int mode)
 {
 	t_buffvar	*buff;
 	int			index;
@@ -40,13 +41,11 @@ t_env	*env_remove(t_env *env, char *var, int mode)
 	buff = env->envp;
 	if (mode == 2)
 		buff = env->envl;
-	split = ft_split(var, "=");
-	if (!split)
-		return (0);
-	index = buff_contains(buff, split[0], 0);
-	free2d(split, 0);
-	if (index < 0)
+	index = buff_contains(buff, varname, 0);
+	if (index < 0 && mode)
 		return (env);
+	else if (index < 0)
+		return (env_remove(env, varname, 2));
 	free(buff->mem[index]);
 	while (index < buff->index)
 	{
@@ -54,6 +53,8 @@ t_env	*env_remove(t_env *env, char *var, int mode)
 		index++;
 	}
 	buff->mem[--buff->index] = 0;
+	if (!mode)
+		env_remove(env, varname, 2);
 	return (env);
 }
 
@@ -76,12 +77,12 @@ t_env	*env_add(t_env *env, char *var, int mode)
 		buff = env->envl;
 	split = ft_split(var, "=");
 	if (!split)
-		return (0);
+		return (0);//TODO
 	index = buff_contains(buff, split[0], 0);
 	free2d(split, 0);
 	dup = ft_strdup(var);
 	if (!dup)
-		return (0);
+		return (0);//TODO
 	if (index >= 0)
 	{
 		free(buff->mem[index]);
@@ -89,8 +90,8 @@ t_env	*env_add(t_env *env, char *var, int mode)
 	}
 	else
 	{
-		if (!buff_checker(buff))// TO TEST
-			return (0);
+		if (!buff_checker(buff))
+			return (0);//TODO
 		buff->mem[buff->index++] = dup;
 		buff->mem[buff->index] = 0;
 	}
