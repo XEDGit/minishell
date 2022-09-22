@@ -58,7 +58,7 @@ void	exec_single_builtin(t_cmd *cmd, t_env *env, int i)
 		if (cmd->args[1] && !cmd->args[2])
 		{
 			g_exit_code = ft_atoi(cmd->args[1]);
-			if (g_exit_code == 0 && cmd->args[1][0] != '0')
+			if ((g_exit_code == 0 && cmd->args[1][0] != '0') || ft_strlen(cmd->args[1]) > 18)
 				error_int("numeric argument required", "exit", 2, 0);
 		}
 		else if (cmd->args[1] && cmd->args[2])
@@ -76,13 +76,6 @@ int	check_builtin(t_cmd *cmd, t_env *env, int piping)
 	};
 
 	i = 0;
-//temp command for seeing last exit code
-if (cmd->cmd && !ft_strcmp("code", cmd->cmd))
-	{
-		ft_printf("g_exit_code = %d\n", g_exit_code);
-		return (true);
-	}
-//
 	while (builtins[i])
 	{
 		if (!cmd->cmd || !ft_strcmp(builtins[i++], cmd->cmd))
