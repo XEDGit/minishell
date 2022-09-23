@@ -20,7 +20,7 @@ char	*build_path(char *temp_path, char *temp_cmd, int len)
 	c = 0;
 	res_path = malloc(len);
 	if (!res_path)
-		return (error_msg("malloc fail in path builder"));
+		return (error_msg("Malloc fail in path builder"));
 	while (*++temp_path)
 		res_path[c++] = *temp_path;
 	res_path[c++] = '/';
@@ -42,10 +42,10 @@ int	check_file(char *path, int initial)
 		return (false);
 	}
 	if (S_ISDIR(statbuf.st_mode))
-		return (error_int("is a directory", path, 126, true));
+		return (error_int("is a directory", path, 126, false));
 	if (S_ISREG(statbuf.st_mode) && access(path, X_OK))
 		return (error_int("User doesn't \
-have permissions to execute", path, 126, true));
+have permissions to execute", path, 126, false));
 	return (true);
 }
 
