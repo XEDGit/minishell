@@ -28,14 +28,8 @@ void	exec_builtin(t_cmd *cmd, t_env *envs, int i)
 	dup2(cmd->redirects[1], 1);
 	dup2(cmd->redirects[2], 2);
 	clean_redirects(cmd);
-	if (!ft_strcmp("exit", cmd->cmd))
-	{
-		if (cmd->args[1] && !cmd->args[2])
-			g_exit_code = ft_atoi(cmd->args[1]);
-		else if (cmd->args[1] && cmd->args[2])
-			error_int("too many arguments", "exit", 1, 0);
-		exit(g_exit_code);
-	}
+	if (i == 6)
+		ft_exit(cmd);
 	g_exit_code = funcs[i](cmd->args, envs);
 	exit(g_exit_code);
 }
@@ -54,16 +48,7 @@ void	exec_single_builtin(t_cmd *cmd, t_env *env, int i)
 		dup2(cmd->redirects[2], 2);
 	clean_redirects(cmd);
 	if (i == 6)
-	{
-		if (cmd->args[1] && !cmd->args[2])
-		{
-			g_exit_code = ft_atoi(cmd->args[1]);
-			if ((g_exit_code == 0 && cmd->args[1][0] != '0') || ft_strlen(cmd->args[1]) > 18)
-				error_int("numeric argument required", "exit", 2, 0);
-		}
-		else if (cmd->args[1] && cmd->args[2])
-			error_int("too many arguments", "exit", 1, 0);
-	}
+		ft_exit(cmd);
 	else if (i != 6)
 		g_exit_code = funcs[i](cmd->args, env);
 }

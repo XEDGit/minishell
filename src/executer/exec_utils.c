@@ -42,7 +42,7 @@ int	check_file(char *path, int initial)
 		return (false);
 	}
 	if (S_ISDIR(statbuf.st_mode))
-		return (error_int("'%s' is a directory", path, 126, true));
+		return (error_int("is a directory", path, 126, true));
 	if (S_ISREG(statbuf.st_mode) && access(path, X_OK))
 		return (error_int("User doesn't \
 have permissions to execute", path, 126, true));
@@ -58,10 +58,7 @@ char	*check_paths(char **paths, char *cmd)
 		if (check_file(cmd, true) == true)
 			return (cmd);
 		else
-		{
-			free(cmd);
 			return (false);
-		}
 	}
 	while (paths && *paths)
 	{

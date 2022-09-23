@@ -32,7 +32,7 @@ int	ft_echo(char **args, t_env *env)
 	while (args && args[i])
 	{
 		ft_printf("%s", args[i]);
-		if (i++)
+		if (args[++i])
 			ft_printf(" ");
 	}
 	if (!start)

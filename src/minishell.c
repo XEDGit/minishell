@@ -30,7 +30,7 @@ int	semicolon_handle(char *buffer, t_env *env)
 		data = (t_data){0, 0, 0, 0, 0, env};
 		code = lexer(semi_colons_split[counter], &data);
 		if (code == 1)
-			ft_printf("Error\n");
+			error_int("Error parsing syntax", 0, 2, 0);
 		if (code == ERROR || code == 2)// env_free?
 			break ;
 		counter++;

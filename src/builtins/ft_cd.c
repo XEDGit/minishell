@@ -73,13 +73,16 @@ int	chdir_wrapper(t_env *env, char *path)
 int	ft_cd(char **args, t_env *env)
 {
 	char	*home;
+	int		code;
 
 	if (!args[1])
 	{
 		home = env_get(env, "HOME", 0);
 		if (!home)
 			return (137);
-		return (chdir_wrapper(env, home));
+		code = chdir_wrapper(env, home);
+		free(home);
+		return (code);
 	}
 	return (chdir_wrapper(env, args[1]));
 }

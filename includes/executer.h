@@ -34,5 +34,6 @@ int		ft_env(char **args, t_env *env);
 int		ft_unset(char **args, t_env *env);
 int		ft_export(char **args, t_env *env);
 int		ft_pwd(char **args, t_env *env);
+int		ft_exit(t_cmd *cmd);
 
 #endif

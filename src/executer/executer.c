@@ -47,6 +47,8 @@ int	parse_cmd(t_cmd *start, t_data *data)
 		}
 	}
 	clean_redirects(start);
+	if (!start->cmd)
+		return (0);
 	return (child_pid);
 }
 
