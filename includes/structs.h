@@ -15,6 +15,15 @@
 
 # include <env.h>
 
+typedef struct s_file
+{
+	char			*name;
+	int				here;
+	int				flags;
+	int				mode;
+	struct s_file	*next;
+}	t_file;
+
 typedef struct s_cmd
 {
 	char			*cmd;
@@ -24,6 +33,7 @@ typedef struct s_cmd
 	int				depth;
 	int				depth_next;
 	int				conditional;
+	t_file			*files;
 	struct s_cmd	*prev;
 	struct s_cmd	*next;
 }	t_cmd;

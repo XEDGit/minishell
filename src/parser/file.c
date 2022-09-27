@@ -1,5 +1,31 @@
 #include <parser.h>
 
+t_file	*add_file(t_cmd *cmd)
+{
+	t_file	*last;
+	t_file	*file;
+
+	file = malloc(sizeof(t_file));
+	if (!file)
+		return (0);
+	if (!cmd->files)
+	{
+		cmd->files = file;
+		return (file);
+	}
+	last = cmd->files;
+	while (last)
+	{
+		if (!last->next)
+		{
+			last->next = file;
+			break ;
+		}
+		last = last->next;
+	}
+	return (file);
+}
+
 int	get_length(char *input)
 {
 	int		len;

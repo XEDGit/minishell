@@ -9,23 +9,27 @@ int	is_redirect(char c)
 	return (0);
 }
 
-static int	try_redirect(char **table, t_cmd *cmd, int **docs)
+static int	try_redirect(char **table, t_cmd *cmd)
 {
 	char	*from;
 	void	*red;
+	t_file	*file;
 
 	from = *table;
+	file = add_file(cmd);
+	if (!file)
+		return (0);
 	if (**table == RIGHT_REDIRECT)
-		red = out_redirect(table, cmd);
+		red = out_redirect(table, file);
 	else if (**table == LEFT_REDIRECT)
-		red = in_redirect(table, cmd, docs);
+		red = in_redirect(table, file);
 	if (!red)
 		return (0);
 	ft_memset(from, ' ', *table - from);
 	return (1);
 }
 
-static int check_redirect(char *arg, t_cmd *cmd, int **docs)
+int	set_redirects(char *arg, t_cmd *cmd)
 {
 	int		open;
 
@@ -34,7 +38,7 @@ static int check_redirect(char *arg, t_cmd *cmd, int **docs)
 		open = is_open(*arg);
 		if (!open && is_redirect(*arg))
 		{
-			if (!try_redirect(&arg, cmd, docs))
+			if (!try_redirect(&arg, cmd))
 				return (0);
 			continue ;
 		}
@@ -49,65 +53,5 @@ static int check_redirect(char *arg, t_cmd *cmd, int **docs)
 		}
 		arg++;
 	}
-	return (1);
-}
-
-int	is_valuable(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (*str)
-	{
-		if (*str++ != ' ')
-			i++;
-	}
-	return (i);
-}
-
-void shift_arg(char **args, int index)
-{
-	int	i;
-
-	i = index;
-	free(args[i]);
-	args[i] = 0;
-	while (args[i + 1])
-	{
-		args[i] = args[i + 1];
-		args[++i] = 0;
-	}
-}
-
-void	clean_args(t_cmd *cmd, char **args)
-{
-	int	i;
-
-	i = 0;
-	while (args[i])
-	{
-		//	TODO: trim args from extra spaces,
-		//	caused by resolving redirects
-		
-		if (!is_valuable(args[i]))
-			shift_arg(args, i--);
-		i++;
-	}
-	cmd->cmd = args[0];
-}
-
-int	set_redirects(t_cmd *cmd, int **docs)
-{
-	int		i;
-	char	*arg;
-
-	i = 0;
-	while (cmd->args[i])
-	{
-		if (!check_redirect(cmd->args[i], cmd, docs))
-			return (0);
-		i++;
-	}
-	clean_args(cmd, cmd->args);
 	return (1);
 }

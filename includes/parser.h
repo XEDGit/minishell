@@ -38,17 +38,19 @@ char	*ft_tilde_expand(char **table, t_env *env);
 int		clean_quotes(t_cmd *cmd);
 
 //	file
+t_file	*add_file(t_cmd *cmd);
 char	*get_filename(char **input);
 
 //	redirect
-int		is_redirect(char c);
-int		set_pipe_cond(char *tables, t_cmd *cmd);
+int	set_redirects(char *arg, t_cmd *cmd);
+int	is_redirect(char c);
+int	set_pipe_cond(char *tables, t_cmd *cmd);
 
 //	in
-void	*in_redirect(char **table, t_cmd *cmd, int **docs);
+void	*in_redirect(char **table, t_file *file);
 
 //	out
-void	*out_redirect(char **table, t_cmd *cmd);
+void	*out_redirect(char **table, t_file *file);
 
 int		is_del(char c);
 t_var	*get_var_name(t_var *res, char *str);

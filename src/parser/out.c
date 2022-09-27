@@ -14,27 +14,20 @@ static int	set_output_fd(t_cmd *cmd, char *file, int open_flags)
 	return (1);
 }
 
-void	*out_redirect(char **table, t_cmd *cmd)
+void	*out_redirect(char **table, t_file *file)
 {
-	int		flags;
-	char	*file;
-
 	(*table)++;
 	if (**table == RIGHT_REDIRECT)
 	{
 		(*table)++;
-		if (**table == LEFT_REDIRECT || **table == RIGHT_REDIRECT)
-			return (0);
-		flags = O_WRONLY | O_CREAT | O_APPEND;
+		file->flags = O_WRONLY | O_CREAT | O_APPEND;
 	}
 	else
-	{
-		if (**table == LEFT_REDIRECT)
-			return (0);
-		flags = O_WRONLY | O_CREAT | O_TRUNC;
-	}
-	file = get_filename(table);
-	if (file && set_output_fd(cmd, file, flags))
+		file->flags = O_WRONLY | O_CREAT | O_TRUNC;
+	file->name = get_filename(table);
+	file->mode = MODE;
+	file->next = 0;
+	if (file->name)
 		return ((void *) 1);
 	return (error_msg("Rx redirect failed"));
 }

@@ -49,27 +49,24 @@ char	*skip_word(char **input)
 	return (*input);
 }
 
-// check errors (<<< <> <<>)
-// handle differently word|filename
-void	*in_redirect(char **table, t_cmd *cmd, int **docs)
+void	*in_redirect(char **table, t_file *file)
 {
-	char	*file;
-
+	file->name = 0;
+	file->flags = O_RDONLY;
+	file->mode = MODE;
+	file->next = 0;
 	(*table)++;
 	if (**table == LEFT_REDIRECT)
 	{
 		(*table)++;
 		skip_word(table);
-		if (!here_doc(cmd, docs))
-			return (error_msg("Heredoc failed"));
+		file->here = true;
 	}
 	else
 	{
-		file = get_filename(table);
-		if (!file)
+		file->name = get_filename(table);
+		if (!file->name)
 			return (error_msg("File name failed")); // error
-		if (!left_rdrt(file, cmd))
-			return (error_msg("Left redirect failed")); // left redirect error
 	}
 	return ((void *) 1);
 }
