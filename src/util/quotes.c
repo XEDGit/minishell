@@ -76,3 +76,21 @@ int	skip_quotes(char *input)
 		c--;
 	return (c);
 }
+
+int	clean_quotes(t_cmd *cmd)
+{
+	int		i;
+	char	*p;
+
+	i = 0;
+	while (cmd->args[i])
+	{
+		p = remove_quotes(cmd->args[i]);
+		if (!p)
+			return (false);
+		free(cmd->args[i]);
+		cmd->args[i++] = p;
+	}
+	cmd->cmd = cmd->args[0];
+	return (true);
+}

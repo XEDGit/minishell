@@ -35,6 +35,7 @@ int		count_vars(char *input);
 int		vars_expansion(char **tables, t_env *env);
 int		set_vars(char **vars, char *input, t_env *env);
 char	*ft_tilde_expand(char **table, t_env *env);
+int		clean_quotes(t_cmd *cmd);
 
 //	file
 char	*get_filename(char **input);
