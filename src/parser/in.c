@@ -53,8 +53,6 @@ void	*in_redirect(char **table, t_file *file)
 {
 	file->name = 0;
 	file->flags = O_RDONLY;
-	file->mode = MODE;
-	file->next = 0;
 	(*table)++;
 	if (**table == LEFT_REDIRECT)
 	{

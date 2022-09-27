@@ -64,6 +64,7 @@ int	p_setter(t_cmd **lst, char **tables, t_data *data)
 	if (cmd && \
 	expander(tables, data->env) && \
 	set_pipe_cond(*tables, cmd) && \
+	set_redirects(*tables, cmd) && \
 	set_data(*tables, cmd) && \
 	clean_quotes(cmd))
 		return (1);

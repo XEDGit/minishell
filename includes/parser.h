@@ -39,6 +39,7 @@ int		clean_quotes(t_cmd *cmd);
 
 //	file
 t_file	*add_file(t_cmd *cmd);
+void	free_files(t_file *lst);
 char	*get_filename(char **input);
 
 //	redirect

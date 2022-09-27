@@ -1,4 +1,4 @@
-#include <shared.h>
+#include <parser.h>
 
 //	set default values for command node
 void	set_defaults(t_cmd *cmd)
@@ -11,6 +11,7 @@ void	set_defaults(t_cmd *cmd)
 	cmd->is_pipe = 0;
 	cmd->conditional = -1;
 	cmd->depth = 0;
+	cmd->files = 0;
 	if (cmd->prev)
 	{
 		cmd->depth = cmd->prev->depth;
@@ -62,6 +63,7 @@ void	free_cmd(t_cmd *cmd)
 		close(cmd->redirects[0]);
 	if (cmd->redirects[1] != STDOUT_FILENO)
 		close(cmd->redirects[1]);
+	free_files(cmd->files);
 	free(cmd);
 }
 

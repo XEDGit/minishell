@@ -19,6 +19,8 @@ static int	try_redirect(char **table, t_cmd *cmd)
 	file = add_file(cmd);
 	if (!file)
 		return (0);
+	file->next = 0;
+	file->mode = MODE;
 	if (**table == RIGHT_REDIRECT)
 		red = out_redirect(table, file);
 	else if (**table == LEFT_REDIRECT)

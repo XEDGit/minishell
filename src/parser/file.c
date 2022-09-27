@@ -1,5 +1,21 @@
 #include <parser.h>
 
+void	free_files(t_file *lst)
+{
+	t_file	*i;
+	t_file	*t;
+
+	i = lst;
+	while (i)
+	{
+		t = i;
+		i = t->next;
+		if (t->name)
+			free(t->name);
+		free(t);
+	}
+}
+
 t_file	*add_file(t_cmd *cmd)
 {
 	t_file	*last;
