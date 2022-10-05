@@ -53,6 +53,5 @@ mac: mac_lib all
 mem:
 	memdetect  . $(LIBS) $(HEADERS) -e examples -fail $(1)
 
-tester:
-	make
-	python3 tester.py
+tester: all
+	python3 new_minishell_tester/tester.py new_minishell_tester/tests -exe ./minishell $(1)

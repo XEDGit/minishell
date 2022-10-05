@@ -53,16 +53,21 @@ int	chdir_wrapper(t_env *env, char *path)
 	int		code;
 
 	if (chdir(path) == -1)
-		return (1);
-	code = 137;
+		return (error_int("directory not found", "cd", 1, 1));
 	pwd = env_get(env, "PWD", 1);
 	if (!pwd)
-		return (code);
+		return (137);
 	new_path = getcwd(0, 0);
 	if (!new_path)
 	{
+		if (*path != '/' && ft_strjoin(&pwd, "/") || ft_strjoin(&pwd, path))
+			error_int("malloc fail", "cd", -1, 0);
+		new_path = build_var("PWD", pwd);
+		env_add(env, new_path, 1);
+		free(new_path);
 		free(pwd);
-		return (1);// get real error
+		return (error_int("getcwd: error retrieving current directory", \
+		"cd", 0, 0));
 	}
 	code = update_pwd(env, pwd, new_path);
 	free(pwd);

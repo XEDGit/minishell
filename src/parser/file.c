@@ -69,15 +69,15 @@ char	*get_filename(char **input)
 	tmp = *input;
 	len = get_length(*input);
 	if (!len)
-		return ((char *) error_msg(""));
+		return ((char *) error_msg("", -1));
 	tmp = malloc(sizeof(char) * (++len));
 	if (!tmp)
-		return ((char *) error_msg("Malloc failed"));
+		return ((char *) error_msg("Malloc failed", -1));
 	ft_strlcpy(tmp, *input, len);
 	*input += len - 1;
 	name = remove_quotes(tmp);
 	free(tmp);
 	if (!name)
-		return ((char *) error_msg("Remove quotes failed"));
+		return ((char *) error_msg("Remove quotes failed", -1));
 	return (name);
 }

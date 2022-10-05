@@ -12,7 +12,7 @@
 
 #include <ft_libc.h>
 
-int	ft_atoi(const char *str)
+long	ft_atoi(const char *str)
 {
 	long		res;
 	int			min;

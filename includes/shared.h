@@ -37,12 +37,13 @@
 # include <unistd.h>
 # include <stdbool.h>
 # include <signal.h>
+# include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
 extern int	g_exit_code;
 
-void	*error_msg(char *msg);
+void	*error_msg(char *msg, int exit_code);
 int		error_int(char *msg, char *cmd, int exit_code, int return_val);
 int		error_free2d(void *tofree);
 int		error_free2dint(void *tofree);

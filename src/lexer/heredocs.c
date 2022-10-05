@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/08 19:05:18 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/04 05:34:09 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/10/05 14:37:35 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	heredoc_routine(char *input, int c, int *fds)
 	static int	lines = 0;
 
 	buffer = readline("here >");
-	if (!buffer || !ft_strexcmp(buffer, input, c, "<>"))
+	if (!buffer || !ft_strcmp(buffer, input))
 	{
 		write(fds[1], "\n", 1);
 		lines = 0;
@@ -42,10 +42,6 @@ int	heredoc_repeat(char *input, int *fds)
 		ft_dprintf(2, "Error opening pipe for heredoc\n");
 		return (ERROR);
 	}
-	while (*input && ft_isspace(*input))
-		input++;
-	if (!*input)
-		return (ERROR);
 	input = remove_quotes(input);
 	if (!input)
 		return (ERROR);

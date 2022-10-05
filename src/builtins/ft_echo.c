@@ -12,30 +12,44 @@
 
 #include <env.h>
 #include <ft_printf.h>
+#include <stdbool.h>
+
+int	check_flag(char *arg)
+{
+	int	n;
+
+	n = 0;
+	if (*arg == '-')
+		arg++;
+	while (arg[n] == 'n')
+		n++;
+	if (!arg[n])
+		return (true);
+	return (false);
+}
 
 int	ft_echo(char **args, t_env *env)
 {
-	int	start;
-	int	i;
+	int		flag;
+	bool	nl;
+	int		i;
 
-	start = 0;
-	i = 0;
-	if (args[1] && args[1][i++] == '-')
-	{
-		while (args[1][i] == 'n')
-			i++;
-		if (!args[1][i])
-			start++;
-	}
-	i = 0;
-	args = &args[start + 1];
+	i = 1;
+	nl = true;
 	while (args && args[i])
 	{
+		flag = check_flag(args[i]);
+		if (flag)
+		{
+			nl = false;
+			i++;
+			continue ;
+		}
 		ft_printf("%s", args[i]);
 		if (args[++i])
 			ft_printf(" ");
 	}
-	if (!start)
+	if (nl)
 		ft_printf("\n");
 	return (0);
 }

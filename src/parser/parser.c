@@ -64,7 +64,7 @@ int	p_setter(t_cmd **lst, char **tables, t_data *data)
 	if (cmd && \
 	expander(tables, data->env) && \
 	set_pipe_cond(*tables, cmd) && \
-	set_redirects(*tables, cmd) && \
+	set_redirects(*tables, cmd) &&
 	set_data(*tables, cmd) && \
 	clean_quotes(cmd))
 		return (1);
@@ -92,6 +92,7 @@ int	parser(char **tables, t_data *data)
 	data->cmds = cmds;
 	// if (PARSE_DEBUG)
 		// debug_cmds(data->cmds);
+	data->heredoc_c = 0;
 	if (executer(data))
 		exit = 2;
 	free_cmds(cmds, to_free, 0);

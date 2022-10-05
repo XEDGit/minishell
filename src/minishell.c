@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include <shared.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 int	g_exit_code;
 
@@ -34,6 +36,7 @@ int	semicolon_handle(char *buffer, t_env *env)
 		if (code == ERROR || code == 2)// env_free?
 			break ;
 		counter++;
+		waitpid(-1, 0, 0);
 	}
 	free2d(semi_colons_split, 0);
 	return (code);

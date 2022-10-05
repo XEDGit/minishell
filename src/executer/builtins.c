@@ -39,21 +39,26 @@ void	exec_single_builtin(t_cmd *cmd, t_env *env, int i)
 	static int	(*funcs[])(char **args, t_env *env) = {
 		&ft_cd, &ft_echo, &ft_export, &ft_unset, &ft_env, &ft_pwd
 	};
+	t_cmd		fds;
 
-	if (cmd->redirects[0] != 0)
-		dup2(cmd->redirects[0], 0);
+	fds.redirects[0] = dup(0);
+	fds.redirects[1] = dup(1);
+	fds.redirects[2] = dup(2);
+	dup2(cmd->redirects[0], 0);
+	dup2(cmd->redirects[1], 1);
+	dup2(cmd->redirects[2], 2);
 	if (cmd->is_pipe)
-		dup2(cmd->redirects[1], 1);
-	if (cmd->redirects[2] != 2)
-		dup2(cmd->redirects[2], 2);
-	clean_redirects(cmd);
+		clean_redirects(cmd);
 	if (i == 6)
 		ft_exit(cmd);
-	else if (i != 6)
-		g_exit_code = funcs[i](cmd->args, env);
+	g_exit_code = funcs[i](cmd->args, env);
+	dup2(fds.redirects[0], 0);
+	dup2(fds.redirects[1], 1);
+	dup2(fds.redirects[2], 2);
+	clean_redirects(&fds);
 }
 
-int	check_builtin(t_cmd *cmd, t_env *env, int piping)
+int	check_builtin(t_cmd *cmd, t_data *data, int piping)
 {
 	int			i;
 	static char	*builtins[] = {
@@ -67,10 +72,12 @@ int	check_builtin(t_cmd *cmd, t_env *env, int piping)
 		{
 			if (cmd->is_pipe && open_pipe(cmd))
 				return (error_int("Pipe opening failed\n", cmd->cmd, 1, 0));
+			if (cmd->files && open_files(cmd, data))
+				return (true);
 			if (cmd->cmd && piping)
-				exec_builtin(cmd, env, i - 1);
+				exec_builtin(cmd, data->env, i - 1);
 			else if (cmd->cmd)
-				exec_single_builtin(cmd, env, i - 1);
+				exec_single_builtin(cmd, data->env, i - 1);
 			clean_redirects(cmd);
 			if (i == 7 && !piping)
 				return (2);

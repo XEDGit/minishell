@@ -70,7 +70,7 @@ t_buffvar	*buff_copy(t_buffvar *buff, char **envp)
 		if (!buff->mem[buff->index])
 		{
 			free2d(buff->mem, buff->index - 1);
-			return (error_msg("Error: enviromental variable allocation\n"));
+			return (error_msg("Error: enviromental variable allocation\n", -1));
 		}
 		ft_strlcpy(buff->mem[buff->index], envp[buff->index], len);
 		buff->index++;

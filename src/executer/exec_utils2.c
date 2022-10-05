@@ -29,3 +29,65 @@ void	watch_child(pid_t pid)
 	while (wait(0) != -1)
 		;
 }
+
+int	set_output_fd(t_cmd *cmd, char *file, int open_flags, int mode)
+{
+	if (cmd->redirects[1] != STDOUT_FILENO)
+	{
+		if (close(cmd->redirects[1]) == ERROR)
+			return (error_int("Close file descriptor error", file, 1, 0));
+	}
+	cmd->redirects[1] = open(file, open_flags, mode);
+	// free(file);
+	if (cmd->redirects[1] == ERROR)
+		return (error_int("Open file descriptor error", file, 1, 0));
+	return (1);
+}
+
+int	left_rdrt(t_cmd *cmd, char *file, int mode)
+{
+	if (cmd->redirects[0] != STDIN_FILENO)
+	{
+		if (close(cmd->redirects[0]) == ERROR)
+			return (error_int("Open error", file, 1, false));
+	}
+	cmd->redirects[0] = open(file, mode);
+	// free(file);
+	if (cmd->redirects[0] == ERROR)
+		return (error_int("Open error", file, 1, false));
+	return (1);
+}
+
+int	reset_path(t_data *data)
+{
+	char	*new_paths;
+
+	new_paths = env_get(data->env, "PATH", 0);
+	if (!new_paths)
+		return (false);
+	free2d(data->paths, 0);
+	data->paths = ft_split(new_paths, ":");
+	free(new_paths);
+	if (!data->paths)
+		return (false);
+	return (true);
+}
+
+int	open_files(t_cmd *cmd, t_data *data)
+{
+	t_file	*files;
+
+	files = cmd->files;
+	while (files)
+	{
+		if (files->here == 1)
+			cmd->redirects[0] = data->heredocs[data->heredoc_c++][0];
+		else if (!files->flags && !left_rdrt(cmd, files->name, files->mode))
+			return (true);
+		else if (files->flags && \
+		!set_output_fd(cmd, files->name, files->flags, files->mode))
+			return (true);
+		files = files->next;
+	}
+	return (false);
+}

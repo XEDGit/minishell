@@ -40,7 +40,7 @@ t_cmd	*add_cmd(t_cmd **start)
 
 	cmd = (t_cmd *) malloc(sizeof(t_cmd));
 	if (!cmd)
-		return (error_msg("cmd malloc fail"));
+		return (error_msg("cmd malloc fail", -1));
 	cmd->prev = 0;
 	if (!*start)
 		*start = cmd;

@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/12 18:52:41 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/02 19:12:29 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/10/05 14:37:11 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,29 +34,32 @@ int	is_open(char c)
 
 char	*remove_quotes(char *input)
 {
-	int		c;
-	char	ch;
-	char	*res;
+	char	*p;
+	int		open;
+	int		i;
 
-	c = 0;
-	ch = 0;
-	res = ft_strdup(input);
-	while (res && res[c] && res[c] != ' ')
+	while (*input == ' ')
+		input++;
+	if (!*input)
+		return (0);
+	p = malloc(sizeof(char) * (ft_strlen(input) + 1));
+	i = 0;
+	while (p && *input)
 	{
-		if (res[c] == SINGLE_QUOTE || res[c] == DOUBLE_QUOTE)
-		{
-			if (!ch)
-				ch = res[c];
-			else
-				ch = 0;
-			ft_strlcpy(res + c, res + c + 1, ft_strlen(res + c));
-		}
-		else if (!ch && (res[c] == '<' || res[c] == '>'))
-			res[c] = 0;
+		if (*input == '<' || *input == '>')
+			break ;
+		open = is_open(*input);
+		if (!open && (*input == SINGLE_QUOTE || *input == DOUBLE_QUOTE))
+			input++;
+		else if (!open || (open && *input != open))
+			p[i++] = *input++;
 		else
-			c++;
+			input++;
 	}
-	return (res);
+	if (p)
+		p[i] = 0;
+	ft_dprintf(2, "del:%s|\n", p);
+	return (p);
 }
 
 int	skip_quotes(char *input)

@@ -20,7 +20,7 @@ char	*build_path(char *temp_path, char *temp_cmd, int len)
 	c = 0;
 	res_path = malloc(len);
 	if (!res_path)
-		return (error_msg("Malloc fail in path builder"));
+		return (error_msg("Malloc fail in path builder", -1));
 	while (*++temp_path)
 		res_path[c++] = *temp_path;
 	res_path[c++] = '/';
@@ -66,7 +66,7 @@ char	*check_paths(char **paths, char *cmd)
 			ft_strlen(*paths) + ft_strlen(cmd) + 2);
 		if (!res_path || check_file(res_path, false) == true)
 		{
-			free(cmd);
+			free(cmd); // for some reason creates double free
 			return (res_path);
 		}
 		free(res_path);
@@ -103,22 +103,13 @@ int	clean_redirects(t_cmd *cmd)
 	int	err;
 
 	err = 0;
-	if (cmd->redirects[0] != 0)
-	{
-		err += close(cmd->redirects[0]);
-		cmd->redirects[0] = -1;
-	}
-	if (cmd->redirects[1] != 1)
-	{
-		err += close(cmd->redirects[1]);
-		cmd->redirects[1] = -1;
-	}
-	if (cmd->redirects[2] != 2)
-	{
-		err += close(cmd->redirects[2]);
-		cmd->redirects[2] = -1;
-	}
+	if (cmd->redirects[0] != 0 && close(cmd->redirects[0]))
+		err += error_int("failed closing input file descriptor\n", 0, 1, 1);
+	if (cmd->redirects[1] != 1 && close(cmd->redirects[1]))
+		err += error_int("failed closing output file descriptor\n", 0, 1, 1);
+	if (cmd->redirects[2] != 2 && close(cmd->redirects[2]))
+		err += error_int("failed closing error file descriptor\n", 0, 1, 1);
 	if (err)
-		return (error_int("Error: pipe cleanup failed\n", 0, 1, 1));
+		return (1);
 	return (0);
 }

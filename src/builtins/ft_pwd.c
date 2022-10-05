@@ -18,7 +18,7 @@ int	ft_pwd(char **args, t_env *env)
 {
 	char	*pwd;
 
-	pwd = getcwd(0, 0);
+	pwd = env_get(env, "PWD", 1);
 	if (!pwd)
 		return (1);// TODO error
 	ft_printf("%s\n", pwd);

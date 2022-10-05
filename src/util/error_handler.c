@@ -12,9 +12,11 @@
 
 #include <shared.h>
 
-void	*error_msg(char *msg)
+void	*error_msg(char *msg, int exit_code)
 {
-	ft_dprintf(2, "shell: %s\n", msg);
+	ft_dprintf(2, SHELLNAME"%s\n", msg);
+	if (exit_code != -1)
+		g_exit_code = exit_code;
 	return (0);
 }
 

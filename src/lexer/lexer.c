@@ -26,15 +26,15 @@ int	repeat_readline(char **buffer, char delimiter, t_data *data)
 		if (c == ERROR)
 		{
 			free(input);
-			return (1);
+			return (true);
 		}
 		if (ft_strjoin(buffer, input) == ERROR)
-			return (ERROR);
+			return (error_int("malloc error", 0, -1, ERROR));
 	}
 	else
 		c = delimiter;
 	if (!input || syntax_check(input, data))
-		return (ERROR);
+		return (error_int("syntax error", 0, 2, ERROR));
 	if (c)
 		c = repeat_readline(buffer, c, data);
 	free(input);

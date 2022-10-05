@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   executer.c                                         :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*   By: lmuzio <lmuzio@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/08/17 19:22:13 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/14 14:05:43 by lmuzio        ########   odam.nl         */
+/*   Created: 2022/10/05 13:37:54 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/10/05 13:37:57 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@ void	execute_cmd(t_cmd *cmd, char **envp)
 int	parse_cmd(t_cmd *start, t_data *data)
 {
 	pid_t	child_pid;
-	char	*new_paths;
 
-	start->cmd = check_paths(data->paths, start->cmd);
 	if (start->is_pipe && open_pipe(start))
 		return (error_int("Failed to open pipe", start->cmd, 1, false));
+	if (start->files && open_files(start, data))
+		return (false);
+	start->cmd = check_paths(data->paths, start->cmd);
 	if (start->cmd)
 	{
 		start->args[0] = start->cmd;
@@ -40,10 +41,8 @@ int	parse_cmd(t_cmd *start, t_data *data)
 		if (start->next && start->next->conditional != -1)
 		{
 			watch_child(child_pid);
-			new_paths = env_get(data->env, "PATH", 0);
-			free2d(data->paths, 0);
-			data->paths = ft_split(new_paths, ":");
-			free(new_paths);
+			if (!reset_path(data))
+				ft_dprintf(2, SHELLNAME"error allocating PATH\n");
 		}
 	}
 	clean_redirects(start);
@@ -89,13 +88,8 @@ int	executer_loop(t_cmd *start, t_data *data)
 			piping = start->is_pipe;
 		if (start->conditional != -1 && condition_check(&start, &piping))
 			continue ;
-		// if (!set_redirects(start, data->heredocs))
-		// {
-		// 	start = start->next;
-		// 	continue ;
-		// }
 		builtin = 0;
-		builtin = check_builtin(start, data->env, piping);
+		builtin = check_builtin(start, data, piping);
 		if (builtin == 2)
 			return (true);
 		if (!builtin)
