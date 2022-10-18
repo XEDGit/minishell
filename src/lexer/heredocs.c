@@ -105,7 +105,10 @@ int	heredoc_check(char *input, t_data *data)
 					return (ERROR);
 				code = heredoc_repeat(++input, data->heredocs[c]);
 				if (code == ERROR)
+				{
+					free2dint(data->heredocs, c);
 					return (ERROR);
+				}
 			}
 			c++;
 		}

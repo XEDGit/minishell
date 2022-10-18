@@ -12,6 +12,26 @@
 
 #include <lexer.h>
 
+int	semicolon_check(char *input)
+{
+	while (*input)
+	{
+		if (*input == ';')
+		{
+			input++;
+			while (*input && ft_isspace(*input))
+				input++;
+			if (*input == ';')
+				return (ERROR);
+			else
+				input++;
+		}
+		if (*input)
+			input++;
+	}
+	return (false);
+}
+
 char	*find_next_char(char *start)
 {
 	start++;

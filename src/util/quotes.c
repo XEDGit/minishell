@@ -56,9 +56,13 @@ char	*remove_quotes(char *input)
 		else
 			input++;
 	}
+	if (open)
+	{
+		free(p);
+		return (0);
+	}
 	if (p)
 		p[i] = 0;
-	ft_dprintf(2, "del:%s|\n", p);
 	return (p);
 }
 

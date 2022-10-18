@@ -50,7 +50,7 @@ int	syntax_check(char *input, t_data *data)
 	}
 	if (heredoc_check(input, data) == ERROR)
 	{
-		ft_dprintf(2, "Error: Failed creating pipe for heredoc\n");
+		ft_dprintf(2, "Error: An error in heredoc functioning happened\n");
 		return (true);
 	}
 	return (false);
