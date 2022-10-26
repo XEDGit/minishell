@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vars.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/26 16:03:44 by nmolinel          #+#    #+#             */
+/*   Updated: 2022/10/26 16:03:45 by nmolinel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <parser.h>
 
 int	get_out_size(char **vars, char *input)
@@ -24,20 +36,16 @@ int	get_out_size(char **vars, char *input)
 	return (size);
 }
 
-char	*expand_vars_table(char **vars, char *input)
+char	*expand_vars_table(char **vars, char *input, int i, int index)
 {
 	char	*out;
 	int		open;
-	int		i;
-	int		index;
 	size_t	len;
 
 	len = get_out_size(vars, input) + 1;
 	out = malloc(sizeof(char) * len);
 	if (!out)
 		return (false);
-	i = 0;
-	index = 0;
 	while (*input)
 	{
 		open = is_open(*input);
@@ -69,7 +77,7 @@ int	vars_expansion(char **tables, t_env *env)
 			return (error_int("Expander allocation failed", 0, 1, 0));
 		if (!set_vars(vars, *tables, env))
 			return (error_int("Expander allocation failed", 0, 1, 0));
-		new_table = expand_vars_table(vars, *tables);
+		new_table = expand_vars_table(vars, *tables, 0, 0);
 		free2d(vars, 0);
 		if (!new_table)
 			return (error_int("Expander allocation failed", 0, 1, 0));

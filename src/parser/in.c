@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   in.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/26 16:12:33 by nmolinel          #+#    #+#             */
+/*   Updated: 2022/10/26 16:12:34 by nmolinel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <parser.h>
 
 static int	here_doc(t_cmd *cmd, int **docs)
@@ -44,7 +56,7 @@ void	*in_redirect(char **table, t_file *file)
 	{
 		file->name = get_filename(table);
 		if (!file->name)
-			return (error_msg("File name failed", 2)); // error
+			return (error_msg("File name failed", 2));
 	}
 	return ((void *) 1);
 }

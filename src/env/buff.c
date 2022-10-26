@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   buff.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/26 15:35:55 by nmolinel          #+#    #+#             */
+/*   Updated: 2022/10/26 15:36:16 by nmolinel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <shared.h>
 
 t_buffvar	*buff_free(t_buffvar *buff)
@@ -97,7 +109,7 @@ t_buffvar	*buff_create(char **envp)
 	buff->mem = malloc(sizeof(char *) * buff->size);
 	if (!buff->mem)
 		return (0);
-	buff->mem[buff->size - 1] = 0;// not necessary but can avoid future bugs
+	buff->mem[buff->size - 1] = 0;
 	if (!buff_copy(buff, envp))
 		return (0);
 	return (buff);

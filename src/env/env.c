@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/26 15:36:31 by nmolinel          #+#    #+#             */
+/*   Updated: 2022/10/26 15:57:30 by nmolinel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <shared.h>
 
 t_env	*env_free(t_env *env)
@@ -35,7 +47,7 @@ t_env	*env_remove(t_env *env, char *varname, int mode)
 {
 	t_buffvar	*buff;
 	int			index;
-	char 		**split;
+	char		**split;
 	char		*dup;
 
 	buff = env->envp;
@@ -68,33 +80,22 @@ t_env	*env_add(t_env *env, char *var, int mode)
 {
 	t_buffvar	*buff;
 	int			index;
-	char 		**split;
+	char		**split;
 	char		*dup;
-
 
 	buff = env->envp;
 	if (mode == 2)
 		buff = env->envl;
 	split = ft_split(var, "=");
 	if (!split)
-		return (0);//TODO
+		return (0);
 	index = buff_contains(buff, split[0], 0);
 	free2d(split, 0);
 	dup = ft_strdup(var);
 	if (!dup)
-		return (0);//TODO
-	if (index >= 0)
-	{
-		free(buff->mem[index]);
-		buff->mem[index] = dup;
-	}
-	else
-	{
-		if (!buff_checker(buff))
-			return (0);//TODO
-		buff->mem[buff->index++] = dup;
-		buff->mem[buff->index] = 0;
-	}
+		return (0);
+	if (!add_var(buff, dup, index))
+		return (0);
 	return (env);
 }
 
@@ -116,23 +117,13 @@ char	*env_get(t_env *env, char *name, int mode)
 		buff = env->envl;
 	i = buff_contains(buff, name, &n);
 	if (i >= 0)
-	{
-		out = malloc(sizeof(char) * ft_strlen(buff->mem[i] + n) + 1);
-		if (out)
-			ft_strlcpy(out, buff->mem[i] + n, ft_strlen(buff->mem[i] + n) + 1);
-		return (out);
-	}
+		return (copy_var(buff->mem[i] + n, i));
 	if (!mode)
 	{
 		buff = env->envl;
 		i = buff_contains(buff, name, &n);
 		if (i >= 0)
-		{
-			out = malloc(sizeof(char) * ft_strlen(buff->mem[i] + n) + 1);
-			if (out)
-				ft_strlcpy(out, buff->mem[i] + n, ft_strlen(buff->mem[i] + n) + 1);
-			return (out);
-		}
+			return (copy_var(buff->mem[i] + n, i));
 	}
 	out = malloc(sizeof(char));
 	if (out)

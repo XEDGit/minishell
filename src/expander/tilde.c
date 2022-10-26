@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tilde.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/26 16:00:53 by nmolinel          #+#    #+#             */
+/*   Updated: 2022/10/26 16:00:55 by nmolinel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <parser.h>
 
 static size_t	tilde_count(char *table)
@@ -31,7 +43,6 @@ char	*copy_tilde_table(char *new, char *table, char *home, size_t size)
 		open = is_open(table[i]);
 		if (!open && table[i] == '~')
 		{
-			// ft_printf("ciao\n");
 			ft_strlcpy(new + c, home, size);
 			i++;
 			c += home_len;
@@ -45,7 +56,6 @@ char	*copy_tilde_table(char *new, char *table, char *home, size_t size)
 
 char	*ft_tilde_expand(char **table, t_env *env)
 {
-	
 	char	*home;
 	size_t	size;
 	char	*new_table;

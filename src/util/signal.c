@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   signal.c                                           :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/05/02 22:44:04 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/12 00:59:14 by lmuzio        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   signal.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/02 22:44:04 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/10/26 17:52:10 by nmolinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	signals_handler_setup(int mode)
 	attributes.c_lflag &= ~(ECHOCTL);
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &attributes);
 	if (mode == 0)
-	{	
+	{
 		signal(SIGINT, def_signal_handler);
 		signal(SIGQUIT, SIG_IGN);
 	}
@@ -55,5 +55,7 @@ int	signals_handler_setup(int mode)
 		signal(SIGINT, exec_signal_handler);
 		signal(SIGQUIT, exec_signal_handler);
 	}
+	else if (mode == 2)
+		signal(SIGINT, SIG_IGN);
 	return (0);
 }

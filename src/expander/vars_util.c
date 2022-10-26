@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vars_util.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/26 16:04:44 by nmolinel          #+#    #+#             */
+/*   Updated: 2022/10/26 16:04:45 by nmolinel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <parser.h>
 
 int	is_del(char c)
@@ -66,11 +78,11 @@ int	set_vars(char **vars, char *input, t_env *env)
 	while (*input)
 	{
 		open = is_open(*input);
-		if (*input == '$' && open != SINGLE_QUOTE)// check delimiter and null
+		if (*input == '$' && open != SINGLE_QUOTE)
 		{
 			if (*(++input) == '?')
 				vars[i] = ft_itoa(g_exit_code);
-			else if (!*input || *input == '=' || *input == ' ')
+			else if (!*input || is_del(*input))
 			{
 				vars[i++] = ft_strdup("$");
 				continue ;

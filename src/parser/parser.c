@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parser.c                                           :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/05/10 20:22:54 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/16 01:20:48 by lmuzio        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/10 20:22:54 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/10/26 16:14:34 by nmolinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	p_setter(t_cmd **lst, char **tables, t_data *data)
 	if (cmd && \
 	expander(tables, data->env) && \
 	set_pipe_cond(*tables, cmd) && \
-	set_redirects(*tables, cmd) &&
+	set_redirects(*tables, cmd) && \
 	set_data(*tables, cmd) && \
 	clean_quotes(cmd))
 		return (1);
@@ -82,7 +82,6 @@ int	parser(char **tables, t_data *data)
 	cmds = 0;
 	exit = 0;
 	to_free = tables;
-	// here_docs_db(tables, data);
 	while (*tables)
 	{
 		if (!p_setter(&cmds, tables, data))
@@ -90,8 +89,6 @@ int	parser(char **tables, t_data *data)
 		tables++;
 	}
 	data->cmds = cmds;
-	// if (PARSE_DEBUG)
-		// debug_cmds(data->cmds);
 	data->heredoc_c = 0;
 	if (executer(data))
 		exit = 2;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/04/25 18:20:31 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/12 01:15:52 by lmuzio        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/25 18:20:31 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/10/26 17:02:19 by nmolinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	semicolon_handle(char *buffer, t_env *env)
 		code = lexer(semi_colons_split[counter], &data);
 		if (code == 1)
 			error_int("Error parsing syntax", 0, 2, 0);
-		if (code == ERROR || code == 2)// env_free?
+		if (code == ERROR || code == 2)
 			break ;
 		counter++;
 		waitpid(-1, 0, 0);
@@ -61,7 +61,7 @@ int	main(int argc, char *argv[], char *envp[])
 	(void)argc;
 	env = env_setup(envp);
 	if (!env)
-		return (44);//handle error
+		return (44);
 	while (1)
 	{
 		buffer = readline(TITLE);
