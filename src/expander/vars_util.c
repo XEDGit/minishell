@@ -2,8 +2,8 @@
 
 int	is_del(char c)
 {
-	if (c == ' ' || c == '$' || c == '<' || c == '>' \
-		|| c == '&' || c == '|' || c == '\'' || c == '\"')
+	if (c == ' ' || c == '$' || c == '<' || c == '>' || c == '/' \
+		|| c == '&' || c == '|' || c == '\'' || c == '\"' || c == '=')
 		return (1);
 	return (0);
 }
@@ -70,6 +70,11 @@ int	set_vars(char **vars, char *input, t_env *env)
 		{
 			if (*(++input) == '?')
 				vars[i] = ft_itoa(g_exit_code);
+			else if (!*input || *input == '=' || *input == ' ')
+			{
+				vars[i++] = ft_strdup("$");
+				continue ;
+			}
 			else
 				vars[i] = get_var(input, env);
 			if (!vars[i])

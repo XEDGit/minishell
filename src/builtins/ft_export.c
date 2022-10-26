@@ -10,10 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <env.h>
-#include <ft_libc.h>
-#include <unistd.h>
-#include <ft_printf.h>
+#include <shared.h>
 
 #define EXPDEC "declare -x "
 
@@ -85,6 +82,12 @@ int	ft_export(char **args, t_env *env)
 		return (print_p(env));
 	while (args && *args)
 	{
+		if (ft_isdigit(**args))
+		{
+			error_int("variable starting with digit are not allowed", "export", 1, 0);
+			args++;
+			continue ;
+		}
 		index = buff_contains(env->envl, *args, 0);
 		if (index > -1)
 			to_add = env->envl->mem[index];
