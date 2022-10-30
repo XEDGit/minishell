@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   ft_echo.c                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmolinel <nmolinel@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/09/17 16:33:56 by nmolinel      #+#    #+#                 */
-/*   Updated: 2022/09/17 16:33:56 by nmolinel      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/17 16:33:56 by nmolinel          #+#    #+#             */
+/*   Updated: 2022/10/30 18:08:26 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,15 @@ int	check_flag(char *arg)
 
 int	ft_echo(char **args, t_env *env)
 {
-	int		flag;
 	bool	nl;
 	int		i;
 
 	i = 1;
 	nl = true;
+	while (args && check_flag(args[i++]))
+		nl = false;
 	while (args && args[i])
 	{
-		flag = check_flag(args[i]);
-		if (flag)
-		{
-			nl = false;
-			i++;
-			continue ;
-		}
 		ft_printf("%s", args[i]);
 		if (args[++i])
 			ft_printf(" ");
