@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   env.h                                              :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmolinel <nmolinel@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/09/17 16:31:48 by nmolinel      #+#    #+#                 */
-/*   Updated: 2022/09/17 16:31:48 by nmolinel      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   env.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/17 16:31:48 by nmolinel          #+#    #+#             */
+/*   Updated: 2022/10/26 15:58:18 by nmolinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,8 @@ char		*env_get(t_env *env, char *name, int mode);
 t_env		*env_add(t_env *env, char *var, int mode);
 t_env		*env_remove(t_env *env, char *var, int mode);
 char		*build_var(char *name, char *value);
+
+char		*copy_var(char *p, int i);
+t_buffvar	*add_var(t_buffvar *buff,char *var, int index);
 
 #endif
