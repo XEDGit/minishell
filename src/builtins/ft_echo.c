@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 16:33:56 by nmolinel          #+#    #+#             */
-/*   Updated: 2022/10/30 18:08:26 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/10/30 18:24:50 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	check_flag(char *arg)
 	n = 0;
 	if (*arg == '-')
 		arg++;
+	else
+		return (false);
 	while (arg[n] == 'n')
 		n++;
 	if (!arg[n])
@@ -35,8 +37,11 @@ int	ft_echo(char **args, t_env *env)
 
 	i = 1;
 	nl = true;
-	while (args && check_flag(args[i++]))
+	while (args && args[i] && check_flag(args[i]))
+	{
+		i++;
 		nl = false;
+	}
 	while (args && args[i])
 	{
 		ft_printf("%s", args[i]);
