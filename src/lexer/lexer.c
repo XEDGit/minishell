@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   lexer.c                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/08 15:32:59 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/04 05:34:24 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/10/31 12:02:30 by nmolinel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,14 @@ int	repeat_readline(char **buffer, char delimiter, t_data *data)
 
 int	syntax_check(char *input, t_data *data)
 {
-	if (io_check(input))
+	int	char_check;
+
+	if (!check_standalone_redirects(input))
+		return (error_int("syntax error", 0, 2, 1));
+	char_check = io_check(input);
+	if (char_check)
 	{
-		ft_dprintf(2, "Error: Parsing failed at char '%c'\n", io_check(input));
+		ft_dprintf(2, "Error: Parsing failed at char '%c'\n", char_check);
 		return (true);
 	}
 	if (heredoc_check(input, data) == ERROR)

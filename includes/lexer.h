@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   lexer.h                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/25 18:25:56 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/11 18:35:39 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/10/31 12:01:22 by nmolinel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ int		skip_quotes(char *input);
 int		is_open(char c);
 int		syntax_check(char *input, t_data *data);
 int		check_double_commands(char *str, int c, int diff);
+bool	check_standalone_redirects(char *input);
 
 #endif

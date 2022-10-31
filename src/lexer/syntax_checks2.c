@@ -3,14 +3,32 @@
 /*                                                        ::::::::            */
 /*   syntax_checks2.c                                   :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: lmuzio <lmuzio@student.codam.nl>             +#+                     */
+/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/11 18:33:40 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/12 01:22:25 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/10/31 12:01:38 by nmolinel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lexer.h>
+
+bool	check_standalone_redirects(char *input)
+{
+	int	length;
+
+	length = ft_strlen(input);
+	if (length == 1)
+	{
+		if (*input == '<' || *input == '>')
+			return (false);
+	}
+	else if (length == 2)
+	{
+		if (!ft_strcmp(input, "<<") || !ft_strcmp(input, ">>"))
+			return (false);
+	}
+	return (true);
+}
 
 int	semicolon_check(char *input)
 {
