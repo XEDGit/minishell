@@ -3,29 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 22:44:04 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/10/26 17:52:10 by nmolinel         ###   ########.fr       */
+/*   Updated: 2022/10/31 15:28:04 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <shared.h>
 #include <termios.h>
-
-static void	exec_signal_handler(int code)
-{
-	if (code == SIGINT)
-		ft_printf("\n");
-	else if (code == SIGQUIT)
-		ft_printf("Quit\n");
-	return ;
-}
-
-static void	child_signal_handler(int code)
-{
-	exit(code);
-}
 
 static void	def_signal_handler(int code)
 {
@@ -37,7 +23,7 @@ static void	def_signal_handler(int code)
 	return ;
 }
 
-//	mode is 0 for default, 1 for exec
+//	mode is 0 for default, 1 for exec, 2 for ignore everything
 int	signals_handler_setup(int mode)
 {
 	struct termios	attributes;
@@ -52,10 +38,13 @@ int	signals_handler_setup(int mode)
 	}
 	else if (mode == 1)
 	{
-		signal(SIGINT, exec_signal_handler);
-		signal(SIGQUIT, exec_signal_handler);
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
 	}
 	else if (mode == 2)
-		signal(SIGINT, SIG_IGN);
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+	}
 	return (0);
 }

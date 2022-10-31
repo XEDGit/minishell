@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 13:37:54 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/10/26 17:47:47 by nmolinel         ###   ########.fr       */
+/*   Updated: 2022/10/31 15:20:39 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	execute_cmd(t_cmd *cmd, char **envp)
 {
+	signals_handler_setup(2);
 	if (cmd->is_pipe)
 		close(cmd->next->redirects[0]);
 	dup2(cmd->redirects[0], 0);

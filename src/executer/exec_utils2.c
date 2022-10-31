@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 18:36:19 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/10/26 17:25:37 by nmolinel         ###   ########.fr       */
+/*   Updated: 2022/10/31 15:27:35 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,16 @@ void	watch_child(pid_t pid)
 
 	if (waitpid(pid, &statbuf, 0) != pid)
 		return ;
-	if (WIFEXITED(statbuf))
+	if (WIFSIGNALED(statbuf))
 	{
-		if (WIFSIGNALED(statbuf))
-			g_exit_code = WTERMSIG(statbuf);
-		else
-			g_exit_code = WEXITSTATUS(statbuf);
+		g_exit_code = WTERMSIG(statbuf) + 128;
+		if (g_exit_code == 130)
+			ft_printf("\n");
+		else if (g_exit_code == 131)
+			ft_printf("Quit: 3\n");
 	}
+	else if (WIFEXITED(statbuf))
+		g_exit_code = WEXITSTATUS(statbuf);
 	while (wait(0) != -1)
 		;
 }
