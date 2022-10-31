@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   ft_cd.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmolinel <nmolinel@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/09/17 16:34:03 by nmolinel      #+#    #+#                 */
-/*   Updated: 2022/09/17 16:34:03 by nmolinel      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/17 16:34:03 by nmolinel          #+#    #+#             */
+/*   Updated: 2022/10/31 17:51:18 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	chdir_wrapper(t_env *env, char *path)
 	new_path = getcwd(0, 0);
 	if (!new_path)
 	{
-		if (*path != '/' && ft_strjoin(&pwd, "/") || ft_strjoin(&pwd, path))
+		if ((*path != '/' && ft_strjoin(&pwd, "/")) || ft_strjoin(&pwd, path))
 			error_int("malloc fail", "cd", -1, 0);
 		new_path = build_var("PWD", pwd);
 		env_add(env, new_path, 1);

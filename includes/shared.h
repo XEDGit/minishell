@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 18:43:30 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/09/12 20:01:35 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/10/31 16:12:08 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ extern int	g_exit_code;
 void	*error_msg(char *msg, int exit_code);
 int		error_int(char *msg, char *cmd, int exit_code, int return_val);
 int		error_free2d(void *tofree);
-int		error_free2dint(void *tofree);
+int		error_free2dint(void *tofree, int len, int ret);
 int		error_free(void *tofree);
 int		signals_handler_setup(int mode);
 int		free2d(char **tofree, int len);

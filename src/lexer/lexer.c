@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   lexer.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/05/08 15:32:59 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/10/31 12:02:30 by nmolinel      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/08 15:32:59 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/10/31 17:42:49 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,22 @@ int	repeat_readline(char **buffer, char delimiter, t_data *data)
 
 int	syntax_check(char *input, t_data *data)
 {
-	int	char_check;
+	int	error;
 
 	if (!check_standalone_redirects(input))
 		return (error_int("syntax error", 0, 2, 1));
-	char_check = io_check(input);
-	if (char_check)
+	error = io_check(input);
+	if (error)
 	{
-		ft_dprintf(2, "Error: Parsing failed at char '%c'\n", char_check);
+		ft_dprintf(2, "Error: Parsing failed at char '%c'\n", error);
+		g_exit_code = 2;
 		return (true);
 	}
-	if (heredoc_check(input, data) == ERROR)
+	error = heredoc_check(input, data);
+	if (error < 0)
 	{
-		ft_dprintf(2, "Error: An error in heredoc functioning happened\n");
+		if (error == ERROR)
+			ft_dprintf(2, "Error: An error in heredoc functioning happened\n");
 		return (true);
 	}
 	return (false);
@@ -71,7 +74,7 @@ int	lexer(char *input, t_data *data)
 		return (1);
 	data->input = ft_strdup(input);
 	if (!data->input)
-		return (error_free2dint(data->heredocs));
+		return (free2dint(data->heredocs, 0));
 	if (count)
 		count = repeat_readline(&data->input, count, data);
 	add_history(data->input);

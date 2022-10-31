@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   heredocs.c                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/06/08 19:05:18 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/10/05 14:37:35 by lmuzio        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   heredocs.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/08 19:05:18 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/10/31 17:46:51 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,13 @@ int	heredoc_routine(char *input, int c, int *fds)
 	char		*buffer;
 	static int	lines = 0;
 
+	if (!lines)
+		signals_handler_setup(3);
 	buffer = readline("here >");
-	if (!buffer || !ft_strcmp(buffer, input))
+	if (!buffer || !ft_strncmp(buffer, input, c))
 	{
-		write(fds[1], "\n", 1);
+		if (lines)
+			write(fds[1], "\n", 1);
 		lines = 0;
 		free(buffer);
 		return (ERROR);
@@ -33,27 +36,47 @@ int	heredoc_routine(char *input, int c, int *fds)
 	return (false);
 }
 
-int	heredoc_repeat(char *input, int *fds)
+int	wait_heredoc(pid_t here_pid)
+{
+	int	stat;
+
+	signals_handler_setup(1);
+	waitpid(here_pid, &stat, 0);
+	if (WIFSIGNALED(stat))
+	{
+		if (WTERMSIG(stat) == 2)
+			ft_printf("\n");
+		return (1);
+	}
+	return (0);
+}
+
+int	heredoc_repeat(char *d, int *fds)
 {
 	int		c;
+	pid_t	here_pid;
 
 	if (pipe(fds) == ERROR)
 	{
 		ft_dprintf(2, "Error opening pipe for heredoc\n");
 		return (ERROR);
 	}
-	input = remove_quotes(input);
-	if (!input)
+	d = remove_quotes(d);
+	if (!d)
 		return (ERROR);
 	c = 0;
-	while (input[c] && !ft_isspace(input[c]) && \
-	input[c] != PIPE && input[c] != AMP)
+	while (d[c] && !ft_isspace(d[c]) && d[c] != PIPE && d[c] != AMP)
 		c++;
-	while (1)
-		if (heredoc_routine(input, c, fds) == ERROR)
-			break ;
-	free(input);
+	here_pid = fork();
+	if (!here_pid)
+		while (1)
+			if (heredoc_routine(d, c, fds) == ERROR)
+				exit(0);
+	g_exit_code = wait_heredoc(here_pid);
+	free(d);
 	close(fds[1]);
+	if (g_exit_code)
+		return (-2);
 	return (0);
 }
 
@@ -104,33 +127,11 @@ int	heredoc_check(char *input, t_data *data)
 				if (!data->heredocs[c])
 					return (ERROR);
 				code = heredoc_repeat(++input, data->heredocs[c]);
-				if (code == ERROR)
-				{
-					free2dint(data->heredocs, c);
-					return (ERROR);
-				}
+				if (code)
+					return (error_free2dint(data->heredocs, c, code));
 			}
 			c++;
 		}
 	}
 	return (c);
-}
-
-int	check_double_commands(char *str, int c, int diff)
-{
-	if (c == 0 && diff == -1)
-		return (false);
-	c = c + diff;
-	while (ft_isspace(str[c]))
-		c += diff;
-	if (str[c] && c >= 0 && str[c] != '|' && str[c] != '&')
-	{
-		if (diff == -1)
-			diff = 40;
-		else
-			diff = str[c];
-		ft_dprintf(2, "Error parsing symbol '%c'\n", diff);
-		return (true);
-	}
-	return (false);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   error_handler.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: lmuzio <lmuzio@student.codam.nl>             +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/05/17 01:26:56 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/12 00:47:21 by lmuzio        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   error_handler.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/17 01:26:56 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/10/31 17:50:21 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ int	error_free(void *tofree)
 	return (1);
 }
 
-int	error_free2dint(void *tofree)
+int	error_free2dint(void *tofree, int len, int ret)
 {
 	free2dint(tofree, 0);
-	return (1);
+	return (ret);
 }
 
 int	error_free2d(void *tofree)

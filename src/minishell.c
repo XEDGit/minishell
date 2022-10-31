@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:20:31 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/10/31 15:08:34 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/10/31 17:14:44 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,6 @@ int	semicolon_handle(char *buffer, t_env *env)
 	return (code);
 }
 
-void	error_handle(char **buffer, int code)
-{
-	// if (code == ERROR)
-		// ft_dprintf(2, "Shell error: malloc() failed\n");
-	free(*buffer);
-}
-
 int	main(int argc, char *argv[], char *envp[])
 {
 	char	*buffer;
@@ -68,7 +61,7 @@ int	main(int argc, char *argv[], char *envp[])
 		if (!buffer)
 			break ;
 		code = semicolon_handle(buffer, env);
-		error_handle(&buffer, code);
+		free(buffer);
 		if (code == 2)
 			break ;
 	}
