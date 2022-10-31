@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   env.h                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/17 16:31:48 by nmolinel          #+#    #+#             */
-/*   Updated: 2022/10/26 15:58:18 by nmolinel         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   env.h                                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/09/17 16:31:48 by nmolinel      #+#    #+#                 */
+/*   Updated: 2022/10/31 14:23:59 by nmolinel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 # define ENV_H
 
 # include <stddef.h>
+# include <stdbool.h>
 
 # define B_INITSIZE 30
 # define B_INCRSIZE 60
+# define VARIDERR "not valid identifier"
 
 typedef struct s_buffvar
 {
@@ -48,5 +50,6 @@ char		*build_var(char *name, char *value);
 
 char		*copy_var(char *p, int i);
 t_buffvar	*add_var(t_buffvar *buff,char *var, int index);
+bool		valid_varname(char *name);
 
 #endif

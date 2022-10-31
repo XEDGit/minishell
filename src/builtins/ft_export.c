@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_export.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/17 16:34:23 by nmolinel          #+#    #+#             */
-/*   Updated: 2022/10/26 16:16:30 by nmolinel         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   ft_export.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/09/17 16:34:23 by nmolinel      #+#    #+#                 */
+/*   Updated: 2022/10/31 14:23:41 by nmolinel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <shared.h>
 
 #define EXPDEC "declare -x "
-#define VARDIGERR "variable starting with digit are not allowed"
 
 int	get_arr_length(char **arr)
 {
@@ -83,9 +82,9 @@ int	ft_export(char **args, t_env *env)
 		return (print_p(env));
 	while (args && *args)
 	{
-		if (ft_isdigit(**args))
+		if (!valid_varname(*args))
 		{
-			error_int(VARDIGERR, "export", 1, 0);
+			error_int(VARIDERR, "export", 1, 0);
 			args++;
 			continue ;
 		}

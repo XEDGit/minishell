@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   env_util.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/26 15:45:44 by nmolinel          #+#    #+#             */
-/*   Updated: 2022/10/26 15:59:20 by nmolinel         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   env_util.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/10/26 15:45:44 by nmolinel      #+#    #+#                 */
+/*   Updated: 2022/10/31 15:50:24 by nmolinel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,18 @@ t_buffvar	*add_var(t_buffvar *buff, char *var, int index)
 		buff->mem[buff->index] = 0;
 	}
 	return (buff);
+}
+
+bool	valid_varname(char *name)
+{
+	if (ft_isdigit(*name) || *name == '=' || \
+	(*name == '$' && !*(name + 1)) || *name == ' ')
+		return (false);
+	while (*name && *name != '=')
+	{
+		if (*name == ' ' || *name == '+')
+			return (false);
+		name++;
+	}
+	return (true);
 }

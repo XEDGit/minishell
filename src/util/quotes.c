@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   quotes.c                                           :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/12 18:52:41 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/10/05 14:37:11 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/10/31 15:00:31 by nmolinel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,10 @@ int	clean_quotes(t_cmd *cmd)
 	i = 0;
 	while (cmd->args[i])
 	{
-		p = quotes_del(cmd->args[i]);
+		if (ft_strlen(cmd->args[i]) == 2 && !ft_strcmp(cmd->args[i], "\"\""))
+			p = ft_strdup("");
+		else
+			p = quotes_del(cmd->args[i]);
 		if (!p)
 			return (false);
 		free(cmd->args[i]);
