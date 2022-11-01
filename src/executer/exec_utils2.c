@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exec_utils2.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/02 18:36:19 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/10/31 15:27:35 by lmuzio           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   exec_utils2.c                                      :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/09/02 18:36:19 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/11/01 18:08:56 by nmolinel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	watch_child(pid_t pid)
 {
 	int	statbuf;
-	int	exit_code;
 
 	if (waitpid(pid, &statbuf, 0) != pid)
 		return ;

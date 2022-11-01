@@ -6,14 +6,14 @@
 /*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/26 15:45:44 by nmolinel      #+#    #+#                 */
-/*   Updated: 2022/10/31 15:50:24 by nmolinel      ########   odam.nl         */
+/*   Updated: 2022/11/01 18:08:08 by nmolinel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <env.h>
 #include <ft_libc.h>
 
-char	*copy_var(char *p, int i)
+char	*copy_var(char *p)
 {
 	char	*out;
 

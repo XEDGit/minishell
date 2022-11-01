@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/26 15:36:31 by nmolinel          #+#    #+#             */
-/*   Updated: 2022/10/26 15:57:30 by nmolinel         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   env.c                                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/10/26 15:36:31 by nmolinel      #+#    #+#                 */
+/*   Updated: 2022/11/01 18:08:17 by nmolinel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ t_env	*env_remove(t_env *env, char *varname, int mode)
 {
 	t_buffvar	*buff;
 	int			index;
-	char		**split;
-	char		*dup;
 
 	buff = env->envp;
 	if (mode == 2)
@@ -117,13 +115,13 @@ char	*env_get(t_env *env, char *name, int mode)
 		buff = env->envl;
 	i = buff_contains(buff, name, &n);
 	if (i >= 0)
-		return (copy_var(buff->mem[i] + n, i));
+		return (copy_var(buff->mem[i] + n));
 	if (!mode)
 	{
 		buff = env->envl;
 		i = buff_contains(buff, name, &n);
 		if (i >= 0)
-			return (copy_var(buff->mem[i] + n, i));
+			return (copy_var(buff->mem[i] + n));
 	}
 	out = malloc(sizeof(char));
 	if (out)
