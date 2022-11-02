@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   executer.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/05 13:37:54 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/10/31 15:20:39 by lmuzio           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   executer.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/10/05 13:37:54 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/11/02 15:27:26 by nmolinel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	condition_check(t_cmd **cmd, int *piping)
 	int	ret;
 
 	*piping = false;
+	ret = false;
 	if ((*cmd)->conditional == '|')
 	{
 		if (g_exit_code == 0)
@@ -105,7 +106,6 @@ int	executer_loop(t_cmd *start, t_data *data)
 int	executer(t_data *data)
 {
 	int		ret;
-	pid_t	child_pid;
 	t_cmd	*start;
 	char	*paths;
 

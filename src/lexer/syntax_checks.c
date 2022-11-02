@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   syntax_checks.c                                    :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/08 15:32:59 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/12 00:27:32 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/11/02 15:28:20 by nmolinel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ int	lexer_multiline_check(char *in, int delimiter)
 int	parenthesis_check(char *input)
 {
 	int	depth;
-	int	temp;
 	int	c;
 
 	c = 0;

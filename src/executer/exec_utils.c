@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   exec_utils.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
+/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/02 18:36:19 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/09/14 14:07:06 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/11/02 18:12:13 by nmolinel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	check_file(char *path, int initial)
 	if (access(path, F_OK))
 	{
 		if (initial)
-			return (error_int("File or folder not found", path, 1, false));
+			return (error_int("File or folder not found", path, 127, false));
 		return (false);
 	}
 	if (S_ISDIR(statbuf.st_mode))
@@ -53,20 +53,21 @@ char	*check_paths(char **paths, char *cmd)
 {
 	char	*res_path;
 
+	if (!ft_strcmp(cmd, "."))
+		return ((char *)(long) error_int("command not found", cmd, 2, 0));
 	if (ft_strchr(cmd, '/'))
 	{
 		if (check_file(cmd, true) == true)
 			return (cmd);
-		else
-			return (false);
+		return (false);
 	}
 	while (paths && *paths)
 	{
-		res_path = build_path(*paths - 1, cmd - 1, \
-			ft_strlen(*paths) + ft_strlen(cmd) + 2);
+		res_path = bp(paths, cmd);
 		if (!res_path || check_file(res_path, false) == true)
 		{
-			free(cmd); // for some reason creates double free
+			if (res_path)
+				free(cmd);
 			return (res_path);
 		}
 		free(res_path);

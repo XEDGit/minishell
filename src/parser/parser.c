@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/10 20:22:54 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/10/26 16:14:34 by nmolinel         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parser.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/05/10 20:22:54 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/11/02 15:28:56 by nmolinel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int	set_data(char *input, t_cmd *cmd)
 int	p_setter(t_cmd **lst, char **tables, t_data *data)
 {
 	t_cmd	*cmd;
-	char	*rest;
 
 	cmd = add_cmd(lst);
 	if (cmd && \

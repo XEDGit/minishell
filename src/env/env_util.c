@@ -6,7 +6,7 @@
 /*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/26 15:45:44 by nmolinel      #+#    #+#                 */
-/*   Updated: 2022/11/01 18:08:08 by nmolinel      ########   odam.nl         */
+/*   Updated: 2022/11/02 16:00:27 by nmolinel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_buffvar	*add_var(t_buffvar *buff, char *var, int index)
 
 bool	valid_varname(char *name)
 {
-	if (ft_isdigit(*name) || *name == '=' || \
+	if (!*name || ft_isdigit(*name) || *name == '=' || \
 	(*name == '$' && !*(name + 1)) || *name == ' ')
 		return (false);
 	while (*name && *name != '=')

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/04 02:24:53 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/09/12 20:05:27 by lmuzio           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   builtins.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/09/04 02:24:53 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/11/02 17:38:58 by nmolinel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,22 @@ int	check_builtin(t_cmd *cmd, t_data *data, int piping)
 		}
 	}
 	return (false);
+}
+
+char	*bp(char **paths, char *cmd)
+{
+	return (build_path(*paths - 1, cmd - 1, \
+	ft_strlen(*paths) + ft_strlen(cmd) + 2));
+}
+
+char	*remove_quotes_pt2(char *p, int i, int open)
+{
+	if (open == DOUBLE_QUOTE || open == SINGLE_QUOTE)
+	{
+		free(p);
+		return (0);
+	}
+	if (p)
+		p[i] = 0;
+	return (p);
 }

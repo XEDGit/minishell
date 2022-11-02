@@ -6,11 +6,13 @@
 /*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/12 18:52:41 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/10/31 15:00:31 by nmolinel      ########   odam.nl         */
+/*   Updated: 2022/11/02 17:45:21 by nmolinel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <shared.h>
+
+char	*remove_quotes_pt2(char *p, int i, int open);
 
 /*
 * This function is to use inside a loop
@@ -56,14 +58,7 @@ char	*remove_quotes(char *input)
 		else
 			input++;
 	}
-	if (open)
-	{
-		free(p);
-		return (0);
-	}
-	if (p)
-		p[i] = 0;
-	return (p);
+	return (remove_quotes_pt2(p, i, open));
 }
 
 int	skip_quotes(char *input)

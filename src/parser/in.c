@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   in.c                                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/26 16:12:33 by nmolinel          #+#    #+#             */
-/*   Updated: 2022/10/26 16:12:34 by nmolinel         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   in.c                                               :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/10/26 16:12:33 by nmolinel      #+#    #+#                 */
+/*   Updated: 2022/11/02 15:31:23 by nmolinel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <parser.h>
 
-static int	here_doc(t_cmd *cmd, int **docs)
-{
-	static int	count;
+// static int	here_doc(t_cmd *cmd, int **docs)
+// {
+// 	static int	count;
 
-	if (cmd->redirects[0] != STDIN_FILENO)
-	{
-		if (close(cmd->redirects[0]) == ERROR)
-			return (error_int("Close error", cmd->cmd, 1, 0));
-	}
-	if (!docs[count])
-		count = 0;
-	cmd->redirects[0] = docs[count++][0];
-	return (1);
-}
+// 	if (cmd->redirects[0] != STDIN_FILENO)
+// 	{
+// 		if (close(cmd->redirects[0]) == ERROR)
+// 			return (error_int("Close error", cmd->cmd, 1, 0));
+// 	}
+// 	if (!docs[count])
+// 		count = 0;
+// 	cmd->redirects[0] = docs[count++][0];
+// 	return (1);
+// }
 
 // meta-> '>' '<' '&' '|' '(' ')' '$'
 char	*skip_word(char **input)

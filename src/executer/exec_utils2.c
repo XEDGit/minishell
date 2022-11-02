@@ -6,7 +6,7 @@
 /*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/02 18:36:19 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/11/01 18:08:56 by nmolinel      ########   odam.nl         */
+/*   Updated: 2022/11/02 16:33:59 by nmolinel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	set_output_fd(t_cmd *cmd, char *file, int open_flags, int mode)
 			return (error_int("Close file descriptor error", file, 1, 0));
 	}
 	cmd->redirects[1] = open(file, open_flags, mode);
-	// free(file);
 	if (cmd->redirects[1] == ERROR)
 		return (error_int("Open file descriptor error", file, 1, 0));
 	return (1);
@@ -54,7 +53,6 @@ int	left_rdrt(t_cmd *cmd, char *file, int mode)
 			return (error_int("Open error", file, 1, false));
 	}
 	cmd->redirects[0] = open(file, mode);
-	// free(file);
 	if (cmd->redirects[0] == ERROR)
 		return (error_int("Open error", file, 1, false));
 	return (1);

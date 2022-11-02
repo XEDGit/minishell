@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   vars_util.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/26 16:04:44 by nmolinel          #+#    #+#             */
-/*   Updated: 2022/10/26 16:04:45 by nmolinel         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   vars_util.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/10/26 16:04:44 by nmolinel      #+#    #+#                 */
+/*   Updated: 2022/11/02 15:44:08 by nmolinel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int	count_vars(char *input)
 
 char	*get_var(char *str, t_env *env)
 {
-	char	c;
 	int		i;
 	char	*name;
 	char	*var;
@@ -89,12 +88,8 @@ int	set_vars(char **vars, char *input, t_env *env)
 			}
 			else
 				vars[i] = get_var(input, env);
-			if (!vars[i])
-			{
-				free2d(vars, 0);
-				return (false);
-			}
-			i++;
+			if (!vars[i++])
+				return (free_2d_ret(vars, i - 1, 0));
 		}
 		input++;
 	}

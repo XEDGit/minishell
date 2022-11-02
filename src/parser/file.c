@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   file.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/26 16:12:14 by nmolinel          #+#    #+#             */
-/*   Updated: 2022/10/26 16:12:15 by nmolinel         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   file.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/10/26 16:12:14 by nmolinel      #+#    #+#                 */
+/*   Updated: 2022/11/02 18:00:31 by nmolinel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char	*get_filename(char **input)
 	tmp = *input;
 	len = get_length(*input);
 	if (!len)
-		return ((char *) error_msg("", -1));
+		return (0);
 	tmp = malloc(sizeof(char) * (++len));
 	if (!tmp)
 		return ((char *) error_msg("Malloc failed", -1));

@@ -1,16 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   vars.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/26 16:03:44 by nmolinel          #+#    #+#             */
-/*   Updated: 2022/10/26 16:03:45 by nmolinel         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   vars.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/10/26 16:03:44 by nmolinel      #+#    #+#                 */
+/*   Updated: 2022/11/02 15:44:29 by nmolinel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <parser.h>
+
+int	free_2d_ret(char **tofree, int len, int ret)
+{
+	free2d(tofree, len);
+	return (ret);
+}
 
 int	get_out_size(char **vars, char *input)
 {

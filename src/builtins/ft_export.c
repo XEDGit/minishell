@@ -6,7 +6,7 @@
 /*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/17 16:34:23 by nmolinel      #+#    #+#                 */
-/*   Updated: 2022/10/31 14:23:41 by nmolinel      ########   odam.nl         */
+/*   Updated: 2022/11/02 16:05:06 by nmolinel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,17 @@ int	print_p(t_env *env)
 int	ft_export(char **args, t_env *env)
 {
 	int		index;
+	int		ret;
 	char	*to_add;
 
 	if (!*(++args))
 		return (print_p(env));
+	ret = 0;
 	while (args && *args)
 	{
 		if (!valid_varname(*args))
 		{
-			error_int(VARIDERR, "export", 1, 0);
+			ret = error_int(VARIDERR, "export", 1, 1);
 			args++;
 			continue ;
 		}
@@ -97,5 +99,5 @@ int	ft_export(char **args, t_env *env)
 			return (137);
 		args++;
 	}
-	return (0);
+	return (ret);
 }

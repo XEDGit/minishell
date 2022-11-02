@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   executer.h                                         :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: lmuzio <lmuzio@student.codam.nl>             +#+                     */
+/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/05 13:37:20 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/10/05 13:37:30 by lmuzio        ########   odam.nl         */
+/*   Updated: 2022/11/02 17:02:50 by nmolinel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,7 @@ int		ft_unset(char **args, t_env *env);
 int		ft_export(char **args, t_env *env);
 int		ft_pwd(char **args, t_env *env);
 int		ft_exit(t_cmd *cmd);
+char	*build_path(char *temp_path, char *temp_cmd, int len);
+char	*bp(char **paths, char *cmd);
 
 #endif

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   redirect.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/26 16:14:47 by nmolinel          #+#    #+#             */
-/*   Updated: 2022/10/26 16:14:48 by nmolinel         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   redirect.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/10/26 16:14:47 by nmolinel      #+#    #+#                 */
+/*   Updated: 2022/11/02 16:26:46 by nmolinel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,12 @@ static int	try_redirect(char **table, t_cmd *cmd)
 	t_file	*file;
 
 	from = *table;
+	red = 0;
 	file = add_file(cmd);
 	if (!file)
 		return (0);
 	file->next = 0;
-	file->mode = MODE;
+	file->mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 	if (**table == RIGHT_REDIRECT)
 		red = out_redirect(table, file);
 	else if (**table == LEFT_REDIRECT)
