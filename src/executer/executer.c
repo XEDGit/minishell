@@ -39,12 +39,8 @@ int	parse_cmd(t_cmd *start, t_data *data)
 		child_pid = fork();
 		if (!child_pid)
 			execute_cmd(start, data->env->envp->mem);
-		if (start->next && start->next->conditional != -1)
-		{
-			watch_child(child_pid);
-			if (!reset_path(data))
-				ft_dprintf(2, SHELLNAME"error allocating PATH\n");
-		}
+		if (parent_behaviour(start, data, child_pid))
+			return (0);
 	}
 	clean_redirects(start);
 	if (!start->cmd)

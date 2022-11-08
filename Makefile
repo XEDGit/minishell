@@ -16,6 +16,7 @@ SRC := builtins/ft_cd.c \
 	executer/builtins.c \
 	executer/exec_utils.c \
 	executer/exec_utils2.c \
+	executer/exec_utils3.c \
 	executer/executer.c \
 	expander/expander.c \
 	expander/tilde.c \
@@ -70,8 +71,8 @@ all: $(NAME)
 run: all
 	./$(NAME)
 
-$(NAME): $(PRINTF_LIB) $(SRCS)
-	$(CC) $(FLAGS) $^ -o $@ $(LIBS) $(HEADERS)
+$(NAME): $(SRCS) $(PRINTF_LIB)
+	$(CC) $(FLAGS) $^ -o $@ $(HEADERS) $(LIBS)
 
 $(PRINTF_LIB):
 	make -C $(PRINTF_PATH)
@@ -87,7 +88,7 @@ re: fclean all
 
 linux_lib:
 	$(eval LIBS := -lreadline)
-	$(eval HEADERS := -Iincludes -Isrc/ft_printf)
+	$(eval HEADERS := -Iincludes)
 
 linux: linux_lib all
 	./minishell
@@ -105,6 +106,6 @@ mem:
 	memdetect  . $(LIBS) $(HEADERS) -e examples -fail $(1)
 
 tester: all
-	python3 new_minishell_tester/tester.py new_minishell_tester/test2 -exe ./minishell $(1)
+	python3 new_minishell_tester/tester.py new_minishell_tester/tests -exe ./minishell $(1)
 
 .PHONY: all run clean fclean re

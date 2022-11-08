@@ -40,6 +40,8 @@ int	wait_heredoc(pid_t here_pid)
 {
 	int	stat;
 
+	if (here_pid == -1)
+		return (error_int("Error forking process for heredoc", 0, -1, 1));
 	signals_handler_setup(1);
 	waitpid(here_pid, &stat, 0);
 	if (WIFSIGNALED(stat))

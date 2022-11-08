@@ -16,21 +16,24 @@ char	*remove_quotes_pt2(char *p, int i, int open);
 
 /*
 * This function is to use inside a loop
-* Returns true (0) if inside unclosed quotes,
-* otherwise if c is ' or " returns the corresponding ascii value 
+* Returns false (0) if outside unclosed quotes,
+* otherwise if c is ' or " returns the corresponding ascii value,
+* call is_open(-1) to reset open 
 */
 int	is_open(char c)
 {
-	static int	open;
+	static int	open = 0;
 
 	if (!open && c == SINGLE_QUOTE)
 		open = SINGLE_QUOTE;
 	else if (!open && c == DOUBLE_QUOTE)
 		open = DOUBLE_QUOTE;
 	else if (open == SINGLE_QUOTE && c == SINGLE_QUOTE)
-		open = 0;
+		open = false;
 	else if (open == DOUBLE_QUOTE && c == DOUBLE_QUOTE)
-		open = 0;
+		open = false;
+	else if (c == -1)
+		open = false;
 	return (open);
 }
 
@@ -58,17 +61,17 @@ char	*remove_quotes(char *input)
 		else
 			input++;
 	}
+	if (is_open(0))
+		is_open(-1);
 	return (remove_quotes_pt2(p, i, open));
 }
 
 int	skip_quotes(char *input)
 {
 	char	ch;
-	char	*start;
 	int		c;
 
 	c = 0;
-	start = input;
 	if (input[c] != DOUBLE_QUOTE && input[c] != SINGLE_QUOTE)
 		return (0);
 	ch = input[c++];
