@@ -51,7 +51,7 @@ int		error_free(void *tofree);
 int		signals_handler_setup(int mode);
 int		free2d(char **tofree, int len);
 int		free2dint(int **tofree, int len);
-int		lexer(char *input, t_data *data);
+int		lexer(char *input, t_env *env);
 int		parser(char **tables, t_data *data);
 int		executer(t_data *data);
 

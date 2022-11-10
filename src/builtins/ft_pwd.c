@@ -17,8 +17,12 @@ int	ft_pwd(char **args, t_env *env)
 	char	*pwd;
 
 	(void)args;
-	(void)env;
-	pwd = getcwd(0, 0);
+	pwd = env_get(env, "PWD", 1);
+	if (!pwd)
+		pwd = getcwd(0, 0);
+	if (!pwd)
+		return (error_int("getcwd: error retrieving current directory", \
+		"pwd", 0, 0));
 	ft_printf("%s\n", pwd);
 	free(pwd);
 	return (0);

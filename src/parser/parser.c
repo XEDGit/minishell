@@ -88,7 +88,6 @@ int	parser(char **tables, t_data *data)
 		tables++;
 	}
 	data->cmds = cmds;
-	data->heredoc_c = 0;
 	if (executer(data))
 		exit = 2;
 	free_cmds(cmds, to_free, 0);

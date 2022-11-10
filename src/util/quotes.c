@@ -51,7 +51,7 @@ char	*remove_quotes(char *input)
 	i = 0;
 	while (p && *input)
 	{
-		if (*input == '<' || *input == '>')
+		if (*input == '<' || *input == '>' || *input == ';')
 			break ;
 		open = is_open(*input);
 		if (!open && (*input == SINGLE_QUOTE || *input == DOUBLE_QUOTE))
@@ -61,7 +61,7 @@ char	*remove_quotes(char *input)
 		else
 			input++;
 	}
-	if (is_open(0))
+	if (open)
 		is_open(-1);
 	return (remove_quotes_pt2(p, i, open));
 }
@@ -102,6 +102,8 @@ char	*quotes_del(char *str)
 		else
 			str++;
 	}
+	if (open)
+		is_open(-1);
 	p[i] = 0;
 	return (p);
 }

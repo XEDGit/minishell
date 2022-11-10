@@ -16,32 +16,6 @@
 
 int	g_exit_code;
 
-int	semicolon_handle(char *buffer, t_env *env)
-{
-	char	**semi_colons_split;
-	int		counter;
-	int		code;
-	t_data	data;
-
-	semi_colons_split = ft_split(buffer, ";");
-	if (!semi_colons_split)
-		return (ERROR);
-	counter = 0;
-	while (semi_colons_split[counter])
-	{
-		data = (t_data){0, 0, 0, 0, 0, env};
-		code = lexer(semi_colons_split[counter], &data);
-		if (code == 1)
-			error_int("Error parsing syntax", 0, 2, 0);
-		if (code == ERROR || code == 2)
-			break ;
-		counter++;
-		waitpid(-1, 0, 0);
-	}
-	free2d(semi_colons_split, 0);
-	return (code);
-}
-
 int	main(int argc, char *argv[], char *envp[])
 {
 	char	*buffer;
@@ -60,7 +34,7 @@ int	main(int argc, char *argv[], char *envp[])
 		buffer = readline(TITLE);
 		if (!buffer)
 			break ;
-		code = semicolon_handle(buffer, env);
+		code = lexer(buffer, env);
 		free(buffer);
 		if (code == 2)
 			break ;

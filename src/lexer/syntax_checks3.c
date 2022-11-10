@@ -12,6 +12,35 @@
 
 #include <lexer.h>
 
+int	multiline_handle(t_data *data, char *input)
+{
+	int	count;
+
+	count = lexer_multiline_check(input, 0);
+	if (count == ERROR)
+		return (error_int("Syntax error", 0, 2, 1));
+	data->input = ft_strdup(input);
+	if (!data->input)
+		return (error_int("Error allocating user input", "malloc", -1, 1));
+	if (count)
+		count = repeat_readline(&data->input, count, data);
+	add_history(data->input);
+	if (count || syntax_check(data->input, data))
+	{
+		free(data->input);
+		return (1);
+	}
+	count = heredoc_check(input, data);
+	if (count < 0)
+	{
+		free(data->input);
+		if (count == ERROR)
+			ft_dprintf(2, "Error: An error in heredoc functioning happened\n");
+		return (true);
+	}
+	return (0);
+}
+
 int	check_double_commands(char *str, int c, int diff)
 {
 	if (c == 0 && diff == -1)
@@ -29,4 +58,19 @@ int	check_double_commands(char *str, int c, int diff)
 		return (true);
 	}
 	return (false);
+}
+
+void	truncate_delimiter(char *del)
+{
+	while (*del)
+	{
+		if (*del == '<' || *del == '>' || *del == '|' \
+		|| *del == '&' || *del == '\n' || *del == ';' \
+		|| ft_isspace(*del))
+		{
+			*del = 0;
+			return ;
+		}
+		del++;
+	}
 }

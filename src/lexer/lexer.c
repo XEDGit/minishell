@@ -28,16 +28,16 @@ int	repeat_readline(char **buffer, char delimiter, t_data *data)
 			free(input);
 			return (true);
 		}
+		if (ft_strjoin(buffer, "\n") == ERROR)
+			return (error_int("malloc error", 0, -1, ERROR));
 		if (ft_strjoin(buffer, input) == ERROR)
 			return (error_int("malloc error", 0, -1, ERROR));
 	}
 	else
 		c = delimiter;
-	if (!input || syntax_check(input, data))
-		return (error_int("syntax error", 0, 2, ERROR));
+	free(input);
 	if (c)
 		c = repeat_readline(buffer, c, data);
-	free(input);
 	return (c);
 }
 
@@ -47,6 +47,8 @@ int	syntax_check(char *input, t_data *data)
 
 	if (!check_standalone_redirects(input))
 		return (error_int("syntax error", 0, 2, 1));
+	if (parenthesis_check(data->input))
+		return (error_int("syntax error near ')'", 0, 2, 1));
 	error = io_check(input);
 	if (error)
 	{
@@ -54,40 +56,43 @@ int	syntax_check(char *input, t_data *data)
 		g_exit_code = 2;
 		return (true);
 	}
-	error = heredoc_check(input, data);
-	if (error < 0)
-	{
-		if (error == ERROR)
-			ft_dprintf(2, "Error: An error in heredoc functioning happened\n");
-		return (true);
-	}
 	return (false);
 }
 
-int	lexer(char *input, t_data *data)
+int lexer_semicolon(char *input, t_data *data)
 {
 	char	**tables;
-	int		count;
+	int		code;
 
-	count = lexer_multiline_check(input, 0);
-	if (count == ERROR || syntax_check(input, data))
+	if (syntax_check(input, data))
 		return (1);
-	data->input = ft_strdup(input);
-	if (!data->input)
-		return (free2dint(data->heredocs, 0));
-	if (count)
-		count = repeat_readline(&data->input, count, data);
-	add_history(data->input);
-	if (count || parenthesis_check(data->input))
-	{
-		free2dint(data->heredocs, 0);
-		free(data->input);
-		return (count);
-	}
-	tables = ft_split(data->input, "|&");
+	tables = ft_split(input, "|&");
 	if (tables)
-		count = parser(tables, data);
-	free(data->input);
-	free2dint(data->heredocs, 0);
-	return (count);
+		code = parser(tables, data);
+	if (code == ERROR || code == 2)
+		return (code);
+	waitpid(-1, 0, 0);
+	return (0);
+}
+
+
+int	lexer(char *input, t_env *env)
+{
+	char	**semicolon;
+	int		count;
+	int		code;
+	t_data	data;
+
+	data = (t_data){0, 0, 0, 0, 0, env};
+	if (multiline_handle(&data, input))
+		return (1);
+	semicolon = ft_split(data.input, ";");
+	count = 0;
+	code = 0;
+	while (semicolon && semicolon[count] && code == 0)
+		code = lexer_semicolon(semicolon[count++], &data);
+	free(data.input);
+	free2d(semicolon, 0);
+	free2dint(data.heredocs, 0);
+	return (code);
 }

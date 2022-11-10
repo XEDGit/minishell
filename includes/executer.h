@@ -40,7 +40,7 @@ int		ft_unset(char **args, t_env *env);
 int		ft_export(char **args, t_env *env);
 int		ft_pwd(char **args, t_env *env);
 int		ft_exit(t_cmd *cmd);
-int	    parent_behaviour(t_cmd *start, t_data *data, pid_t child_pid);
+int		parent_behaviour(t_cmd *start, t_data *data, pid_t child_pid);
 char	*build_path(char *temp_path, char *temp_cmd, int len);
 char	*bp(char **paths, char *cmd);
 
