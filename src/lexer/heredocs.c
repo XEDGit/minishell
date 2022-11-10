@@ -79,26 +79,8 @@ int	heredoc_repeat(char *d, int *fds)
 	return (0);
 }
 
-int	heredoc_init(char *input, t_data *data, int *c)
+int	heredoc_init(char *input, t_data *data)
 {
-	// int	**mall;
-	// int	rcount;
-(void)c; //maybe it was for multiline input with heredoc on line different than first
-	// if (data->heredocs)
-	// {
-	// 	*c = data->heredoc_c;
-	// 	data->heredoc_c += heredoc_check(input, 0);
-	// 	mall = malloc((data->heredoc_c + 1) * sizeof(int *));
-	// 	if (!mall)
-	// 		return (ERROR);
-	// 	mall[data->heredoc_c] = 0;
-	// 	rcount = -1;
-	// 	while (data->heredocs[++rcount])
-	// 		mall[rcount] = data->heredocs[rcount];
-	// 	free(data->heredocs);
-	// 	data->heredocs = mall;
-	// 	return (false);
-	// }
 	data->heredoc_c = heredoc_check(input, 0);
 	data->heredocs = malloc((data->heredoc_c + 1) * sizeof(int *));
 	if (!data->heredocs)
@@ -114,7 +96,7 @@ int	heredoc_check(char *input, t_data *data)
 	int	code;
 
 	c = 0;
-	if (data && heredoc_init(input, data, &c) == ERROR)
+	if (data && heredoc_init(input, data) == ERROR)
 		return (ERROR);
 	while (*input)
 	{

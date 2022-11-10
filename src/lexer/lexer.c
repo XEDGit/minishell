@@ -59,7 +59,7 @@ int	syntax_check(char *input, t_data *data)
 	return (false);
 }
 
-int lexer_semicolon(char *input, t_data *data)
+int	lexer_semicolon(char *input, t_data *data)
 {
 	char	**tables;
 	int		code;
@@ -74,7 +74,6 @@ int lexer_semicolon(char *input, t_data *data)
 	waitpid(-1, 0, 0);
 	return (0);
 }
-
 
 int	lexer(char *input, t_env *env)
 {
