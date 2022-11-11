@@ -107,7 +107,7 @@ int	heredoc_check(char *input, t_data *data)
 			{
 				data->heredocs[c] = malloc(sizeof(int) * 2);
 				if (!data->heredocs[c])
-					return (ERROR);
+					return (error_free2dint(data->heredocs, c, ERROR));
 				code = heredoc_repeat(++input, data->heredocs[c]);
 				if (code)
 					return (error_free2dint(data->heredocs, c, code));

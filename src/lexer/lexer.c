@@ -20,23 +20,23 @@ int	repeat_readline(char **buffer, char delimiter, t_data *data)
 	input = readline(">");
 	if (input && *input)
 	{
-		if (delimiter == 1)
-			delimiter = 0;
 		c = lexer_multiline_check(input, delimiter);
 		if (c == ERROR)
 		{
 			free(input);
-			return (true);
+			return (error_int("syntax error", 0, 2, 1));
 		}
-		if (ft_strjoin(buffer, "\n") == ERROR)
+		if (delimiter != 1 && ft_strjoin(buffer, "\n", false) == ERROR)
 			return (error_int("malloc error", 0, -1, ERROR));
-		if (ft_strjoin(buffer, input) == ERROR)
+		if (ft_strjoin(buffer, input, true) == ERROR)
 			return (error_int("malloc error", 0, -1, ERROR));
 	}
-	else
+	else if (input)
 		c = delimiter;
+	else
+		c = error_int("syntax error", 0, 2, ERROR);
 	free(input);
-	if (c)
+	if (c > 0)
 		c = repeat_readline(buffer, c, data);
 	return (c);
 }
@@ -66,9 +66,12 @@ int	lexer_semicolon(char *input, t_data *data)
 
 	if (syntax_check(input, data))
 		return (1);
+	code = 0;
 	tables = ft_split(input, "|&");
 	if (tables)
 		code = parser(tables, data);
+	else
+		error_int("Allocation failed", "malloc", -1, 0);
 	if (code == ERROR || code == 2)
 		return (code);
 	waitpid(-1, 0, 0);
@@ -83,9 +86,17 @@ int	lexer(char *input, t_env *env)
 	t_data	data;
 
 	data = (t_data){0, 0, 0, 0, 0, env};
-	if (multiline_handle(&data, input))
+	count = lexer_multiline_check(input, 0);
+	if (count == ERROR)
+	{
+		add_history(input);
+		return (error_int("Syntax error", 0, 2, 1));
+	}
+	if (multiline_handle(&data, input, count))
 		return (1);
 	semicolon = ft_split(data.input, ";");
+	if (!semicolon)
+		error_int("Allocation failed", "malloc", -1, 0);
 	count = 0;
 	code = 0;
 	while (semicolon && semicolon[count] && code == 0)

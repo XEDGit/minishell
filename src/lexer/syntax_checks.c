@@ -75,6 +75,8 @@ int	lexer_multiline_check(char *in, int delimiter)
 	int	open;
 	int	err;
 
+	if (delimiter == 1)
+		delimiter = 0;
 	open = delimiter;
 	while (*in && *in == ' ')
 		in++;
@@ -82,6 +84,8 @@ int	lexer_multiline_check(char *in, int delimiter)
 		return (ERROR);
 	while (*in)
 	{
+		if (!open && pipe_check(in))
+			return (pipe_check(in));
 		err = check_quotes(in, &open, delimiter);
 		if (err)
 			return (err);

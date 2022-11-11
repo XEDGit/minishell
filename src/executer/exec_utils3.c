@@ -21,11 +21,12 @@ int	parent_behaviour(t_cmd *start, t_data *data, pid_t child_pid)
 
 char	*remove_quotes_pt2(char *p, int i, int open)
 {
-	if (open == DOUBLE_QUOTE || open == SINGLE_QUOTE)
-	{
-		free(p);
-		return (0);
-	}
+	// if (open == DOUBLE_QUOTE || open == SINGLE_QUOTE)
+	// {
+	// 	free(p);
+	// 	return (0);
+	// }
+	(void)open;
 	if (p)
 		p[i] = 0;
 	return (p);

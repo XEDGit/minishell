@@ -19,7 +19,7 @@
 
 int		ft_isdigit(char ch);
 char	**ft_split(char const *s, char *c);
-int		ft_strjoin(char **s1, char const *s2);
+int		ft_strjoin(char **s1, char const *s2, int free_s2);
 void	*ft_memset(void *b, int c, size_t len);
 char	*ft_strdup(const char *s1);
 char	*ft_strchr(char *str, char key);

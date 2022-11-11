@@ -108,6 +108,8 @@ int	executer(t_data *data)
 	ret = 0;
 	paths = env_get(data->env, "PATH", 0);
 	data->paths = ft_split(paths, ":");
+	if (!data->paths)
+		error_int("path allocation failed", "malloc", -1, 0);
 	free(paths);
 	start = data->cmds;
 	signals_handler_setup(1);

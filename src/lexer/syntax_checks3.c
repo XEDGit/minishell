@@ -12,29 +12,24 @@
 
 #include <lexer.h>
 
-int	multiline_handle(t_data *data, char *input)
+int	multiline_handle(t_data *data, char *input, int c)
 {
-	int	count;
-
-	count = lexer_multiline_check(input, 0);
-	if (count == ERROR)
-		return (error_int("Syntax error", 0, 2, 1));
 	data->input = ft_strdup(input);
 	if (!data->input)
 		return (error_int("Error allocating user input", "malloc", -1, 1));
-	if (count)
-		count = repeat_readline(&data->input, count, data);
+	if (c)
+		c = repeat_readline(&data->input, c, data);
 	add_history(data->input);
-	if (count || syntax_check(data->input, data))
+	if (c || syntax_check(data->input, data))
 	{
 		free(data->input);
 		return (1);
 	}
-	count = heredoc_check(input, data);
-	if (count < 0)
+	c = heredoc_check(data->input, data);
+	if (c < 0)
 	{
 		free(data->input);
-		if (count == ERROR)
+		if (c == ERROR)
 			ft_dprintf(2, "Error: An error in heredoc functioning happened\n");
 		return (true);
 	}

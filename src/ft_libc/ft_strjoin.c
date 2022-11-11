@@ -15,7 +15,7 @@
 /* Joins two strings and frees s1,
 return -1 and free s2 on fail, return 0 on success
 and assign new string to s1 variable */
-int	ft_strjoin(char **s1, char const *s2)
+int	ft_strjoin(char **s1, char const *s2, int free_s2)
 {
 	char	*res;
 	char	*cur;
@@ -27,7 +27,8 @@ int	ft_strjoin(char **s1, char const *s2)
 	res = malloc(ft_strlen(temp) + ft_strlen(s2) + 1);
 	if (!res)
 	{
-		free((void *)s2);
+		if (free_s2)
+			free((void *)s2);
 		return (ERROR);
 	}
 	cur = res;

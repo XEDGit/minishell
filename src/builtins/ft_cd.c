@@ -60,7 +60,7 @@ int	chdir_wrapper(t_env *env, char *path)
 	new_path = getcwd(0, 0);
 	if (!new_path)
 	{
-		if ((*path != '/' && ft_strjoin(&pwd, "/")) || ft_strjoin(&pwd, path))
+		if ((*path != '/' && ft_strjoin(&pwd, "/", false)) || ft_strjoin(&pwd, path, true))
 			error_int("malloc fail", "cd", -1, 0);
 		new_path = build_var("PWD", pwd);
 		env_add(env, new_path, 1);
