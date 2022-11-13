@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 16:34:03 by nmolinel          #+#    #+#             */
-/*   Updated: 2022/10/31 17:51:18 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/11/13 20:05:05 by nmolinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ int	ft_cd(char **args, t_env *env)
 		home = env_get(env, "HOME", 0);
 		if (!home)
 			return (137);
+		else if (!*home)
+			return (0);
 		code = chdir_wrapper(env, home);
 		free(home);
 		return (code);
