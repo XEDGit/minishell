@@ -15,12 +15,9 @@
 
 char	*copy_var(char *p)
 {
-	char	*out;
-
-	out = malloc(sizeof(char) * ft_strlen(p) + 1);
-	if (out)
-		ft_strlcpy(out, p, ft_strlen(p) + 1);
-	return (out);
+	if (p && !*p)
+		return (ft_strdup(""));
+	return (ft_strdup(p));
 }
 
 t_buffvar	*add_var(t_buffvar *buff, char *var, int index)

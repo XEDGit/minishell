@@ -32,12 +32,17 @@ int	buff_contains(t_buffvar *buff, char *to_find, size_t *offset)
 	n = 0;
 	while (i < buff->index)
 	{
-		n = ft_strchr(buff->mem[i], '=') - buff->mem[i];
+		if (ft_strchr(buff->mem[i], '='))
+			n = ft_strchr(buff->mem[i], '=') - buff->mem[i];
+		else
+			n = ft_strlen(buff->mem[i]);
 		if (!ft_strncmp(buff->mem[i], to_find, n) && \
 		!ft_strncmp(buff->mem[i], to_find, ft_strlen(to_find)))
 		{
 			if (offset)
 				*offset = n + 1;
+			if (n == ft_strlen(buff->mem[i]) && offset)
+				*offset = n;
 			return (i);
 		}
 		i++;

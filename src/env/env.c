@@ -98,9 +98,9 @@ t_env	*env_add(t_env *env, char *var, int mode)
 }
 
 /**
-*	mode 0 both
 *	mode 1 envp only
 *	mode 2 envl only
+*	mode 0 both
 *	Returns value of variable, 0 if error
 */
 char	*env_get(t_env *env, char *name, int mode)
