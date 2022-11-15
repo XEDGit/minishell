@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:32:59 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/10/31 17:42:49 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/11/15 15:25:13 by nmolinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	syntax_check(char *input, t_data *data)
 	error = io_check(input);
 	if (error)
 	{
-		ft_dprintf(2, "Error: Parsing failed at char '%c'\n", error);
+		ft_dprintf(2, "SkiruSh: Parsing failed at char '%c'\n", error);
 		g_exit_code = 2;
 		return (true);
 	}

@@ -6,7 +6,7 @@
 /*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:08:34 by nmolinel          #+#    #+#             */
-/*   Updated: 2022/10/26 16:11:49 by nmolinel         ###   ########.fr       */
+/*   Updated: 2022/11/15 16:39:22 by nmolinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,22 +95,3 @@ int	free_cmds(t_cmd *start, char **table, int exit_code)
 		free2d(table, 0);
 	return (exit_code);
 }
-
-// int	debug_cmds(t_cmd *st)
-// {
-// 	int	i;
-// 	int	c;
-
-// 	i = 0;
-// 	while (st)
-// 	{
-// 		c = -1;
-// 		printf("-CMD[%2d]: %s$-------\n-ARG", i++, st->cmd);
-// 		while (st->args && st->args[++c])
-// 			printf("[%2d]: %s$", c, st->args[c]);
-//printf("\n----IN:\t%d\n---OUT:\t%d\n", st->redirects[0], st->redirects[1]);
-// 		printf("--COND: %c\n-DEPTH: %d\n", st->conditional, st->depth);
-// 		st = st->next;
-// 	}
-// 	return (0);
-// }

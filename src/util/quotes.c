@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   quotes.c                                           :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/05/12 18:52:41 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/11/02 17:45:21 by nmolinel      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   quotes.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/12 18:52:41 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/11/15 16:42:09 by nmolinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <shared.h>
 
-char	*remove_quotes_pt2(char *p, int i, int open);
+char	*remove_quotes_pt2(char *p, int i);
+int		truncate_delimiter(char *del );
 
 /*
 * This function is to use inside a loop
@@ -51,19 +52,19 @@ char	*remove_quotes(char *input)
 	i = 0;
 	while (p && *input)
 	{
-		if (*input == '<' || *input == '>' || *input == ';')
-			break ;
 		open = is_open(*input);
-		if (!open && (*input == SINGLE_QUOTE || *input == DOUBLE_QUOTE))
-			input++;
-		else if (!open || (open && *input != open))
+		if ((!open && *input != '\'' && *input != '\"') \
+		|| (open && *input != open))
 			p[i++] = *input++;
 		else
+		{
 			input++;
+			continue ;
+		}
+		if (!open && i > 0 && truncate_delimiter(&p[i - 1]))
+			break ;
 	}
-	if (open)
-		is_open(-1);
-	return (remove_quotes_pt2(p, i, open));
+	return (remove_quotes_pt2(p, i));
 }
 
 int	skip_quotes(char *input)

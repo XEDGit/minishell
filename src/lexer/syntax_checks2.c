@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   syntax_checks2.c                                   :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/09/11 18:33:40 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/10/31 12:01:38 by nmolinel      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   syntax_checks2.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/11 18:33:40 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/11/15 15:23:40 by nmolinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	io_routine(char *input, char ch)
 		input++;
 	while (*input && *input == ' ')
 		input++;
-	if (*input == ch || *input == ch2)
+	if (*input == ch || *input == ch2 || !*input)
 		return (true);
 	return (false);
 }
@@ -80,6 +80,7 @@ int	io_check(char *input)
 {
 	while (*input)
 	{
+		input += skip_quotes(input);
 		if (*input == '<' && io_routine(input, '<'))
 			return ('<');
 		else if (*input == '>' && io_routine(input, '>'))

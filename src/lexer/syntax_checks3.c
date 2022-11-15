@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_checks3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:18:27 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/10/31 16:18:49 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/11/15 13:22:22 by nmolinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,14 @@ int	check_double_commands(char *str, int c, int diff)
 	return (false);
 }
 
-void	truncate_delimiter(char *del)
+int	truncate_delimiter(char *del)
 {
-	while (*del)
+	if (*del == '<' || *del == '>' || *del == '|' \
+	|| *del == '&' || *del == '\n' || *del == ';' \
+	|| ft_isspace(*del))
 	{
-		if (*del == '<' || *del == '>' || *del == '|' \
-		|| *del == '&' || *del == '\n' || *del == ';' \
-		|| ft_isspace(*del))
-		{
-			*del = 0;
-			return ;
-		}
-		del++;
+		*del = 0;
+		return (true);
 	}
+	return (false);
 }

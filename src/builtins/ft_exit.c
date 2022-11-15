@@ -19,7 +19,7 @@ int	ft_exit(t_cmd *cmd)
 	isdigit = 0;
 	if (cmd->args[1] && !cmd->args[2])
 	{
-		if (cmd->args[1][0] == '-')
+		if (cmd->args[1][0] == '-' || cmd->args[1][0] == '+')
 			isdigit++;
 		while (cmd->args[1][isdigit] && cmd->args[1][isdigit] <= '9' \
 		&& cmd->args[1][isdigit] >= '0')

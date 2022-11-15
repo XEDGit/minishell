@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredocs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 19:05:18 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/10/31 17:46:51 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/11/15 15:16:40 by nmolinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int	heredoc_repeat(char *d, int *fds)
 	d = remove_quotes(d);
 	if (!d)
 		return (ERROR);
-	truncate_delimiter(d);
 	here_pid = fork();
 	if (!here_pid)
 		while (1)

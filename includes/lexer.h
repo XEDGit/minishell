@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   lexer.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/04/25 18:25:56 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/10/31 12:01:22 by nmolinel      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   lexer.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/25 18:25:56 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/11/15 15:20:32 by nmolinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*extract_pipe(int fd);
 char	*remove_quotes(char *input);
 int		skip_quotes(char *input);
 int		is_open(char c);
-void	truncate_delimiter(char *del);
+int		truncate_delimiter(char *del);
 int		syntax_check(char *input, t_data *data);
 int		check_double_commands(char *str, int c, int diff);
 bool	check_standalone_redirects(char *input);

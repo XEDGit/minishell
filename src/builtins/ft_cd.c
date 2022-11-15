@@ -6,7 +6,7 @@
 /*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 16:34:03 by nmolinel          #+#    #+#             */
-/*   Updated: 2022/11/13 20:05:05 by nmolinel         ###   ########.fr       */
+/*   Updated: 2022/11/15 15:19:37 by nmolinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ int	update_pwd(t_env *env, char *old_path, char *new_path)
 	return (code);
 }
 
-int	chdir_wrapper(t_env *env, char *path)
+int	chdir_wrapper(t_env *env, char *p)
 {
 	char	*pwd;
 	char	*new_path;
 	int		code;
 
-	if (chdir(path) == -1)
+	if (chdir(p) == -1)
 		return (error_int("directory not found", "cd", 1, 1));
 	pwd = env_get(env, "PWD", 1);
 	if (!pwd)
@@ -60,7 +60,7 @@ int	chdir_wrapper(t_env *env, char *path)
 	new_path = getcwd(0, 0);
 	if (!new_path)
 	{
-		if ((*path != '/' && ft_strjoin(&pwd, "/", false)) || ft_strjoin(&pwd, path, true))
+		if ((*p != '/' && ft_strjoin(&pwd, "/", 0)) || ft_strjoin(&pwd, p, 1))
 			error_int("malloc fail", "cd", -1, 0);
 		new_path = build_var("PWD", pwd);
 		env_add(env, new_path, 1);

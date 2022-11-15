@@ -1,4 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_utils3.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/15 15:16:48 by nmolinel          #+#    #+#             */
+/*   Updated: 2022/11/15 16:42:56 by nmolinel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <executer.h>
+
+int		is_open(char c);
 
 char	*bp(char **paths, char *cmd)
 {
@@ -19,14 +33,10 @@ int	parent_behaviour(t_cmd *start, t_data *data, pid_t child_pid)
 	return (0);
 }
 
-char	*remove_quotes_pt2(char *p, int i, int open)
+char	*remove_quotes_pt2(char *p, int i)
 {
-	// if (open == DOUBLE_QUOTE || open == SINGLE_QUOTE)
-	// {
-	// 	free(p);
-	// 	return (0);
-	// }
-	(void)open;
+	if (is_open(0))
+		is_open(-1);
 	if (p)
 		p[i] = 0;
 	return (p);

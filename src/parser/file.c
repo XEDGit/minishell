@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   file.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/10/26 16:12:14 by nmolinel      #+#    #+#                 */
-/*   Updated: 2022/11/02 18:00:31 by nmolinel      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   file.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/26 16:12:14 by nmolinel          #+#    #+#             */
+/*   Updated: 2022/11/15 16:37:55 by nmolinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int	get_length(char *input)
 }
 
 // Retrive and expand the redirect word(filename)
-// TODO handle edge cases
 char	*get_filename(char **input)
 {
 	char	*tmp;
