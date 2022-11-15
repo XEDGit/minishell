@@ -6,7 +6,7 @@
 /*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 19:05:18 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/11/15 15:16:40 by nmolinel         ###   ########.fr       */
+/*   Updated: 2022/11/15 17:29:46 by nmolinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	wait_heredoc(pid_t here_pid)
 		return (error_int("Error forking process for heredoc", 0, -1, 1));
 	signals_handler_setup(1);
 	waitpid(here_pid, &stat, 0);
+	signals_handler_setup(0);
 	if (WIFSIGNALED(stat))
 	{
 		if (WTERMSIG(stat) == 2)

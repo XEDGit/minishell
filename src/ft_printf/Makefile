@@ -1,16 +1,19 @@
 SRC := ft_printf.c ft_number.c
 
+NAME := libftprintf.a
+
 OUT := $(SRC:.c=.o)
 
-FLAGS := -Wall -Werror -Wextra -c -g -I../../includes
+FLAGS := -Wall -Werror -Wextra -c -I../../includes
 
-all:
-	@gcc $(FLAGS) $(SRC) && ar cr libftprintf.a $(OUT)
+all: $(NAME)
+
+$(NAME): $(OUT)
+	ar cr $(NAME) $(OUT)
+$(OUT):
+	@gcc $(FLAGS) $(SRC)
 clean:
 	@rm -f $(OUT)
 fclean:
-	@rm -f $(OUT) libftprintf.a
-re:
-	@make fclean && make all
-bonus:
-	@gcc $(FLAGS) $(SRC:.c=_bonus.c) && ar q libftprintf.a $(OUT:.o=_bonus.o)
+	@rm -f $(OUT) $(NAME)
+re: fclean all
