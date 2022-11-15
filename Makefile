@@ -60,7 +60,7 @@ LIBS := -lreadline -L$(HOME)/.brew/opt/readline/lib
 
 HEADERS := -I$(HOME)/.brew/opt/readline/include -Iincludes
 
-FLAGS := -g -Wextra -Wall -Werror
+FLAGS := -Wextra -Wall -Werror
 
 PRINTF_PATH := src/ft_printf
 
