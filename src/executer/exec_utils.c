@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   exec_utils.c                                       :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/09/02 18:36:19 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/11/02 18:12:13 by nmolinel      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/02 18:36:19 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/11/16 17:03:57 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*check_paths(char **paths, char *cmd)
 {
 	char	*res_path;
 
-	if (!ft_strcmp(cmd, "."))
+	if (!*cmd || !ft_strcmp(cmd, ".") ||!ft_strcmp(cmd, ".."))
 		return ((char *)(long) error_int("command not found", cmd, 2, 0));
 	if (ft_strchr(cmd, '/'))
 	{

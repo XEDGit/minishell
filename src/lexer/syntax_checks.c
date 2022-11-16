@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   syntax_checks.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/05/08 15:32:59 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/11/02 15:28:20 by nmolinel      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   syntax_checks.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/08 15:32:59 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/11/16 17:02:05 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ int	parenthesis_check(char *input)
 	depth = 0;
 	while (input[c])
 	{
+		c += skip_quotes(&input[c]);
 		if (input[c] == '(')
 		{
 			if (check_double_commands(input, c, -1) || \
