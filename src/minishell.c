@@ -46,7 +46,8 @@ int build_title(char **path, t_env *env, time_t start)
 		ft_strlcpy(cwd + 1, home_ptr, len);
 		cwd[len + 1] = 0;
 	}
-	ft_dprintf(2, "\033[33m~%ds\033[0m\n", (int)difftime(end, start));
+	if (start)
+		ft_dprintf(2, "\033[33m~%ds\033[0m\n", (int)difftime(end, start));
 	*path = ft_strdup(TITLE_COL);
 	if (!*path || \
 	ft_strjoin(path, prompt, true) || \
@@ -74,7 +75,7 @@ int	main(int argc, char **argv, char *envp[])
 	t_env	*env;
 	time_t	start;
 
-	time(&start);
+	start = 0;
 	signals_handler_setup(0);
 	rl_outstream = stderr;
 	g_exit_code = 0;
