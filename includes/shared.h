@@ -22,8 +22,11 @@
 # define DOUBLE_QUOTE '\"'
 # define PARENTHESIS ')'
 # define NEW_LINE '\n'
-# define TITLE "\001\e[31;1m\002 SKIRU ~> \001\e[0m\002"
-# define SHELLNAME "SkiruSh: "
+# define TITLE_COL "\001\033[34;1m\002 "
+# define TITLE "SKIRU"
+# define TITLE_RED "\001\033[31m\002"
+# define TITLE_ARR " > \001\033[0m\002"
+# define SHELLNAME "\033[34mSkiruSh:\033[0m "
 
 // internal
 # include <ft_libc.h>
@@ -54,5 +57,10 @@ int		free2dint(int **tofree, int len);
 int		lexer(char *input, t_env *env);
 int		parser(char **tables, t_data *data);
 int		executer(t_data *data);
+
+//  argv
+int     subshell(char *input, t_env *env, int tofork);
+int	    parse_argv(char **argv, t_env *env);
+void	watch_child(pid_t pid);
 
 #endif

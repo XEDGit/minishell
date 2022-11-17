@@ -12,30 +12,6 @@
 
 #include <parser.h>
 
-void	here_docs_db(char **tables, t_data *data)
-{
-	int		c;
-	char	*buffer;
-
-	c = -1;
-	while (tables[++c])
-		printf("table[%d]: %s\n", c, tables[c]);
-	if (!data->heredoc_c)
-		return ;
-	printf("--heredoc count: %d---------------------------\n", data->heredoc_c);
-	c = 0;
-	while (data->heredocs[c])
-	{
-		buffer = extract_pipe(data->heredocs[c][0]);
-		if (buffer)
-		{
-			ft_dprintf(2, "heredoc pipe[%d]: %s\n", c, buffer);
-			free(buffer);
-		}
-		c++;
-	}
-}
-
 int	set_data(char *input, t_cmd *cmd)
 {
 	int		i;

@@ -48,7 +48,7 @@ int	wait_heredoc(pid_t here_pid)
 	if (WIFSIGNALED(stat))
 	{
 		if (WTERMSIG(stat) == 2)
-			ft_printf("\n");
+			ft_dprintf(2, "\n");
 		return (1);
 	}
 	return (0);

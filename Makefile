@@ -31,6 +31,7 @@ SRC := builtins/ft_cd.c \
 	ft_libc/ft_strchr.c \
 	ft_libc/ft_strcmp.c \
 	ft_libc/ft_strdup.c \
+	ft_libc/ft_strnstr.c \
 	ft_libc/ft_strjoin.c \
 	ft_libc/ft_strlcat.c \
 	ft_libc/ft_strlcpy.c \
@@ -51,6 +52,7 @@ SRC := builtins/ft_cd.c \
 	util/error_handler.c \
 	util/pipes.c \
 	util/quotes.c \
+	util/argv.c \
 	util/signal.c \
 	minishell.c
 
@@ -67,6 +69,9 @@ PRINTF_PATH := src/ft_printf
 PRINTF_LIB := $(PRINTF_PATH)/libftprintf.a
 
 all: $(NAME)
+
+debug: FLAGS = -g
+debug: fclean $(NAME)
 
 run: all
 	./$(NAME)

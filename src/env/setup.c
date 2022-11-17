@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <env.h>
-#include <ft_libc.h>
+#include <shared.h>
 
 t_env	*increment_shlvl(t_env *env, int index, size_t n)
 {
@@ -38,16 +38,16 @@ t_env	*increment_shlvl(t_env *env, int index, size_t n)
 	return (code);
 }
 
-static t_env	*set_shlvl(t_env *env)
+t_env	*set_if_not_set(t_env *env, char *name, char *content)
 {
 	size_t	n;
 	char	*var;
 	int		index;
 
-	index = buff_contains(env->envp, "SHLVL", &n);
+	index = buff_contains(env->envp, name, &n);
 	if (index == -1 || !env->envp->mem[index][n])
 	{
-		var = build_var("SHLVL", "1");
+		var = build_var(name, content);
 		if (!var)
 			return (0);
 		if (!env_add(env, var, 1))
@@ -57,7 +57,7 @@ static t_env	*set_shlvl(t_env *env)
 		}
 		free(var);
 	}
-	else if (!increment_shlvl(env, index, n))
+	else if (!ft_strcmp(name, "SHLVL") && !increment_shlvl(env, index, n))
 		return (0);
 	return (env);
 }
@@ -76,7 +76,7 @@ t_env	*env_setup(char **envp)
 	env = env_create(envp);
 	if (!env)
 		return (0);
-	if (set_oldpwd(env) && set_shlvl(env))
+	if (set_oldpwd(env) && set_if_not_set(env, "SHLVL", "1") && set_if_not_set(env, "SKU1", TITLE))
 		return (env);
 	return (env_free(env));
 }

@@ -51,6 +51,7 @@ int	parse_cmd(t_cmd *start, t_data *data)
 int	condition_check(t_cmd **cmd, int *piping)
 {
 	int	ret;
+	int	depth;
 
 	*piping = false;
 	ret = false;
@@ -69,8 +70,47 @@ int	condition_check(t_cmd **cmd, int *piping)
 			ret = false;
 	}
 	if (ret)
-		*cmd = (*cmd)->next;
+	{
+		depth = (*cmd)->depth;
+		while (*cmd && depth >= (*cmd)->depth)
+			*cmd = (*cmd)->next;
+	}
 	return (ret);
+}
+
+char	*extract_parenthesis(t_cmd **start)
+{
+	char	*buffer;
+	int		depth;
+	int		i;
+
+	depth = (*start)->depth;
+	buffer = malloc(1);
+	if (!buffer)
+		return (0);
+	*buffer = 0;
+	while (*start && (*start)->depth >= depth)
+	{
+		i = 0;
+		while ((*start)->args[i])
+		{
+			ft_strjoin(&buffer, (*start)->args[i], false);
+			if ((*start)->args[i + 1])
+				ft_strjoin(&buffer, " ", false);
+			i++;
+		}
+		if ((*start)->next && (*start)->next->depth >= depth)
+		{
+			if ((*start)->next->conditional == '|')
+				ft_strjoin(&buffer, " || ", false);
+			else if  ((*start)->next->conditional == '&')
+				ft_strjoin(&buffer, " && ", false);
+			else if  ((*start)->is_pipe)
+				ft_strjoin(&buffer, " | ", false);
+		}
+		(*start) = (*start)->next;
+	}
+	return (buffer);
 }
 
 int	executer_loop(t_cmd *start, t_data *data)
@@ -86,6 +126,13 @@ int	executer_loop(t_cmd *start, t_data *data)
 			piping = start->is_pipe;
 		if (start->conditional != -1 && condition_check(&start, &piping))
 			continue ;
+		if (start->prev && start->prev->depth < start->depth)
+		{
+			char *buf = extract_parenthesis(&start);
+			subshell(buf, data->env, true);
+			free(buf);
+			continue ;
+		}
 		builtin = 0;
 		builtin = check_builtin(start, data, piping);
 		if (builtin == 2)

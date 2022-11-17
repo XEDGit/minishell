@@ -22,9 +22,9 @@ void	watch_child(pid_t pid)
 	{
 		g_exit_code = WTERMSIG(statbuf) + 128;
 		if (g_exit_code == 130)
-			ft_printf("\n");
+			ft_dprintf(2, "\n");
 		else if (g_exit_code == 131)
-			ft_printf("Quit: 3\n");
+			ft_dprintf(2, "Quit: 3\n");
 	}
 	else if (WIFEXITED(statbuf))
 		g_exit_code = WEXITSTATUS(statbuf);

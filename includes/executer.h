@@ -24,7 +24,6 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 
-void	watch_child(pid_t pid);
 int		reset_path(t_data *data);
 char	*check_paths(char **paths, char *cmd);
 int		open_files(t_cmd *cmd, t_data *data);
