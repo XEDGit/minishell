@@ -78,14 +78,14 @@ int	lexer_semicolon(char *input, t_data *data)
 	return (0);
 }
 
-int	lexer(char *input, t_env *env)
+int	lexer(char *input, t_env *env, t_env *aliases)
 {
-	char	**semicolon;
-	int		count;
-	int		code;
-	t_data	data;
+	char			**semicolon;
+	int				count;
+	int				code;
+	t_data			data;
 
-	data = (t_data){0, 0, 0, 0, 0, env};
+	data = (t_data){0, 0, 0, 0, 0, env, aliases};
 	count = lexer_multiline_check(input, 0);
 	if (count == ERROR)
 	{

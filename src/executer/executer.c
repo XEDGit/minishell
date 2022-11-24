@@ -129,7 +129,7 @@ int	executer_loop(t_cmd *start, t_data *data)
 		if (start->prev && start->prev->depth < start->depth)
 		{
 			char *buf = extract_parenthesis(&start);
-			subshell(buf, data->env, true);
+			subshell(buf, data->env, data->aliases, true);
 			free(buf);
 			continue ;
 		}

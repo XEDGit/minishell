@@ -54,13 +54,13 @@ int		error_free(void *tofree);
 int		signals_handler_setup(int mode);
 int		free2d(char **tofree, int len);
 int		free2dint(int **tofree, int len);
-int		lexer(char *input, t_env *env);
+int		lexer(char *input, t_env *env, t_env *aliases);
 int		parser(char **tables, t_data *data);
 int		executer(t_data *data);
 
 //  argv
-int     subshell(char *input, t_env *env, int tofork);
-int	    parse_argv(char **argv, t_env *env);
+int     subshell(char *input, t_env *env, t_env *aliases, int tofork);
+int	    parse_argv(char **argv, t_env *env, t_env *aliases);
 void	watch_child(pid_t pid);
 
 #endif

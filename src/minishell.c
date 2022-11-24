@@ -73,17 +73,19 @@ int	main(int argc, char **argv, char *envp[])
 	char	*title;
 	int		code;
 	t_env	*env;
+	t_env	*aliases;
 	time_t	start;
 
 	start = 0;
 	signals_handler_setup(0);
 	rl_outstream = stderr;
 	g_exit_code = 0;
+	aliases = env_create((char **){0});
 	env = env_setup(envp);
 	if (!env)
 		return (44);
 	if (argc > 1)
-		parse_argv(argv, env);
+		parse_argv(argv, env, aliases);
 	while (1)
 	{
 		build_title(&title, env, start);
@@ -92,7 +94,7 @@ int	main(int argc, char **argv, char *envp[])
 		time(&start);
 		if (!buffer)
 			break ;
-		code = lexer(buffer, env);
+		code = lexer(buffer, env, aliases);
 		if (!*buffer)
 			g_exit_code = 0;
 		free(buffer);
@@ -101,6 +103,7 @@ int	main(int argc, char **argv, char *envp[])
 			break ;
 	}
 	env_free(env);
+	env_free(aliases);
 	if (code != 2)
 		ft_dprintf(2, "exit\n");
 	exit(g_exit_code);

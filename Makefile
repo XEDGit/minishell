@@ -70,7 +70,7 @@ PRINTF_LIB := $(PRINTF_PATH)/libftprintf.a
 
 all: $(NAME)
 
-debug: FLAGS = -g
+debug: FLAGS = -g -fsanitize=address
 debug: fclean $(NAME)
 
 run: all

@@ -46,6 +46,7 @@ typedef struct s_data
 	char	*input;
 	char	**paths;
 	t_env	*env;
+	t_env	*aliases;
 }	t_data;
 
 // t_cmd library

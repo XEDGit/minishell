@@ -1,6 +1,6 @@
 #include <shared.h>
 
-int subshell(char *input, t_env *env, int tofork)
+int subshell(char *input, t_env *env, t_env *aliases, int tofork)
 {
     pid_t   child;
 
@@ -13,8 +13,9 @@ int subshell(char *input, t_env *env, int tofork)
     }
     if (!child)
     {
-        lexer(input, env);
+        lexer(input, env, 0);
         env_free(env);
+        env_free(aliases);
         exit(g_exit_code);
     }
     if (tofork)
@@ -22,11 +23,11 @@ int subshell(char *input, t_env *env, int tofork)
     return (false);
 }
 
-int	parse_argv(char **argv, t_env *env)
+int	parse_argv(char **argv, t_env *env, t_env *aliases)
 {
 	int		i;
 	int		i_flags;
-    int     (*funcs[2])(char *, t_env *, int) = {
+    int     (*funcs[2])(char *, t_env *, t_env *, int) = {
         &subshell,
         0
     };
@@ -44,7 +45,7 @@ int	parse_argv(char **argv, t_env *env)
             {
                 if (!argv[i + 1])
                     exit(error_int("Missing argument", argv[i], 1, true));
-				funcs[i_flags - 1](argv[i + 1], env, false);
+				funcs[i_flags - 1](argv[i + 1], env, aliases, false);
                 return (true);
             }
 		i_flags = 0;
