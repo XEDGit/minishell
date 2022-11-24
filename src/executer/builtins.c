@@ -104,6 +104,7 @@ int	check_aliases(t_cmd *cmd, t_env *aliases)
 		return (false);
 	}
 	substitutes = ft_split(substitute, " ");
+	free(substitute);
 	if (!substitutes)
 		return (error_int("malloc error", "alias", 1, 0));
 	while (substitutes[len++]);
