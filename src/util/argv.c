@@ -13,7 +13,7 @@ int subshell(char *input, t_env *env, t_env *aliases, int tofork)
     }
     if (!child)
     {
-        lexer(input, env, 0);
+        lexer(input, env, aliases);
         env_free(env);
         env_free(aliases);
         exit(g_exit_code);
