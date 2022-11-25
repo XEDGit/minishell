@@ -1,1 +1,3 @@
 add ~/.skurc
+cd: add CDPATH support
+fix conditions with subshell

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/04/25 18:20:31 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/11/02 17:33:11 by nmolinel      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/25 18:20:31 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/11/25 21:48:05 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,9 @@ int	main(int argc, char **argv, char *envp[])
 		time(&start);
 		if (!buffer)
 			break ;
-		code = lexer(buffer, env, aliases);
-		if (!*buffer)
+		if (*buffer)
+			code = lexer(buffer, env, aliases);
+		else
 			g_exit_code = 0;
 		free(buffer);
 		buffer = 0;

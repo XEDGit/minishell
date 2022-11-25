@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 18:36:19 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/11/16 17:03:57 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/11/24 17:34:49 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*check_paths(char **paths, char *cmd)
 {
 	char	*res_path;
 
-	if (!*cmd || !ft_strcmp(cmd, ".") ||!ft_strcmp(cmd, ".."))
+	if (!*cmd || !ft_strcmp(cmd, ".") || !ft_strcmp(cmd, ".."))
 		return ((char *)(long) error_int("command not found", cmd, 2, 0));
 	if (ft_strchr(cmd, '/'))
 	{
