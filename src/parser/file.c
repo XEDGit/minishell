@@ -36,6 +36,7 @@ t_file	*add_file(t_cmd *cmd)
 	file = malloc(sizeof(t_file));
 	if (!file)
 		return (0);
+	file->dest = 1;
 	if (!cmd->files)
 	{
 		cmd->files = file;

@@ -44,7 +44,7 @@ char	*get_filename(char **input);
 
 //	redirect
 int		set_redirects(char *arg, t_cmd *cmd);
-int		is_redirect(char c);
+int		is_redirect(char *c);
 int		set_pipe_cond(char *tables, t_cmd *cmd);
 
 //	in

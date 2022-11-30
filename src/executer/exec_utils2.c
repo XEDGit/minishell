@@ -32,16 +32,16 @@ void	watch_child(pid_t pid)
 		;
 }
 
-int	set_output_fd(t_cmd *cmd, char *file, int open_flags, int mode)
+int	set_output_fd(t_cmd *cmd, t_file *files)
 {
-	if (cmd->redirects[1] != STDOUT_FILENO)
+	if (cmd->redirects[files->dest] != files->dest)
 	{
-		if (close(cmd->redirects[1]) == ERROR)
-			return (error_int("Close file descriptor error", file, 1, 0));
+		if (close(cmd->redirects[files->dest]) == ERROR)
+			return (error_int("Close file descriptor error", files->name, 1, 0));
 	}
-	cmd->redirects[1] = open(file, open_flags, mode);
-	if (cmd->redirects[1] == ERROR)
-		return (error_int("Open file descriptor error", file, 1, 0));
+	cmd->redirects[files->dest] = open(files->name, files->flags, files->mode);
+	if (cmd->redirects[files->dest] == ERROR)
+		return (error_int("Open file descriptor error", files->name, 1, 0));
 	return (1);
 }
 
@@ -85,7 +85,7 @@ int	open_files(t_cmd *cmd, t_data *data)
 		else if (!files->flags && !left_rdrt(cmd, files->name, files->mode))
 			return (true);
 		else if (files->flags && \
-		!set_output_fd(cmd, files->name, files->flags, files->mode))
+		!set_output_fd(cmd, files))
 			return (true);
 		files = files->next;
 	}

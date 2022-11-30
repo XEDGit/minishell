@@ -12,11 +12,13 @@
 
 #include <parser.h>
 
-int	is_redirect(char c)
+int	is_redirect(char *c)
 {
-	if (c == LEFT_REDIRECT)
+	if (*c == LEFT_REDIRECT)
 		return (LEFT_REDIRECT);
-	else if (c == RIGHT_REDIRECT)
+	else if (*c == RIGHT_REDIRECT)
+		return (RIGHT_REDIRECT);
+	else if (*c >= '0' && *c <= '2' && *(c + 1) == RIGHT_REDIRECT)
 		return (RIGHT_REDIRECT);
 	return (0);
 }
@@ -34,7 +36,7 @@ static int	try_redirect(char **table, t_cmd *cmd)
 		return (0);
 	file->next = 0;
 	file->mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
-	if (**table == RIGHT_REDIRECT)
+	if (**table == RIGHT_REDIRECT || *(*table + 1) == RIGHT_REDIRECT)
 		red = out_redirect(table, file);
 	else if (**table == LEFT_REDIRECT)
 		red = in_redirect(table, file);
@@ -51,8 +53,9 @@ int	set_redirects(char *arg, t_cmd *cmd)
 	while (*arg)
 	{
 		open = is_open(*arg);
-		if (!open && is_redirect(*arg))
+		if (!open && is_redirect(arg))
 		{
+			ft_printf("%s\n", arg);
 			if (!try_redirect(&arg, cmd))
 				return (0);
 			continue ;

@@ -1,3 +1,12 @@
-add ~/.skurc
-cd: add CDPATH support
-fix conditions with subshell
+TODO:
+    cd: add CDPATH support
+    add autocompletion within PATH
+
+TO EVALUATE:
+    add redirections to same fd (1>&2)
+
+DONE:
+    fix conditions with subshell
+    add ~/.skurc
+    Makefile compiling single obj files and then full project
+    add specific fd redirections (1>file 2>file)

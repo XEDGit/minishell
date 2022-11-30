@@ -48,10 +48,9 @@ int	parse_cmd(t_cmd *start, t_data *data)
 	return (child_pid);
 }
 
-int	condition_check(t_cmd **cmd, int *piping)
+int	condition_check(t_cmd **cmd, int *piping, int skip)
 {
 	int	ret;
-	int	depth;
 
 	*piping = false;
 	ret = false;
@@ -69,10 +68,9 @@ int	condition_check(t_cmd **cmd, int *piping)
 		else
 			ret = false;
 	}
-	if (ret)
+	if (ret && skip)
 	{
-		depth = (*cmd)->depth;
-		while (*cmd && depth >= (*cmd)->depth)
+		while (*cmd && (*cmd)->conditional == '|')
 			*cmd = (*cmd)->next;
 	}
 	return (ret);
@@ -124,13 +122,26 @@ int	executer_loop(t_cmd *start, t_data *data)
 	{
 		if (start->is_pipe)
 			piping = start->is_pipe;
-		if (start->conditional != -1 && condition_check(&start, &piping))
+		if (start->prev && start->prev->depth == start->depth && \
+		start->conditional != -1 && condition_check(&start, &piping, true))
 			continue ;
 		if (start->prev && start->prev->depth < start->depth)
 		{
+			if (condition_check(&start, &piping, false))
+			{
+				int depth = start->depth;
+				while (start && start->depth == depth)
+					start = start->next;
+				continue ;
+			}
 			char *buf = extract_parenthesis(&start);
 			subshell(buf, data->env, data->aliases, true);
 			free(buf);
+			if (!start)
+				continue ;
+			int depth = start->depth;
+			while (start && start->depth == depth)
+				start = start->next;
 			continue ;
 		}
 		builtin = 0;

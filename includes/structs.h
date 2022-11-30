@@ -19,6 +19,7 @@ typedef struct s_file
 {
 	char			*name;
 	int				here;
+	int				dest;
 	int				flags;
 	int				mode;
 	struct s_file	*next;

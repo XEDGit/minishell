@@ -14,5 +14,5 @@ $(OBJ_DIR)/%.o: %.c
 	@$(CC) $< -o $@ -c $(FLAGS) $(HEADERS) $(LIBS)
 	@echo "\033[32mCompiled $<!\033[0m"
 
-debug: FLAGS = -g
+debug: FLAGS = -g 
 debug: all

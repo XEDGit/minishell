@@ -2,61 +2,14 @@ NAME := minishell
 
 SRC_DIR	:= src
 
-SRC := builtins/ft_cd.c \
-	builtins/ft_echo.c \
-	builtins/ft_env.c \
-	builtins/ft_exit.c \
-	builtins/ft_export.c \
-	builtins/ft_pwd.c \
-	builtins/ft_unset.c \
-	env/buff.c \
-	env/env.c \
-	env/env_util.c \
-	env/setup.c \
-	executer/builtins.c \
-	executer/exec_utils.c \
-	executer/exec_utils2.c \
-	executer/exec_utils3.c \
-	executer/executer.c \
-	expander/expander.c \
-	expander/tilde.c \
-	expander/vars.c \
-	expander/vars_util.c \
-	ft_libc/ft_atoi.c \
-	ft_libc/ft_isdigit.c \
-	ft_libc/ft_isspace.c \
-	ft_libc/ft_itoa.c \
-	ft_libc/ft_memset.c \
-	ft_libc/ft_split.c \
-	ft_libc/ft_strchr.c \
-	ft_libc/ft_strcmp.c \
-	ft_libc/ft_strdup.c \
-	ft_libc/ft_strnstr.c \
-	ft_libc/ft_strjoin.c \
-	ft_libc/ft_strlcat.c \
-	ft_libc/ft_strlcpy.c \
-	ft_libc/ft_strlen.c \
-	ft_libc/strsplit.c \
-	lexer/heredocs.c \
-	lexer/lexer.c \
-	lexer/syntax_checks.c \
-	lexer/syntax_checks2.c \
-	lexer/syntax_checks3.c \
-	parser/file.c \
-	parser/in.c \
-	parser/out.c \
-	parser/parser.c \
-	parser/pipe.c \
-	parser/redirect.c \
-	util/command.c \
-	util/error_handler.c \
-	util/pipes.c \
-	util/quotes.c \
-	util/argv.c \
-	util/signal.c \
-	minishell.c
+OBJ_D := obj
 
-SRCS = $(addprefix $(SRC_DIR)/, $(SRC))
+SRC := $(wildcard src/*/*.c)
+
+MAIN := $(SRC_DIR)/$(NAME).c
+
+OBJS := $(addprefix $(OBJ_D)/, $(notdir $(SRC:.c=.o)))
+# OBJS = $(notdir $(SRCS:.c=.o))
 
 LIBS := -lreadline -L$(HOME)/.brew/opt/readline/lib
 
@@ -71,23 +24,43 @@ PRINTF_LIB := $(PRINTF_PATH)/libftprintf.a
 all: $(NAME)
 
 debug: FLAGS = -g -fsanitize=address
+debug: MAKE_RULE = debug
 debug: fclean $(NAME)
+
+$(OBJ_D):
+	@mkdir $(OBJ_D)
+	@echo "\033[32mCreated $(OBJ_D)/ directory!\033[0m"
 
 run: all
 	./$(NAME)
 
-$(NAME): $(SRCS) $(PRINTF_LIB)
-	$(CC) $(FLAGS) $^ -o $@ $(HEADERS) $(LIBS)
+$(MAIN):
+	@$(CC) $@ -c -o $(MAIN:.c=.o) $(FLAGS) $(HEADERS) $(LIBS)
+	@echo "\033[32mCompiled $(NAME).c!\033[0m"
 
-$(PRINTF_LIB):
-	make -C $(PRINTF_PATH)
+$(NAME): $(OBJ_D) $(SRC) $(MAIN)
+	@$(MAKE) -C $(SRC_DIR)/builtins --quiet $(MAKE_RULE)
+	@$(MAKE) -C $(SRC_DIR)/env --quiet $(MAKE_RULE)
+	@$(MAKE) -C $(SRC_DIR)/executer --quiet $(MAKE_RULE)
+	@$(MAKE) -C $(SRC_DIR)/expander --quiet $(MAKE_RULE)
+	@$(MAKE) -C $(SRC_DIR)/ft_libc --quiet $(MAKE_RULE)
+	@$(MAKE) -C $(SRC_DIR)/ft_printf --quiet $(MAKE_RULE)
+	@$(MAKE) -C $(SRC_DIR)/lexer --quiet $(MAKE_RULE)
+	@$(MAKE) -C $(SRC_DIR)/parser --quiet $(MAKE_RULE)
+	@$(MAKE) -C $(SRC_DIR)/util --quiet $(MAKE_RULE)
+	@$(CC) $(OBJS) $(MAIN) -o $(NAME) $(FLAGS) $(HEADERS) $(LIBS)
+	@echo "\033[32mCompiled $(NAME)!"
+	@echo
+	@echo "Done!\033[0m"
+
 
 clean:
-	make $@ -C $(PRINTF_PATH)
+	@rm -rf $(OBJ_D)
+	@echo "\033[32mRemoved $(OBJ_D) folder!\033[0m"
 
 fclean:
-	make $@ -C $(PRINTF_PATH)
-	rm -f $(NAME)
+	@rm -rf $(NAME) $(OBJ_D)
+	@echo "\033[32mRemoved $(NAME) and $(OBJ_D) folder!\033[0m"
 
 re: fclean all
 

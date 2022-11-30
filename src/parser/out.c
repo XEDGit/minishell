@@ -14,6 +14,11 @@
 
 void	*out_redirect(char **table, t_file *file)
 {
+	if (**table >= '0' && **table <= '2')
+	{
+		file->dest = **table - '0';
+		(*table)++;
+	}
 	(*table)++;
 	if (**table == RIGHT_REDIRECT)
 	{

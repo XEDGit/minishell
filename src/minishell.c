@@ -12,8 +12,7 @@
 
 #include <shared.h>
 #include <time.h>
-// #include <sys/types.h>
-// #include <sys/wait.h>
+#include <fcntl.h>
 
 int	g_exit_code;
 
@@ -67,6 +66,48 @@ int build_title(char **path, t_env *env, time_t start)
 	return (false);
 }
 
+int	parse_skurc(t_env *env, t_env *aliases)
+{
+	char	*path, *buff_ptr;
+	char	buff[1001];
+	int		read_ret, err = 0;
+
+	path = env_get(env, "HOME", 1);
+	if (ft_strjoin(&path, "/.skurc", false))
+		return (1);
+	if (!access(path, F_OK) && !access(path, R_OK))
+	{
+		int fd = open(path, O_RDONLY);
+		free(path);
+		if (fd == -1)
+			return (1);
+		read_ret = 1;
+		while (read_ret)
+		{
+			read_ret = read(fd, &buff, 1000);
+			if (read_ret >= 0)
+				buff[read_ret] = 0;
+			else
+				continue;
+			buff_ptr = &buff[0];
+			while ((path = ft_strchr(buff_ptr, '\n')))
+			{
+				*path = 0;
+				lexer(buff_ptr, env, aliases);
+				buff_ptr = path + sizeof(char);
+			}
+			if (buff_ptr != &buff[read_ret])
+				lexer(buff_ptr, env, aliases);
+		}
+		if (read_ret == -1)
+			err = error_int("Error reading ~/.skurc", "init", -1, 1);
+		close(fd);
+	}
+	else
+		free(path);
+	return (err);
+}
+
 int	main(int argc, char **argv, char *envp[])
 {
 	char	*buffer;
@@ -84,6 +125,8 @@ int	main(int argc, char **argv, char *envp[])
 	env = env_setup(envp);
 	if (!env)
 		return (44);
+	if (parse_skurc(env, aliases))
+		error_int("Failed to parse ~/.skurc", "init", -1, 0);
 	if (argc > 1)
 		parse_argv(argv, env, aliases);
 	while (1)

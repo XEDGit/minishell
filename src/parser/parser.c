@@ -21,7 +21,7 @@ int	set_data(char *input, t_cmd *cmd)
 	if (!cmd->args)
 		return (error_int("Parser split fail", cmd->cmd, 1, 0));
 	i = 1;
-	while (cmd->args[0] && is_redirect(cmd->args[0][0]))
+	while (cmd->args[0] && is_redirect(cmd->args[0]))
 	{
 		temp = cmd->args[0];
 		cmd->args[0] = cmd->args[i];
