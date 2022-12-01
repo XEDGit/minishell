@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_strlcpy.c                                       :+:    :+:            */
+/*   sk_strdup.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/05/10 20:53:46 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/05/10 22:13:27 by lmuzio        ########   odam.nl         */
+/*   Created: 2022/05/10 22:51:44 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/05/10 22:53:39 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include <stdlib.h>
 
-size_t	ft_strlen(const char *str);
+size_t	sk_strlen(const char *str);
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+char	*sk_strdup(const char *s1)
 {
-	int	srcsize;
+	char	*dup;
+	char	*cur;
 
-	srcsize = ft_strlen(src);
-	if (!dstsize)
-		return (srcsize);
-	while (--dstsize && *src)
-		*dst++ = *src++;
-	*dst = 0;
-	return (srcsize);
+	dup = malloc(sk_strlen(s1) + 1);
+	if (!dup)
+		return (0);
+	cur = dup;
+	while (*s1)
+		*cur++ = *s1++;
+	*cur = 0;
+	return (dup);
 }

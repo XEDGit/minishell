@@ -44,7 +44,7 @@ int	pipe_check(char *input)
 		(input[0] == AMP && input[1] != AMP))
 	{
 		while (input[++c] && input[c] != PIPE && input[c] != AMP)
-			if (!ft_isspace(input[c]))
+			if (!sk_isspace(input[c]))
 				dist++;
 		if (!input[c] && !dist)
 			return (true);

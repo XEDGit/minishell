@@ -84,12 +84,12 @@ t_env	*env_add(t_env *env, char *var, int mode)
 	buff = env->envp;
 	if (mode == 2)
 		buff = env->envl;
-	split = ft_split(var, "=");
+	split = sk_split(var, "=");
 	if (!split)
 		return (0);
 	index = buff_contains(buff, split[0], 0);
 	free2d(split, 0);
-	dup = ft_strdup(var);
+	dup = sk_strdup(var);
 	if (!dup)
 		return (0);
 	if (!add_var(buff, dup, index))

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   sk_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -28,7 +28,7 @@ int	check_flag(char *arg)
 	return (false);
 }
 
-int	ft_echo(t_cmd *cmd, t_data *data)
+int	sk_echo(t_cmd *cmd, t_data *data)
 {
 	bool	nl;
 	int		i;
@@ -43,11 +43,11 @@ int	ft_echo(t_cmd *cmd, t_data *data)
 	}
 	while (cmd->args && cmd->args[i])
 	{
-		ft_printf("%s", cmd->args[i]);
+		sk_printf("%s", cmd->args[i]);
 		if (cmd->args[++i])
-			ft_printf(" ");
+			sk_printf(" ");
 	}
 	if (nl)
-		ft_printf("\n");
+		sk_printf("\n");
 	return (0);
 }

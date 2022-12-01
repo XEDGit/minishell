@@ -31,7 +31,7 @@ int	get_out_size(char **vars, char *input)
 		open = is_open(*input);
 		if (*input == '$' && open != SINGLE_QUOTE)
 		{
-			size += ft_strlen(vars[i++]);
+			size += sk_strlen(vars[i++]);
 			input++;
 			input += var_name_length(input);
 			continue ;
@@ -58,8 +58,8 @@ char	*expand_vars_table(char **vars, char *input, int i, int index)
 		if (*input == '$' && open != SINGLE_QUOTE)
 		{
 			input++;
-			ft_strlcpy(out + i, vars[index], len);
-			i += ft_strlen(vars[index++]);
+			sk_strlcpy(out + i, vars[index], len);
+			i += sk_strlen(vars[index++]);
 			input += var_name_length(input);
 			continue ;
 		}

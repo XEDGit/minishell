@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_printf.h                                        :+:    :+:            */
+/*   sk_printf.h                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#ifndef SK_PRINTF_H
+# define SK_PRINTF_H
 
 # include <stdarg.h>
 # include <unistd.h>
@@ -19,13 +19,13 @@
 
 # define LOWCASE 32
 
-int		ft_printf(const char *str, ...);
-int		ft_dprintf(int fd, const char *str, ...);
-void	ft_decimal(int n, int *c, int fd);
-void	ft_hexadecimal(unsigned long long n, int options, int fd, int *c);
-void	ft_hexazero(unsigned long long n, int options, int fd, int *c);
-void	ft_string(char *str, int *c, int fd);
-void	ft_char(char ch, int *c, int fd);
-void	ft_unsigned(unsigned int n, int *c, int fd);
+int		sk_printf(const char *str, ...);
+int		sk_dprintf(int fd, const char *str, ...);
+void	sk_decimal(int n, int *c, int fd);
+void	sk_hexadecimal(unsigned long long n, int options, int fd, int *c);
+void	sk_hexazero(unsigned long long n, int options, int fd, int *c);
+void	sk_string(char *str, int *c, int fd);
+void	sk_char(char ch, int *c, int fd);
+void	sk_unsigned(unsigned int n, int *c, int fd);
 
 #endif

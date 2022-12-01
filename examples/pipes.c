@@ -22,7 +22,7 @@ typedef struct s_data
 	pid_t		*children;
 }	t_data;
 
-char	*ft_strdup(char *buf)
+char	*sk_strdup(char *buf)
 {
 	char	*res[2];
 
@@ -76,7 +76,7 @@ void	set_redirects(t_data *data, int i)
 
 	if (!i)
 	{
-		buffer = ft_strdup("Porjvfnnco\n");
+		buffer = sk_strdup("Porjvfnnco\n");
 		if (!buffer)
 			error_exit(data, i, "Error inside child process at strdup\n");
 		printf("%d - %s", i, buffer);

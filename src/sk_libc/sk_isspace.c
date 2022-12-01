@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_strdup.c                                        :+:    :+:            */
+/*   sk_isspace.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/05/10 22:51:44 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/05/10 22:53:39 by lmuzio        ########   odam.nl         */
+/*   Created: 2022/01/18 17:56:47 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/10/05 13:38:51 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-
-size_t	ft_strlen(const char *str);
-
-char	*ft_strdup(const char *s1)
+int	sk_isspace(int str)
 {
-	char	*dup;
-	char	*cur;
+	if (str == ' ' || str == '	' || str == '\t'\
+	|| str == '\n' || str == '\v' || str == '\f' || str == '\r')
+		return (1);
+	return (0);
+}
 
-	dup = malloc(ft_strlen(s1) + 1);
-	if (!dup)
-		return (0);
-	cur = dup;
-	while (*s1)
-		*cur++ = *s1++;
-	*cur = 0;
-	return (dup);
+int	sk_strisspace(char *str)
+{
+	while (*str && sk_isspace(*str))
+		str++;
+	if (!*str)
+		return (1);
+	return (0);
 }

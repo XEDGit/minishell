@@ -17,7 +17,7 @@ int		is_open(char c);
 char	*bp(char **paths, char *cmd)
 {
 	return (build_path(*paths - 1, cmd - 1, \
-	ft_strlen(*paths) + ft_strlen(cmd) + 2));
+	sk_strlen(*paths) + sk_strlen(cmd) + 2));
 }
 
 int	parent_behaviour(t_cmd *start, t_data *data, pid_t child_pid)

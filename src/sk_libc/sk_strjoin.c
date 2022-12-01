@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_strjoin.c                                       :+:    :+:            */
+/*   sk_strjoin.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
@@ -15,7 +15,7 @@
 /* Joins two strings and frees s1,
 return -1 and free s2 on fail, return 0 on success
 and assign new string to s1 variable */
-int	ft_strjoin(char **s1, char const *s2, int free_s2)
+int	sk_strjoin(char **s1, char const *s2, int free_s2)
 {
 	char	*res;
 	char	*cur;
@@ -24,7 +24,7 @@ int	ft_strjoin(char **s1, char const *s2, int free_s2)
 	if (!*s1 || !s2)
 		return (ERROR);
 	temp = *s1;
-	res = malloc(ft_strlen(temp) + ft_strlen(s2) + 1);
+	res = malloc(sk_strlen(temp) + sk_strlen(s2) + 1);
 	if (!res)
 	{
 		if (free_s2)

@@ -17,13 +17,13 @@ void	exec_builtin(t_cmd *cmd, t_data *data, int i)
 	pid_t		pid;
 	static int	(*funcs[])(t_cmd *cmd, t_data *data) = {
 		0,
-		&ft_exec,
-		&ft_cd,
-		&ft_echo,
-		&ft_export,
-		&ft_unset,
-		&ft_env,
-		&ft_pwd
+		&sk_exec,
+		&sk_cd,
+		&sk_echo,
+		&sk_export,
+		&sk_unset,
+		&sk_env,
+		&sk_pwd
 	};
 
 	pid = fork();
@@ -45,7 +45,7 @@ void	exec_builtin(t_cmd *cmd, t_data *data, int i)
 		dup2(cmd->redirects[2], 2);
 	clean_redirects(cmd);
 	if (!i)
-		ft_exit(cmd);
+		sk_exit(cmd);
 	g_exit_code = funcs[i](cmd, data);
 	exit(g_exit_code);
 }
@@ -54,13 +54,13 @@ void	exec_single_builtin(t_cmd *cmd, t_data *data, int i)
 {
 	static int	(*funcs[])(t_cmd *cmd, t_data *data) = {
 		0,
-		&ft_exec,
-		&ft_cd,
-		&ft_echo,
-		&ft_export,
-		&ft_unset,
-		&ft_env,
-		&ft_pwd
+		&sk_exec,
+		&sk_cd,
+		&sk_echo,
+		&sk_export,
+		&sk_unset,
+		&sk_env,
+		&sk_pwd
 	};
 	t_cmd		fds;
 
@@ -73,7 +73,7 @@ void	exec_single_builtin(t_cmd *cmd, t_data *data, int i)
 	if (cmd->is_pipe)
 		clean_redirects(cmd);
 	if (!i)
-		ft_exit(cmd);
+		sk_exit(cmd);
 	g_exit_code = funcs[i](cmd, data);
 	if (i != 1)
 	{
@@ -104,7 +104,7 @@ int	check_builtin(t_cmd *cmd, t_data *data, int piping)
 		return (false);
 	while (builtins[i])
 	{
-		if (!cmd->cmd || !ft_strcmp(builtins[i], cmd->cmd))
+		if (!cmd->cmd || !sk_strcmp(builtins[i], cmd->cmd))
 		{
 			if (cmd->is_pipe && open_pipe(cmd))
 				return (error_int("Pipe opening failed\n", cmd->cmd, 1, 0));
@@ -121,9 +121,9 @@ int	check_builtin(t_cmd *cmd, t_data *data, int piping)
 		}
 		i++;
 	}
-	if (!ft_strcmp("alias", cmd->cmd))
+	if (!sk_strcmp("alias", cmd->cmd))
 	{
-		ft_alias(cmd, data);
+		sk_alias(cmd, data);
 		return (true);
 	}
 	return (false);

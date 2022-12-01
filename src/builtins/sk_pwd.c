@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_pwd.c                                           :+:    :+:            */
+/*   sk_pwd.c                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
@@ -12,7 +12,7 @@
 
 #include <shared.h>
 
-int	ft_pwd(t_cmd *cmd, t_data *data)
+int	sk_pwd(t_cmd *cmd, t_data *data)
 {
 	char	*pwd;
 
@@ -23,7 +23,7 @@ int	ft_pwd(t_cmd *cmd, t_data *data)
 	if (!pwd)
 		return (error_int("getcwd: error retrieving current directory", \
 		"pwd", 0, 0));
-	ft_printf("%s\n", pwd);
+	sk_printf("%s\n", pwd);
 	free(pwd);
 	return (0);
 }

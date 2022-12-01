@@ -9,17 +9,12 @@ SRC := $(wildcard src/*/*.c)
 MAIN := $(SRC_DIR)/$(NAME).c
 
 OBJS := $(addprefix $(OBJ_D)/, $(notdir $(SRC:.c=.o)))
-# OBJS = $(notdir $(SRCS:.c=.o))
 
 LIBS := -lreadline -L$(HOME)/.brew/opt/readline/lib
 
 HEADERS := -I$(HOME)/.brew/opt/readline/include -Iincludes
 
 FLAGS := -Wextra -Wall -Werror
-
-PRINTF_PATH := src/ft_printf
-
-PRINTF_LIB := $(PRINTF_PATH)/libftprintf.a
 
 all: $(NAME)
 
@@ -43,8 +38,8 @@ $(NAME): $(OBJ_D) $(SRC) $(MAIN)
 	@$(MAKE) -C $(SRC_DIR)/env --quiet $(MAKE_RULE)
 	@$(MAKE) -C $(SRC_DIR)/executer --quiet $(MAKE_RULE)
 	@$(MAKE) -C $(SRC_DIR)/expander --quiet $(MAKE_RULE)
-	@$(MAKE) -C $(SRC_DIR)/ft_libc --quiet $(MAKE_RULE)
-	@$(MAKE) -C $(SRC_DIR)/ft_printf --quiet $(MAKE_RULE)
+	@$(MAKE) -C $(SRC_DIR)/sk_libc --quiet $(MAKE_RULE)
+	@$(MAKE) -C $(SRC_DIR)/sk_printf --quiet $(MAKE_RULE)
 	@$(MAKE) -C $(SRC_DIR)/lexer --quiet $(MAKE_RULE)
 	@$(MAKE) -C $(SRC_DIR)/parser --quiet $(MAKE_RULE)
 	@$(MAKE) -C $(SRC_DIR)/util --quiet $(MAKE_RULE)
@@ -68,12 +63,14 @@ linux_lib:
 	$(eval LIBS := -lreadline)
 	$(eval HEADERS := -Iincludes)
 
+l: linux_lib all
+
 linux: linux_lib all
 	./minishell
 
 mac_lib:
 	$(eval LIBS := -lreadline -L/usr/local/opt/readline/lib)
-	$(eval HEADERS := -Iincludes -I/usr/local/opt/readline/include -Isrc/ft_printf)
+	$(eval HEADERS := -Iincludes -I/usr/local/opt/readline/include)
 
 m: mac_lib all
 

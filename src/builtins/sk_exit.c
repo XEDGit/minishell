@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_exit.c                                          :+:    :+:            */
+/*   sk_exit.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: lmuzio <lmuzio@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
@@ -12,7 +12,7 @@
 
 #include <shared.h>
 
-int	ft_exit(t_cmd *cmd)
+int	sk_exit(t_cmd *cmd)
 {
 	int		isdigit;
 
@@ -27,7 +27,7 @@ int	ft_exit(t_cmd *cmd)
 		if (cmd->args[1][isdigit])
 			isdigit = 0;
 		else
-			g_exit_code = ft_atoi(cmd->args[1]);
+			g_exit_code = sk_atoi(cmd->args[1]);
 		if (!isdigit)
 			error_int("numeric argument required", "exit", 2, 0);
 	}

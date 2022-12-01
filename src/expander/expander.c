@@ -19,7 +19,7 @@
 // wildcard TODO
 int	expander(char **tables, t_env *env)
 {
-	if (!ft_tilde_expand(tables, env) || \
+	if (!sk_tilde_expand(tables, env) || \
 		!vars_expansion(tables, env))
 		return (false);
 	return (true);

@@ -15,7 +15,7 @@
 
 static void	def_signal_handler(int code)
 {
-	ft_dprintf(2, "\n");
+	sk_dprintf(2, "\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();

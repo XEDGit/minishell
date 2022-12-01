@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*   sk_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -17,13 +17,13 @@ char	*build_var(char *name, char *value)
 	char	*var;
 	size_t	size;
 
-	size = ft_strlen(name) + ft_strlen(value) + 2;
+	size = sk_strlen(name) + sk_strlen(value) + 2;
 	var = malloc(sizeof(char) * size);
 	if (!var)
 		return (0);
-	ft_strlcpy(var, name, size);
-	ft_strlcat(var, "=", size);
-	ft_strlcat(var, value, size);
+	sk_strlcpy(var, name, size);
+	sk_strlcat(var, "=", size);
+	sk_strlcat(var, value, size);
 	return (var);
 }
 
@@ -60,7 +60,7 @@ int	chdir_wrapper(t_env *env, char *p)
 	new_path = getcwd(0, 0);
 	if (!new_path)
 	{
-		if ((*p != '/' && ft_strjoin(&pwd, "/", 0)) || ft_strjoin(&pwd, p, 1))
+		if ((*p != '/' && sk_strjoin(&pwd, "/", 0)) || sk_strjoin(&pwd, p, 1))
 			error_int("malloc fail", "cd", -1, 0);
 		new_path = build_var("PWD", pwd);
 		env_add(env, new_path, 1);
@@ -75,7 +75,7 @@ int	chdir_wrapper(t_env *env, char *p)
 	return (code);
 }
 
-int	ft_cd(t_cmd *cmd, t_data *data)
+int	sk_cd(t_cmd *cmd, t_data *data)
 {
 	char	*home;
 	int		code;

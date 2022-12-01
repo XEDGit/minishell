@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   sk_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -22,7 +22,7 @@ int	check_word(const char *s, const char *word, int len)
 	return (0);
 }
 
-char	*ft_strnstr(const char *haystack, const char *needle, unsigned int len)
+char	*sk_strnstr(const char *haystack, const char *needle, unsigned int len)
 {
 	if (!*needle || haystack == needle)
 		return ((char *)haystack);

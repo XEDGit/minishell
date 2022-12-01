@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_strcmp.c                                        :+:    :+:            */
+/*   sk_strcmp.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
@@ -12,7 +12,7 @@
 
 #include <stddef.h>
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	sk_strncmp(const char *s1, const char *s2, size_t n)
 {
 	while (*s1 == *s2 && *s1 && n--)
 	{
@@ -24,7 +24,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
 
-int	ft_strexcmp(const char *s1, const char *s2, size_t n)
+int	sk_strexcmp(const char *s1, const char *s2, size_t n)
 {
 	while (*s1 == *s2 && *s1 && n--)
 	{
@@ -36,7 +36,7 @@ int	ft_strexcmp(const char *s1, const char *s2, size_t n)
 	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
 
-int	ft_strcmp(const char *s1, const char *s2)
+int	sk_strcmp(const char *s1, const char *s2)
 {
 	while (*s1 == *s2 && *s1 && *s2)
 	{

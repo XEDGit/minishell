@@ -14,8 +14,8 @@
 
 int	is_redirect(char *c)
 {
-	if (*c == LEFT_REDIRECT)
-		return (LEFT_REDIRECT);
+	if (*c == LEsk_REDIRECT)
+		return (LEsk_REDIRECT);
 	else if (*c == RIGHT_REDIRECT)
 		return (RIGHT_REDIRECT);
 	else if (*c >= '0' && *c <= '2' && *(c + 1) == RIGHT_REDIRECT)
@@ -38,11 +38,11 @@ static int	try_redirect(char **table, t_cmd *cmd)
 	file->mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 	if (**table == RIGHT_REDIRECT || *(*table + 1) == RIGHT_REDIRECT)
 		red = out_redirect(table, file);
-	else if (**table == LEFT_REDIRECT)
+	else if (**table == LEsk_REDIRECT)
 		red = in_redirect(table, file);
 	if (!red)
 		return (0);
-	ft_memset(from, ' ', *table - from);
+	sk_memset(from, ' ', *table - from);
 	return (1);
 }
 
@@ -59,9 +59,9 @@ int	set_redirects(char *arg, t_cmd *cmd)
 				return (0);
 			continue ;
 		}
-		else if (!open && *arg == '(' && ft_memset(arg, ' ', 1))
+		else if (!open && *arg == '(' && sk_memset(arg, ' ', 1))
 			cmd->depth++;
-		else if (!open && *arg == ')' && ft_memset(arg, ' ', 1))
+		else if (!open && *arg == ')' && sk_memset(arg, ' ', 1))
 		{
 			if (cmd->depth_next == -1)
 				cmd->depth_next = cmd->depth - 1;

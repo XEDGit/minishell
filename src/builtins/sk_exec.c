@@ -1,7 +1,7 @@
 #include <shared.h>
 char	*check_paths(char **paths, char *cmd);
 
-int ft_exec(t_cmd *cmd, t_data *data)
+int sk_exec(t_cmd *cmd, t_data *data)
 {
 	char    **args;
 	int		clean = 0, dash = 0, name = 0, len = 0;
@@ -22,7 +22,7 @@ int ft_exec(t_cmd *cmd, t_data *data)
 		i = 0;
 		while (flags[i])
 		{
-			if (!ft_strcmp(*args, flags[i]))
+			if (!sk_strcmp(*args, flags[i]))
 			{
 				if (!i)
 					clean++;
@@ -50,7 +50,7 @@ int ft_exec(t_cmd *cmd, t_data *data)
 	args[0] = check_paths(data->paths, args[0]);
 	if (!args[0])
 		return (127);
-	prog = ft_strdup(args[0]);
+	prog = sk_strdup(args[0]);
 	if (name)
 	{
 		free(args[0]);
@@ -63,7 +63,7 @@ int ft_exec(t_cmd *cmd, t_data *data)
 			return (error_int("Malloc fail", "exec", -1, 1));
 		dash_buf[0] = '-';
 		dash_buf[1] = 0;
-		if (ft_strjoin(&dash_buf, args[0], false))
+		if (sk_strjoin(&dash_buf, args[0], false))
 			return (error_int("Malloc fail", "exec", -1, 1));
 		free(args[0]);
 		args[0] = dash_buf;

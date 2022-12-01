@@ -60,7 +60,7 @@ int	get_length(char *input)
 	int		len;
 
 	len = 0;
-	while (input[len] && !ft_isspace(input[len]))
+	while (input[len] && !sk_isspace(input[len]))
 	{
 		if (!is_open(input[len]) && (input[len] == '<' || input[len] == '>'))
 			break ;
@@ -76,7 +76,7 @@ char	*get_filename(char **input)
 	char	*name;
 	int		len;
 
-	while (ft_isspace(**input))
+	while (sk_isspace(**input))
 		(*input)++;
 	tmp = *input;
 	len = get_length(*input);
@@ -85,7 +85,7 @@ char	*get_filename(char **input)
 	tmp = malloc(sizeof(char) * (++len));
 	if (!tmp)
 		return ((char *) error_msg("Malloc failed", -1));
-	ft_strlcpy(tmp, *input, len);
+	sk_strlcpy(tmp, *input, len);
 	*input += len - 1;
 	name = remove_quotes(tmp);
 	free(tmp);

@@ -11,13 +11,13 @@
 /* ************************************************************************** */
 
 #include <env.h>
-#include <ft_libc.h>
+#include <sk_libc.h>
 
 char	*copy_var(char *p)
 {
 	if (p && !*p)
-		return (ft_strdup(""));
-	return (ft_strdup(p));
+		return (sk_strdup(""));
+	return (sk_strdup(p));
 }
 
 t_buffvar	*add_var(t_buffvar *buff, char *var, int index)
@@ -42,7 +42,7 @@ t_buffvar	*add_var(t_buffvar *buff, char *var, int index)
 
 bool	valid_varname(char *name)
 {
-	if (!*name || ft_isdigit(*name) || *name == '=' || \
+	if (!*name || sk_isdigit(*name) || *name == '=' || \
 	(*name == '$' && !*(name + 1)) || *name == ' ')
 		return (false);
 	while (*name && *name != '=')

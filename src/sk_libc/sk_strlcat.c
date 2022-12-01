@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_strlcat.c                                       :+:    :+:            */
+/*   sk_strlcat.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nmolinel <nmolinel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
@@ -12,17 +12,17 @@
 
 #include <stddef.h>
 
-size_t	ft_strlen(const char *str);
+size_t	sk_strlen(const char *str);
 
-size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
+size_t	sk_strlcat(char *dst, const char *src, size_t dstsize)
 {
 	size_t	counter;
 	size_t	dst_len;
 	size_t	src_len;
 
 	counter = 0;
-	dst_len = ft_strlen(dst);
-	src_len = ft_strlen(src);
+	dst_len = sk_strlen(dst);
+	src_len = sk_strlen(src);
 	if (dstsize <= dst_len)
 		return (dstsize + src_len);
 	if (dstsize > 0)

@@ -15,7 +15,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 
-char	*ft_strchr(char *s, int c)
+char	*sk_strchr(char *s, int c)
 {
 	int		i;
 	char	chr;
@@ -29,7 +29,7 @@ char	*ft_strchr(char *s, int c)
 	return ((char *)(s + i));
 }
 
-int	ft_strncmp(char *s1, char *s2, size_t n)
+int	sk_strncmp(char *s1, char *s2, size_t n)
 {
 	while ((*s1 || *s2) && n--)
 	{
@@ -47,8 +47,8 @@ char	*expand_var(char *key, char **envp)
 
 	while (*envp)
 	{
-		n = ft_strchr(*envp, '=') - *envp;
-		if (!ft_strncmp(key, *envp, n++))
+		n = sk_strchr(*envp, '=') - *envp;
+		if (!sk_strncmp(key, *envp, n++))
 			return (*envp + n);
 		envp++;
 	}

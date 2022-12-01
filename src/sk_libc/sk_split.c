@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_split.c                                         :+:    :+:            */
+/*   sk_split.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
@@ -79,11 +79,11 @@ int	copy_word(const char *s, char **res, int resc, int cont)
 	res[resc] = malloc(cont + 1);
 	if (!res[resc])
 		return (free2d(res, resc));
-	ft_strlcpy(res[resc], s, cont + 1);
+	sk_strlcpy(res[resc], s, cont + 1);
 	return (0);
 }
 
-char	**ft_split(char const *s, char *c)
+char	**sk_split(char const *s, char *c)
 {
 	char	**res;
 	int		cont;
@@ -101,7 +101,7 @@ char	**ft_split(char const *s, char *c)
 		while (c[cont])
 			if (c[cont++] == *s)
 				s++;
-		cont = ft_strclen_no_quotes(s, c);
+		cont = sk_strclen_no_quotes(s, c);
 		if (!cont)
 			continue ;
 		if (copy_word(s, res, resc++, cont))

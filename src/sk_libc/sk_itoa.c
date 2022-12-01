@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_itoa.c                                          :+:    :+:            */
+/*   sk_itoa.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nmolinel <nmolinel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
@@ -35,7 +35,7 @@ static int	get_length(int n)
 	return (len);
 }
 
-char	*ft_itoa(int n)
+char	*sk_itoa(int n)
 {
 	char	*a;
 	int		itr;

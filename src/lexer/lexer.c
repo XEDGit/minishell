@@ -26,9 +26,9 @@ int	repeat_readline(char **buffer, char delimiter, t_data *data)
 			free(input);
 			return (error_int("syntax error", 0, 2, 1));
 		}
-		if (delimiter != 1 && ft_strjoin(buffer, "\n", false) == ERROR)
+		if (delimiter != 1 && sk_strjoin(buffer, "\n", false) == ERROR)
 			return (error_int("malloc error", 0, -1, ERROR));
-		if (ft_strjoin(buffer, input, true) == ERROR)
+		if (sk_strjoin(buffer, input, true) == ERROR)
 			return (error_int("malloc error", 0, -1, ERROR));
 	}
 	else if (input)
@@ -52,7 +52,7 @@ int	syntax_check(char *input, t_data *data)
 	error = io_check(input);
 	if (error)
 	{
-		ft_dprintf(2, "SkiruSh: Parsing failed at char '%c'\n", error);
+		sk_dprintf(2, "SkiruSh: Parsing failed at char '%c'\n", error);
 		g_exit_code = 2;
 		return (true);
 	}
@@ -67,7 +67,7 @@ int	lexer_semicolon(char *input, t_data *data)
 	if (syntax_check(input, data))
 		return (1);
 	code = 0;
-	tables = ft_split(input, "|&");
+	tables = sk_split(input, "|&");
 	if (tables)
 		code = parser(tables, data);
 	else
@@ -94,7 +94,7 @@ int	lexer(char *input, t_env *env, t_env *aliases)
 	}
 	if (multiline_handle(&data, input, count))
 		return (1);
-	semicolon = ft_split(data.input, ";");
+	semicolon = sk_split(data.input, ";");
 	if (!semicolon)
 		error_int("Allocation failed", "malloc", -1, 0);
 	count = 0;

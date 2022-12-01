@@ -55,7 +55,7 @@ char	*get_var(char *str, t_env *env)
 	char	*var;
 
 	i = 0;
-	name = malloc(sizeof(char) * (ft_strlen(str) + 1));
+	name = malloc(sizeof(char) * (sk_strlen(str) + 1));
 	if (!name)
 		return (0);
 	while (*str && !is_del(*str))
@@ -80,10 +80,10 @@ int	set_vars(char **vars, char *input, t_env *env)
 		if (*input == '$' && open != SINGLE_QUOTE)
 		{
 			if (*(++input) == '?')
-				vars[i] = ft_itoa(g_exit_code);
+				vars[i] = sk_itoa(g_exit_code);
 			else if (!*input || is_del(*input))
 			{
-				vars[i++] = ft_strdup("$");
+				vars[i++] = sk_strdup("$");
 				continue ;
 			}
 			else

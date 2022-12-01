@@ -22,9 +22,9 @@ void	watch_child(pid_t pid)
 	{
 		g_exit_code = WTERMSIG(statbuf) + 128;
 		if (g_exit_code == 130)
-			ft_dprintf(2, "\n");
+			sk_dprintf(2, "\n");
 		else if (g_exit_code == 131)
-			ft_dprintf(2, "Quit: 3\n");
+			sk_dprintf(2, "Quit: 3\n");
 	}
 	else if (WIFEXITED(statbuf))
 		g_exit_code = WEXITSTATUS(statbuf);
@@ -45,7 +45,7 @@ int	set_output_fd(t_cmd *cmd, t_file *files)
 	return (1);
 }
 
-int	left_rdrt(t_cmd *cmd, char *file, int mode)
+int	lesk_rdrt(t_cmd *cmd, char *file, int mode)
 {
 	if (cmd->redirects[0] != STDIN_FILENO)
 	{
@@ -66,7 +66,7 @@ int	reset_path(t_data *data)
 	if (!new_paths)
 		return (false);
 	free2d(data->paths, 0);
-	data->paths = ft_split(new_paths, ":");
+	data->paths = sk_split(new_paths, ":");
 	free(new_paths);
 	if (!data->paths)
 		return (false);
@@ -82,7 +82,7 @@ int	open_files(t_cmd *cmd, t_data *data)
 	{
 		if (files->here == 1)
 			cmd->redirects[0] = data->heredocs[data->heredoc_c++][0];
-		else if (!files->flags && !left_rdrt(cmd, files->name, files->mode))
+		else if (!files->flags && !lesk_rdrt(cmd, files->name, files->mode))
 			return (true);
 		else if (files->flags && \
 		!set_output_fd(cmd, files))

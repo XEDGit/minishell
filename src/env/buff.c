@@ -32,16 +32,16 @@ int	buff_contains(t_buffvar *buff, char *to_find, size_t *offset)
 	n = 0;
 	while (i < buff->index)
 	{
-		if (ft_strchr(buff->mem[i], '='))
-			n = ft_strchr(buff->mem[i], '=') - buff->mem[i];
+		if (sk_strchr(buff->mem[i], '='))
+			n = sk_strchr(buff->mem[i], '=') - buff->mem[i];
 		else
-			n = ft_strlen(buff->mem[i]);
-		if (!ft_strncmp(buff->mem[i], to_find, n) && \
-		!ft_strncmp(buff->mem[i], to_find, ft_strlen(to_find)))
+			n = sk_strlen(buff->mem[i]);
+		if (!sk_strncmp(buff->mem[i], to_find, n) && \
+		!sk_strncmp(buff->mem[i], to_find, sk_strlen(to_find)))
 		{
 			if (offset)
 				*offset = n + 1;
-			if (n == ft_strlen(buff->mem[i]) && offset)
+			if (n == sk_strlen(buff->mem[i]) && offset)
 				*offset = n;
 			return (i);
 		}
@@ -52,7 +52,7 @@ int	buff_contains(t_buffvar *buff, char *to_find, size_t *offset)
 
 /**
  * Checks available space in buff.
- * If no space left returns a mem copy with B_INCRSIZE more slots.
+ * If no space lesk returns a mem copy with B_INCRSIZE more slots.
 */
 t_buffvar	*buff_checker(t_buffvar *buff)
 {
@@ -82,14 +82,14 @@ t_buffvar	*buff_copy(t_buffvar *buff, char **envp)
 
 	while (envp && envp[buff->index])
 	{
-		len = ft_strlen(envp[buff->index]) + 1;
+		len = sk_strlen(envp[buff->index]) + 1;
 		buff->mem[buff->index] = malloc(sizeof(char) * len);
 		if (!buff->mem[buff->index])
 		{
 			free2d(buff->mem, buff->index - 1);
 			return (error_msg("Error: enviromental variable allocation\n", -1));
 		}
-		ft_strlcpy(buff->mem[buff->index], envp[buff->index], len);
+		sk_strlcpy(buff->mem[buff->index], envp[buff->index], len);
 		buff->index++;
 	}
 	buff->mem[buff->index] = 0;

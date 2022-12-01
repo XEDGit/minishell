@@ -1,6 +1,6 @@
 #include <executer.h>
 
-int	ft_alias(t_cmd *cmd, t_data *data)
+int	sk_alias(t_cmd *cmd, t_data *data)
 {
 	int		i = 1;
 
@@ -8,7 +8,7 @@ int	ft_alias(t_cmd *cmd, t_data *data)
 	{
 		t_data	new = {0};
 		new.env = data->aliases;
-		return (ft_env(0, &new));
+		return (sk_env(0, &new));
 	}
 	if (!strchr(cmd->args[1], '='))
 	{
@@ -18,7 +18,7 @@ int	ft_alias(t_cmd *cmd, t_data *data)
 			free(buff);
 			return (error_int(0, 0, 1, true));
 		}
-		ft_printf("alias %s='%s'", cmd->args[1], buff);
+		sk_printf("alias %s='%s'", cmd->args[1], buff);
 		free(buff);
 		return (false);
 	}
@@ -43,7 +43,7 @@ int	check_aliases(t_cmd *cmd, t_env *aliases)
 		free(substitute);
 		return (false);
 	}
-	substitutes = ft_split(substitute, " ");
+	substitutes = sk_split(substitute, " ");
 	free(substitute);
 	if (!substitutes)
 		return (error_int("malloc error", "alias", 1, 0));

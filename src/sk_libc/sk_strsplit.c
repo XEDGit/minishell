@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_libc.h>
+#include <sk_libc.h>
 
 static int	count_size(char *s, char c)
 {
@@ -42,7 +42,7 @@ static char	**split(char **arr, char *s, char del)
 		if (count)
 		{
 			arr[index++] = s;
-			ft_memset(s + count, '\0', 1);
+			sk_memset(s + count, '\0', 1);
 			s = s + count + 1;
 			count = 0;
 		}

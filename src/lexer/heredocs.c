@@ -20,7 +20,7 @@ int	heredoc_routine(char *input, int *fds)
 	if (!lines)
 		signals_handler_setup(3);
 	buffer = readline("here >");
-	if (!buffer || !ft_strcmp(buffer, input))
+	if (!buffer || !sk_strcmp(buffer, input))
 	{
 		if (lines)
 			write(fds[1], "\n", 1);
@@ -30,7 +30,7 @@ int	heredoc_routine(char *input, int *fds)
 	}
 	if (lines)
 		write(fds[1], "\n", 1);
-	write(fds[1], buffer, ft_strlen(buffer));
+	write(fds[1], buffer, sk_strlen(buffer));
 	free(buffer);
 	lines++;
 	return (false);
@@ -48,7 +48,7 @@ int	wait_heredoc(pid_t here_pid)
 	if (WIFSIGNALED(stat))
 	{
 		if (WTERMSIG(stat) == 2)
-			ft_dprintf(2, "\n");
+			sk_dprintf(2, "\n");
 		return (1);
 	}
 	return (0);
@@ -60,7 +60,7 @@ int	heredoc_repeat(char *d, int *fds)
 
 	if (pipe(fds) == ERROR)
 	{
-		ft_dprintf(2, "Error opening pipe for heredoc\n");
+		sk_dprintf(2, "Error opening pipe for heredoc\n");
 		return (ERROR);
 	}
 	d = remove_quotes(d);

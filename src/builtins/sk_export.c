@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_export.c                                        :+:    :+:            */
+/*   sk_export.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
@@ -42,13 +42,13 @@ int	print_lowest_ascii(char **mem)
 			m = i;
 		i++;
 	}
-	pos = ft_strchr(mem[m], '=');
+	pos = sk_strchr(mem[m], '=');
 	if (!pos)
-		ft_printf("%s%s\n", EXPDEC, mem[m]);
+		sk_printf("%s%s\n", EXPDEC, mem[m]);
 	else
 	{
 		*pos++ = 0;
-		ft_printf("%s%s=\"%s\"\n", EXPDEC, mem[m], pos);
+		sk_printf("%s%s=\"%s\"\n", EXPDEC, mem[m], pos);
 	}
 	return (m);
 }
@@ -73,7 +73,7 @@ int	print_p(t_env *env)
 	return (0);
 }
 
-int	ft_export(t_cmd *cmd, t_data *data)
+int	sk_export(t_cmd *cmd, t_data *data)
 {
 	int		index;
 	int		ret;

@@ -37,13 +37,13 @@ char	*copy_tilde_table(char *new, char *table, char *home, size_t size)
 
 	i = 0;
 	c = 0;
-	home_len = ft_strlen(home);
+	home_len = sk_strlen(home);
 	while (table[i])
 	{
 		open = is_open(table[i]);
 		if (!open && table[i] == '~')
 		{
-			ft_strlcpy(new + c, home, size);
+			sk_strlcpy(new + c, home, size);
 			i++;
 			c += home_len;
 			continue ;
@@ -54,7 +54,7 @@ char	*copy_tilde_table(char *new, char *table, char *home, size_t size)
 	return (new);
 }
 
-char	*ft_tilde_expand(char **table, t_env *env)
+char	*sk_tilde_expand(char **table, t_env *env)
 {
 	char	*home;
 	size_t	size;
@@ -63,13 +63,13 @@ char	*ft_tilde_expand(char **table, t_env *env)
 	home = env_get(env, "HOME", 1);
 	if (!home)
 		return (0);
-	size = tilde_count(*table) * ft_strlen(home);
+	size = tilde_count(*table) * sk_strlen(home);
 	if (!size)
 	{
 		free(home);
 		return (*table);
 	}
-	size += ft_strlen(*table);
+	size += sk_strlen(*table);
 	new_table = malloc(sizeof(char) * size);
 	if (!new_table)
 	{

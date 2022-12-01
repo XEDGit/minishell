@@ -21,8 +21,8 @@ t_env	*increment_shlvl(t_env *env, int index, size_t n)
 	char	*var;
 
 	code = env;
-	num = ft_atoi(env->envp->mem[index] + n) + 1;
-	lvl = ft_itoa(num);
+	num = sk_atoi(env->envp->mem[index] + n) + 1;
+	lvl = sk_itoa(num);
 	if (!lvl)
 		return (0);
 	var = build_var("SHLVL", lvl);
@@ -57,7 +57,7 @@ t_env	*set_if_not_set(t_env *env, char *name, char *content)
 		}
 		free(var);
 	}
-	else if (!ft_strcmp(name, "SHLVL") && !increment_shlvl(env, index, n))
+	else if (!sk_strcmp(name, "SHLVL") && !increment_shlvl(env, index, n))
 		return (0);
 	return (env);
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_strlen.c                                        :+:    :+:            */
+/*   sk_strlen.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
@@ -14,7 +14,7 @@
 
 int		skip_quotes(char *input);
 
-size_t	ft_strclen(const char *start, const char *end)
+size_t	sk_strclen(const char *start, const char *end)
 {
 	int			cont;
 	const char	*temp;
@@ -38,7 +38,7 @@ size_t	ft_strclen(const char *start, const char *end)
 	return (cont);
 }
 
-size_t	ft_strclen_no_quotes(const char *start, const char *end)
+size_t	sk_strclen_no_quotes(const char *start, const char *end)
 {
 	int			cont;
 	const char	*temp;
@@ -64,7 +64,7 @@ size_t	ft_strclen_no_quotes(const char *start, const char *end)
 	return (cont);
 }
 
-size_t	ft_strlen(const char *str)
+size_t	sk_strlen(const char *str)
 {
 	const char	*temp;
 

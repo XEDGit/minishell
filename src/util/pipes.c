@@ -14,14 +14,14 @@
 
 /* Returns 0 on error and the number of copied bytes on success 
 src gets freed and replaces with reallocated string */
-char	*ft_realloc(char **src, unsigned int new_size)
+char	*sk_realloc(char **src, unsigned int new_size)
 {
 	char	*res;
 
 	res = malloc((new_size + 1) * sizeof(char));
 	if (!res)
 		return (0);
-	ft_strlcpy(res, *src, ft_strlen(*src) + 1);
+	sk_strlcpy(res, *src, sk_strlen(*src) + 1);
 	free(*src);
 	*src = res;
 	return (res);
@@ -70,7 +70,7 @@ char	*extract_pipe(int fd)
 		if (++c == 10)
 		{
 			c = 0;
-			if (!ft_realloc(&buffer, 10 * ++size_mult))
+			if (!sk_realloc(&buffer, 10 * ++size_mult))
 				return (0);
 		}
 	}

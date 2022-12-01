@@ -14,16 +14,16 @@
 
 char	*skip_word(char **input)
 {
-	while (ft_isspace(**input))
+	while (sk_isspace(**input))
 		(*input)++;
 	while (**input)
 	{
 		if (!is_open(**input) && \
-		((**input == '<' || **input == '>') || ft_isspace(**input)))
+		((**input == '<' || **input == '>') || sk_isspace(**input)))
 			break ;
 		(*input)++;
 	}
-	while (ft_isspace(**input))
+	while (sk_isspace(**input))
 		(*input)++;
 	return (*input);
 }
@@ -33,7 +33,7 @@ void	*in_redirect(char **table, t_file *file)
 	file->name = 0;
 	file->flags = O_RDONLY;
 	(*table)++;
-	if (**table == LEFT_REDIRECT)
+	if (**table == LEsk_REDIRECT)
 	{
 		(*table)++;
 		skip_word(table);

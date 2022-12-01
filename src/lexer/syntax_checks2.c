@@ -16,7 +16,7 @@ bool	check_standalone_redirects(char *input)
 {
 	int	length;
 
-	length = ft_strlen(input);
+	length = sk_strlen(input);
 	if (length == 1)
 	{
 		if (*input == '<' || *input == '>')
@@ -24,7 +24,7 @@ bool	check_standalone_redirects(char *input)
 	}
 	else if (length == 2)
 	{
-		if (!ft_strcmp(input, "<<") || !ft_strcmp(input, ">>"))
+		if (!sk_strcmp(input, "<<") || !sk_strcmp(input, ">>"))
 			return (false);
 	}
 	return (true);
@@ -37,7 +37,7 @@ int	semicolon_check(char *input)
 		if (*input == ';')
 		{
 			input++;
-			while (*input && ft_isspace(*input))
+			while (*input && sk_isspace(*input))
 				input++;
 			if (*input == ';')
 				return (ERROR);

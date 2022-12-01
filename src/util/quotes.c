@@ -48,7 +48,7 @@ char	*remove_quotes(char *input)
 		input++;
 	if (!*input)
 		return (0);
-	p = malloc(sizeof(char) * (ft_strlen(input) + 1));
+	p = malloc(sizeof(char) * (sk_strlen(input) + 1));
 	i = 0;
 	while (p && *input)
 	{
@@ -89,7 +89,7 @@ char	*quotes_del(char *str)
 	int		open;
 	int		i;
 
-	p = malloc(sizeof(char) * (ft_strlen(str) + 1));
+	p = malloc(sizeof(char) * (sk_strlen(str) + 1));
 	if (!p)
 		return (false);
 	i = 0;
@@ -117,8 +117,8 @@ int	clean_quotes(t_cmd *cmd)
 	i = 0;
 	while (cmd->args[i])
 	{
-		if (ft_strlen(cmd->args[i]) == 2 && !ft_strcmp(cmd->args[i], "\"\""))
-			p = ft_strdup("");
+		if (sk_strlen(cmd->args[i]) == 2 && !sk_strcmp(cmd->args[i], "\"\""))
+			p = sk_strdup("");
 		else
 			p = quotes_del(cmd->args[i]);
 		if (!p)

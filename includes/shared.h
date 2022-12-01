@@ -29,9 +29,9 @@
 # define SHELLNAME "\033[34mSkiruSh:\033[0m "
 
 // internal
-# include <ft_libc.h>
+# include <sk_libc.h>
 # include <structs.h>
-# include <ft_printf.h>
+# include <sk_printf.h>
 
 // external
 # include <errno.h>

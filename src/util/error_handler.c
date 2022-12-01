@@ -14,7 +14,7 @@
 
 void	*error_msg(char *msg, int exit_code)
 {
-	ft_dprintf(2, SHELLNAME"%s\n", msg);
+	sk_dprintf(2, SHELLNAME"%s\n", msg);
 	if (exit_code != -1)
 		g_exit_code = exit_code;
 	return (0);
@@ -31,9 +31,9 @@ int	error_int(char *msg, char *cmd, int exit_code, int return_val)
 	if (msg)
 	{
 		if (cmd)
-			ft_dprintf(2, SHELLNAME"%s: %s\n", cmd, msg);
+			sk_dprintf(2, SHELLNAME"%s: %s\n", cmd, msg);
 		else
-			ft_dprintf(2, SHELLNAME"%s\n", msg);
+			sk_dprintf(2, SHELLNAME"%s\n", msg);
 	}
 	if (exit_code != ERROR)
 		g_exit_code = exit_code;

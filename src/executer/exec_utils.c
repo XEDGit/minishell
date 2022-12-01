@@ -53,9 +53,9 @@ char	*check_paths(char **paths, char *cmd)
 {
 	char	*res_path;
 
-	if (!*cmd || !ft_strcmp(cmd, ".") || !ft_strcmp(cmd, ".."))
+	if (!*cmd || !sk_strcmp(cmd, ".") || !sk_strcmp(cmd, ".."))
 		return ((char *)(long) error_int("command not found", cmd, 2, 0));
-	if (ft_strchr(cmd, '/'))
+	if (sk_strchr(cmd, '/'))
 	{
 		if (check_file(cmd, true) == true)
 			return (cmd);
@@ -73,7 +73,7 @@ char	*check_paths(char **paths, char *cmd)
 		free(res_path);
 		paths++;
 	}
-	if (!ft_strchr(cmd, '/'))
+	if (!sk_strchr(cmd, '/'))
 		error_int("command not found", cmd, 127, 0);
 	return (0);
 }

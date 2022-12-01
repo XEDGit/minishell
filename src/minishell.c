@@ -36,24 +36,24 @@ int build_title(char **path, t_env *env, time_t start)
 		free(home);
 		return (true);
 	}
-	home_ptr = ft_strnstr(cwd, home, ft_strlen(cwd));
+	home_ptr = sk_strnstr(cwd, home, sk_strlen(cwd));
 	if (home_ptr)
 	{
 		*cwd = '~';
-		home_ptr += ft_strlen(home);
-		len = ft_strlen(home_ptr) + 1;
-		ft_strlcpy(cwd + 1, home_ptr, len);
+		home_ptr += sk_strlen(home);
+		len = sk_strlen(home_ptr) + 1;
+		sk_strlcpy(cwd + 1, home_ptr, len);
 		cwd[len + 1] = 0;
 	}
 	if (start)
-		ft_dprintf(2, "\033[33m~%ds\033[0m\n", (int)difftime(end, start));
-	*path = ft_strdup(TITLE_COL);
+		sk_dprintf(2, "\033[33m~%ds\033[0m\n", (int)difftime(end, start));
+	*path = sk_strdup(TITLE_COL);
 	if (!*path || \
-	ft_strjoin(path, prompt, true) || \
-	ft_strjoin(path, " ", false) || \
-	ft_strjoin(path, cwd, true) || \
-	(g_exit_code && ft_strjoin(path, TITLE_RED, false)) || \
-	ft_strjoin(path, TITLE_ARR, false))
+	sk_strjoin(path, prompt, true) || \
+	sk_strjoin(path, " ", false) || \
+	sk_strjoin(path, cwd, true) || \
+	(g_exit_code && sk_strjoin(path, TITLE_RED, false)) || \
+	sk_strjoin(path, TITLE_ARR, false))
 	{
 		free(cwd);
 		free(home);
@@ -73,7 +73,7 @@ int	parse_skurc(t_env *env, t_env *aliases)
 	int		read_ret, err = 0;
 
 	path = env_get(env, "HOME", 1);
-	if (ft_strjoin(&path, "/.skurc", false))
+	if (sk_strjoin(&path, "/.skurc", false))
 		return (1);
 	if (!access(path, F_OK) && !access(path, R_OK))
 	{
@@ -90,7 +90,7 @@ int	parse_skurc(t_env *env, t_env *aliases)
 			else
 				continue;
 			buff_ptr = &buff[0];
-			while ((path = ft_strchr(buff_ptr, '\n')))
+			while ((path = sk_strchr(buff_ptr, '\n')))
 			{
 				*path = 0;
 				lexer(buff_ptr, env, aliases);
@@ -149,6 +149,6 @@ int	main(int argc, char **argv, char *envp[])
 	env_free(env);
 	env_free(aliases);
 	if (code != 2)
-		ft_dprintf(2, "exit\n");
+		sk_dprintf(2, "exit\n");
 	exit(g_exit_code);
 }

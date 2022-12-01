@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_env.c                                           :+:    :+:            */
+/*   sk_env.c                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
@@ -12,7 +12,7 @@
 
 #include <shared.h>
 
-int	ft_env(t_cmd *cmd, t_data *data)
+int	sk_env(t_cmd *cmd, t_data *data)
 {
 	int		i;
 	char	**envp;
@@ -22,8 +22,8 @@ int	ft_env(t_cmd *cmd, t_data *data)
 	envp = data->env->envp->mem;
 	while (envp[i])
 	{
-		if (ft_strchr(envp[i], '='))
-			ft_printf("%s\n", envp[i]);
+		if (sk_strchr(envp[i], '='))
+			sk_printf("%s\n", envp[i]);
 		i++;
 	}
 	return (0);

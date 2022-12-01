@@ -18,7 +18,7 @@
 # include <fcntl.h>
 
 # define PARSE_DEBUG 1
-# define LEFT_REDIRECT '<'
+# define LEsk_REDIRECT '<'
 # define RIGHT_REDIRECT '>'
 
 typedef struct s_var
@@ -33,7 +33,7 @@ int		expander(char **tables, t_env *env);
 int		count_vars(char *input);
 int		vars_expansion(char **tables, t_env *env);
 int		set_vars(char **vars, char *input, t_env *env);
-char	*ft_tilde_expand(char **table, t_env *env);
+char	*sk_tilde_expand(char **table, t_env *env);
 int		clean_quotes(t_cmd *cmd);
 int		free_2d_ret(char **tofree, int len, int ret);
 

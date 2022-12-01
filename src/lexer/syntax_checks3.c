@@ -14,7 +14,7 @@
 
 int	multiline_handle(t_data *data, char *input, int c)
 {
-	data->input = ft_strdup(input);
+	data->input = sk_strdup(input);
 	if (!data->input)
 		return (error_int("Error allocating user input", "malloc", -1, 1));
 	if (c)
@@ -30,7 +30,7 @@ int	multiline_handle(t_data *data, char *input, int c)
 	{
 		free(data->input);
 		if (c == ERROR)
-			ft_dprintf(2, "Error: An error in heredoc functioning happened\n");
+			sk_dprintf(2, "Error: An error in heredoc functioning happened\n");
 		return (true);
 	}
 	return (0);
@@ -41,7 +41,7 @@ int	check_double_commands(char *str, int c, int diff)
 	if (c == 0 && diff == -1)
 		return (false);
 	c = c + diff;
-	while (ft_isspace(str[c]))
+	while (sk_isspace(str[c]))
 		c += diff;
 	if (str[c] && c >= 0 && str[c] != '|' && str[c] != '&')
 	{
@@ -49,7 +49,7 @@ int	check_double_commands(char *str, int c, int diff)
 			diff = 40;
 		else
 			diff = str[c];
-		ft_dprintf(2, "Error parsing symbol '%c'\n", diff);
+		sk_dprintf(2, "Error parsing symbol '%c'\n", diff);
 		return (true);
 	}
 	return (false);
@@ -59,7 +59,7 @@ int	truncate_delimiter(char *del)
 {
 	if (*del == '<' || *del == '>' || *del == '|' \
 	|| *del == '&' || *del == '\n' || *del == ';' \
-	|| ft_isspace(*del))
+	|| sk_isspace(*del))
 	{
 		*del = 0;
 		return (true);

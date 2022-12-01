@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_unset.c                                         :+:    :+:            */
+/*   sk_unset.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
@@ -12,7 +12,7 @@
 
 #include <shared.h>
 
-int	ft_unset(t_cmd *cmd, t_data *data)
+int	sk_unset(t_cmd *cmd, t_data *data)
 {
 	int		ret;
 	char	**args;

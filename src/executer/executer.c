@@ -95,19 +95,19 @@ char	*extract_parenthesis(t_cmd **start)
 		i = 0;
 		while ((*start)->args[i])
 		{
-			ft_strjoin(&buffer, (*start)->args[i], false);
+			sk_strjoin(&buffer, (*start)->args[i], false);
 			if ((*start)->args[i + 1])
-				ft_strjoin(&buffer, " ", false);
+				sk_strjoin(&buffer, " ", false);
 			i++;
 		}
 		if ((*start)->next && (*start)->next->depth >= depth)
 		{
 			if ((*start)->next->conditional == '|')
-				ft_strjoin(&buffer, " || ", false);
+				sk_strjoin(&buffer, " || ", false);
 			else if  ((*start)->next->conditional == '&')
-				ft_strjoin(&buffer, " && ", false);
+				sk_strjoin(&buffer, " && ", false);
 			else if  ((*start)->is_pipe)
-				ft_strjoin(&buffer, " | ", false);
+				sk_strjoin(&buffer, " | ", false);
 		}
 		(*start) = (*start)->next;
 	}
@@ -168,7 +168,7 @@ int	executer(t_data *data)
 
 	ret = 0;
 	paths = env_get(data->env, "PATH", 0);
-	data->paths = ft_split(paths, ":");
+	data->paths = sk_split(paths, ":");
 	if (!data->paths)
 		error_int("path allocation failed", "malloc", -1, 0);
 	free(paths);

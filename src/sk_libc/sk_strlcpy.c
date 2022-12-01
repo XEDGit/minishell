@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_isspace.c                                       :+:    :+:            */
+/*   sk_strlcpy.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: lmuzio <lmuzio@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/01/18 17:56:47 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/10/05 13:38:51 by lmuzio        ########   odam.nl         */
+/*   Created: 2022/05/10 20:53:46 by lmuzio        #+#    #+#                 */
+/*   Updated: 2022/05/10 22:13:27 by lmuzio        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isspace(int str)
-{
-	if (str == ' ' || str == '	' || str == '\t'\
-	|| str == '\n' || str == '\v' || str == '\f' || str == '\r')
-		return (1);
-	return (0);
-}
+#include <stddef.h>
 
-int	ft_strisspace(char *str)
+size_t	sk_strlen(const char *str);
+
+size_t	sk_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	while (*str && ft_isspace(*str))
-		str++;
-	if (!*str)
-		return (1);
-	return (0);
+	int	srcsize;
+
+	srcsize = sk_strlen(src);
+	if (!dstsize)
+		return (srcsize);
+	while (--dstsize && *src)
+		*dst++ = *src++;
+	*dst = 0;
+	return (srcsize);
 }
