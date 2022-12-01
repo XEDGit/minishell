@@ -12,34 +12,18 @@
 
 #include <executer.h>
 
-int	ft_alias(t_cmd *cmd, t_data *data)
-{
-	int		i = 1;
-
-	if (!cmd->args[1])
-		return (ft_env(0, data->aliases));
-	if (!strchr(cmd->args[1], '='))
-	{
-		char	*buff = env_get(data->aliases, cmd->args[1], 1);
-		if (!buff || !*buff)
-		{
-			free(buff);
-			return (error_int(0, 0, 1, true));
-		}
-		ft_printf("alias %s='%s'", cmd->args[1], buff);
-		free(buff);
-		return (false);
-	}
-	while (cmd->args[i])
-		data->aliases = env_add(data->aliases, cmd->args[i++], 1);
-	return (false);
-}
-
-void	exec_builtin(t_cmd *cmd, t_env *envs, int i)
+void	exec_builtin(t_cmd *cmd, t_data *data, int i)
 {
 	pid_t		pid;
-	static int	(*funcs[])(char **args, t_env *env) = {
-		&ft_cd, &ft_echo, &ft_export, &ft_unset, &ft_env, &ft_pwd
+	static int	(*funcs[])(t_cmd *cmd, t_data *data) = {
+		0,
+		&ft_exec,
+		&ft_cd,
+		&ft_echo,
+		&ft_export,
+		&ft_unset,
+		&ft_env,
+		&ft_pwd
 	};
 
 	pid = fork();
@@ -53,20 +37,30 @@ void	exec_builtin(t_cmd *cmd, t_env *envs, int i)
 	}
 	if (cmd->is_pipe)
 		close(cmd->next->redirects[0]);
-	dup2(cmd->redirects[0], 0);
-	dup2(cmd->redirects[1], 1);
-	dup2(cmd->redirects[2], 2);
+	if (cmd->redirects[0] != 0)
+		dup2(cmd->redirects[0], 0);
+	if (cmd->redirects[1] != 1)
+		dup2(cmd->redirects[1], 1);
+	if (cmd->redirects[2] != 2)
+		dup2(cmd->redirects[2], 2);
 	clean_redirects(cmd);
-	if (i == 6)
+	if (!i)
 		ft_exit(cmd);
-	g_exit_code = funcs[i](cmd->args, envs);
+	g_exit_code = funcs[i](cmd, data);
 	exit(g_exit_code);
 }
 
-void	exec_single_builtin(t_cmd *cmd, t_env *env, int i)
+void	exec_single_builtin(t_cmd *cmd, t_data *data, int i)
 {
-	static int	(*funcs[])(char **args, t_env *env) = {
-		&ft_cd, &ft_echo, &ft_export, &ft_unset, &ft_env, &ft_pwd
+	static int	(*funcs[])(t_cmd *cmd, t_data *data) = {
+		0,
+		&ft_exec,
+		&ft_cd,
+		&ft_echo,
+		&ft_export,
+		&ft_unset,
+		&ft_env,
+		&ft_pwd
 	};
 	t_cmd		fds;
 
@@ -78,60 +72,31 @@ void	exec_single_builtin(t_cmd *cmd, t_env *env, int i)
 	dup2(cmd->redirects[2], 2);
 	if (cmd->is_pipe)
 		clean_redirects(cmd);
-	if (i == 6)
+	if (!i)
 		ft_exit(cmd);
-	g_exit_code = funcs[i](cmd->args, env);
-	dup2(fds.redirects[0], 0);
-	dup2(fds.redirects[1], 1);
-	dup2(fds.redirects[2], 2);
-	clean_redirects(&fds);
-}
-
-int	check_aliases(t_cmd *cmd, t_env *aliases)
-{
-	char	*substitute;
-	char	**substitutes;
-	char	**new_args;
-	int		oglen = 0;
-	int		len = 0;
-
-	if (!cmd->cmd)
-		return (false);
-	substitute = env_get(aliases, cmd->cmd, 1);
-	if (!substitute || !*substitute)
+	g_exit_code = funcs[i](cmd, data);
+	if (i != 1)
 	{
-		free(substitute);
-		return (false);
+		dup2(fds.redirects[0], 0);
+		dup2(fds.redirects[1], 1);
+		dup2(fds.redirects[2], 2);
 	}
-	substitutes = ft_split(substitute, " ");
-	free(substitute);
-	if (!substitutes)
-		return (error_int("malloc error", "alias", 1, 0));
-	while (substitutes[len++]);
-	while (cmd->args[oglen++]);
-	new_args = malloc((len + oglen - 1) * sizeof(char *));
-	if (!new_args)
-		return (error_int("malloc error", "alias", 1, 0));
-	len = -1;
-	while (substitutes[++len])
-		new_args[len] = substitutes[len];
-	oglen = 0;
-	while (cmd->args[++oglen])
-		new_args[len++] = cmd->args[oglen];
-	new_args[len] = 0;
-	free(cmd->cmd);
-	free(cmd->args);
-	free(substitutes);
-	cmd->args = new_args;
-	cmd->cmd = cmd->args[0];
-	return (true);
+	clean_redirects(&fds);
 }
 
 int	check_builtin(t_cmd *cmd, t_data *data, int piping)
 {
 	int			i;
 	static char	*builtins[] = {
-		"cd", "echo", "export", "unset", "env", "pwd", "exit", 0
+		"exit",
+		"exec",
+		"cd",
+		"echo",
+		"export",
+		"unset",
+		"env",
+		"pwd",
+		0
 	};
 
 	i = 0;
@@ -146,11 +111,11 @@ int	check_builtin(t_cmd *cmd, t_data *data, int piping)
 			if (cmd->files && open_files(cmd, data))
 				return (true);
 			if (cmd->cmd && piping)
-				exec_builtin(cmd, data->env, i);
+				exec_builtin(cmd, data, i);
 			else if (cmd->cmd)
-				exec_single_builtin(cmd, data->env, i);
+				exec_single_builtin(cmd, data, i);
 			clean_redirects(cmd);
-			if (i == 6 && !piping)
+			if (!i && !piping)
 				return (2);
 			return (true);
 		}

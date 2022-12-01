@@ -75,21 +75,21 @@ int	chdir_wrapper(t_env *env, char *p)
 	return (code);
 }
 
-int	ft_cd(char **args, t_env *env)
+int	ft_cd(t_cmd *cmd, t_data *data)
 {
 	char	*home;
 	int		code;
 
-	if (!args[1])
+	if (!cmd->args[1])
 	{
-		home = env_get(env, "HOME", 0);
+		home = env_get(data->env, "HOME", 0);
 		if (!home)
 			return (137);
 		else if (!*home)
 			return (0);
-		code = chdir_wrapper(env, home);
+		code = chdir_wrapper(data->env, home);
 		free(home);
 		return (code);
 	}
-	return (chdir_wrapper(env, args[1]));
+	return (chdir_wrapper(data->env, cmd->args[1]));
 }

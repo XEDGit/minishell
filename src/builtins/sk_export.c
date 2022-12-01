@@ -73,14 +73,16 @@ int	print_p(t_env *env)
 	return (0);
 }
 
-int	ft_export(char **args, t_env *env)
+int	ft_export(t_cmd *cmd, t_data *data)
 {
 	int		index;
 	int		ret;
 	char	*to_add;
+	char	**args;
 
+	args = cmd->args;
 	if (!*(++args))
-		return (print_p(env));
+		return (print_p(data->env));
 	ret = 0;
 	while (args && *args)
 	{
@@ -90,12 +92,12 @@ int	ft_export(char **args, t_env *env)
 			args++;
 			continue ;
 		}
-		index = buff_contains(env->envl, *args, 0);
+		index = buff_contains(data->env->envl, *args, 0);
 		if (index > -1)
-			to_add = env->envl->mem[index];
+			to_add = data->env->envl->mem[index];
 		else
 			to_add = *args;
-		if (!env_add(env, to_add, 1))
+		if (!env_add(data->env, to_add, 1))
 			return (137);
 		args++;
 	}

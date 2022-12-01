@@ -17,9 +17,12 @@ void	execute_cmd(t_cmd *cmd, char **envp)
 	signals_handler_setup(2);
 	if (cmd->is_pipe)
 		close(cmd->next->redirects[0]);
-	dup2(cmd->redirects[0], 0);
-	dup2(cmd->redirects[1], 1);
-	dup2(cmd->redirects[2], 2);
+	if (cmd->redirects[0] != 0)
+		dup2(cmd->redirects[0], 0);
+	if (cmd->redirects[1] != 1)
+		dup2(cmd->redirects[1], 1);
+	if (cmd->redirects[2] != 2)
+		dup2(cmd->redirects[2], 2);
 	clean_redirects(cmd);
 	execve(cmd->cmd, cmd->args, envp);
 }

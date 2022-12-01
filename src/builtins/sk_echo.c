@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <env.h>
-#include <ft_printf.h>
-#include <stdbool.h>
+#include <shared.h>
 
 int	check_flag(char *arg)
 {
@@ -30,23 +28,23 @@ int	check_flag(char *arg)
 	return (false);
 }
 
-int	ft_echo(char **args, t_env *env)
+int	ft_echo(t_cmd *cmd, t_data *data)
 {
 	bool	nl;
 	int		i;
 
 	i = 1;
 	nl = true;
-	(void)env;
-	while (args && args[i] && check_flag(args[i]))
+	(void)data;
+	while (cmd->args && cmd->args[i] && check_flag(cmd->args[i]))
 	{
 		i++;
 		nl = false;
 	}
-	while (args && args[i])
+	while (cmd->args && cmd->args[i])
 	{
-		ft_printf("%s", args[i]);
-		if (args[++i])
+		ft_printf("%s", cmd->args[i]);
+		if (cmd->args[++i])
 			ft_printf(" ");
 	}
 	if (nl)

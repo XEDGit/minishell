@@ -55,7 +55,6 @@ int	set_redirects(char *arg, t_cmd *cmd)
 		open = is_open(*arg);
 		if (!open && is_redirect(arg))
 		{
-			ft_printf("%s\n", arg);
 			if (!try_redirect(&arg, cmd))
 				return (0);
 			continue ;
