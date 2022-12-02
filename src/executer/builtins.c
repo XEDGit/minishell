@@ -23,7 +23,9 @@ void	exec_builtin(t_cmd *cmd, t_data *data, int i)
 		&sk_export,
 		&sk_unset,
 		&sk_env,
-		&sk_pwd
+		&sk_pwd,
+		&sk_source,
+		&sk_alias
 	};
 
 	pid = fork();
@@ -60,7 +62,9 @@ void	exec_single_builtin(t_cmd *cmd, t_data *data, int i)
 		&sk_export,
 		&sk_unset,
 		&sk_env,
-		&sk_pwd
+		&sk_pwd,
+		&sk_source,
+		&sk_alias
 	};
 	t_cmd		fds;
 
@@ -96,6 +100,8 @@ int	check_builtin(t_cmd *cmd, t_data *data, int piping)
 		"unset",
 		"env",
 		"pwd",
+		"source",
+		"alias",
 		0
 	};
 

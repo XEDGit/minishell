@@ -33,6 +33,7 @@ int		set_redirects(t_cmd *cmd, int **docs);
 int		signals_handler_setup(int mode);
 int		check_builtin(t_cmd *cmd, t_data *data, int piping);
 int 	check_aliases(t_cmd *cmd, t_env *aliases);
+int     sk_source(t_cmd *cmd, t_data *data);
 int	    sk_alias(t_cmd *cmd, t_data *data);
 int     sk_exec(t_cmd *cmd, t_data *data);
 int		sk_cd(t_cmd *cmd, t_data *data);

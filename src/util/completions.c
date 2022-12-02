@@ -33,22 +33,31 @@ char	**completions_generator(t_env *newenv)
 		return (0);
 	if (!env)
 		return (0);
-	total = count_items(".");
+	total = 0;
 	path = env_get(env, "PATH", 1);
-	if (false && path && *path)
+	// count items in path
+	if (path && *path)
 	{
 		paths = sk_split(path, ":");
 		free(path);
+		path = (char *)0x1;
 		if (!paths)
 			return ((char **)(long)error_int("Malloc error", "autocomplete", -1, 0));
 		path_i = 0;
 		while (paths[path_i])
 			total += count_items(paths[path_i++]);
 	}
+	else if (path && !*path)
+	{
+		free(path);
+		path = 0;
+	}
+	// allocate completions
 	completions = malloc(sizeof(char *) * (total + 1));
 	if (!completions)
 		return ((char **)(long)error_int("Malloc error", "autocomplete", -1, 0));
-	if (false && path && *path)
+	// fill in completions from path
+	if (path)
 	{
 		path_i = 0;
 		while (paths[path_i])
@@ -74,23 +83,6 @@ char	**completions_generator(t_env *newenv)
 		}
 		free2d(paths, 0);
 	}
-	d = opendir(".");
-	if (d)
-	{
-		while ((dir = readdir(d)) != NULL)
-		{
-			if (dir->d_type != DT_REG)
-					continue;
-			completions[comp_i] = sk_strdup(dir->d_name);
-			if (!completions[comp_i++])
-			{
-				free2d(completions, 0);
-				completions = 0;
-				return ((char **)(long)error_int("Malloc error", "autocomplete", -1, 0));
-			}
-		}
-		closedir(d);
-	}
 	completions[comp_i] = 0;
 	return (completions);
 }
@@ -102,12 +94,16 @@ char *match_completion(const char *text, int state)
 	static char	**completions = 0;
 
 	if (state == -1)
-		return ((char *)(long)(free2d(completions, 0) - 1));
-	if (!state)
 	{
 		if (completions)
 			free2d(completions, 0);
+		completions = 0;
+		return (0);
+	}
+	if (completions == 0)
 		completions = completions_generator(0);
+	if (!state)
+	{
 		i = 0;
 		len = sk_strlen(text);
 	}
@@ -115,7 +111,7 @@ char *match_completion(const char *text, int state)
 		return (0);
 	while (completions[i])
 	{
-		if (*text == *completions[i] && !sk_strncmp(completions[i], text, len));
+		if (*text == *completions[i] && !sk_strncmp(completions[i], text, len))
 		{
 			completion = sk_strdup(completions[i]);
 			i++;
@@ -130,6 +126,5 @@ char **completion(const char *text, int start, int end)
 {
 	(void)start;
 	(void)end;
-	rl_attempted_completion_over = 1;
 	return (rl_completion_matches(&text[start], match_completion));
 }

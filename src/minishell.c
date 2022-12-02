@@ -12,7 +12,6 @@
 
 #include <shared.h>
 #include <time.h>
-#include <fcntl.h>
 
 int	g_exit_code;
 
@@ -135,6 +134,7 @@ int	main(int argc, char **argv, char *envp[])
 	{
 		build_title(&title, env, start);
 		buffer = readline(title);
+		match_completion(0, -1);
 		free(title);
 		time(&start);
 		if (!buffer)
@@ -150,7 +150,7 @@ int	main(int argc, char **argv, char *envp[])
 	}
 	env_free(env);
 	env_free(aliases);
-	match_completion(0, -1);
+	// match_completion(0, -1);
 	if (code != 2)
 		sk_dprintf(2, "exit\n");
 	exit(g_exit_code);
