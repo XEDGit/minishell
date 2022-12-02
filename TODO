@@ -3,7 +3,7 @@ TO EVALUATE:
 
 TODO:
     cd: add CDPATH support
-    add autocompletion within PATH
+    add autocompletion within PATH (WIP)
     add source builtin
 
 DONE:
@@ -11,4 +11,4 @@ DONE:
     add ~/.skurc
     Makefile compiling single obj files and then full project
     add specific fd redirections (1>file 2>file)
-    add exec builtin
+    add exec builtin (and with it support for vscode debugger)

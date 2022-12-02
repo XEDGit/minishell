@@ -58,6 +58,11 @@ int		lexer(char *input, t_env *env, t_env *aliases);
 int		parser(char **tables, t_data *data);
 int		executer(t_data *data);
 
+// completion
+char    **completion(const char *text, int start, int end);
+char    *match_completion(const char *text, int state);
+char	**completions_generator(t_env *newenv);
+
 //  argv
 int     subshell(char *input, t_env *env, t_env *aliases, int tofork);
 int	    parse_argv(char **argv, t_env *env, t_env *aliases);

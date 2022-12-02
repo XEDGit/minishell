@@ -125,6 +125,8 @@ int	main(int argc, char **argv, char *envp[])
 	env = env_setup(envp);
 	if (!env)
 		return (44);
+	completions_generator(env);
+	rl_attempted_completion_function = completion;
 	if (parse_skurc(env, aliases))
 		error_int("Failed to parse ~/.skurc", "init", -1, 0);
 	if (argc > 1)
@@ -148,6 +150,7 @@ int	main(int argc, char **argv, char *envp[])
 	}
 	env_free(env);
 	env_free(aliases);
+	match_completion(0, -1);
 	if (code != 2)
 		sk_dprintf(2, "exit\n");
 	exit(g_exit_code);
