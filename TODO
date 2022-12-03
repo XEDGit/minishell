@@ -4,6 +4,9 @@ TO EVALUATE:
 TODO:
     cd: add CDPATH support
 
+LAST CHANGELOG:
+    fixed numbers after $, now recognised as empty variables
+
 DONE:
     fix conditions with subshell
     add ~/.skurc

@@ -25,7 +25,7 @@ int	var_name_length(char *str)
 	int	len;
 
 	len = 0;
-	if (*str == '?')
+	if (*str == '?' || (*str >= '0' && *str <= '9'))
 		return (1);
 	while (*str && !is_del(*str++))
 		len++;
@@ -55,7 +55,7 @@ char	*get_var(char *str, t_env *env)
 	char	*var;
 
 	i = 0;
-	name = malloc(sizeof(char) * (sk_strlen(str) + 1));
+	name = malloc(sizeof(char) * (sk_strclen(str, " ") + 1));
 	if (!name)
 		return (0);
 	while (*str && !is_del(*str))
@@ -84,6 +84,11 @@ int	set_vars(char **vars, char *input, t_env *env)
 			else if (!*input || is_del(*input))
 			{
 				vars[i++] = sk_strdup("$");
+				continue ;
+			}
+			else if (*input >= '0' && *input <= '9')
+			{
+				vars[i++] = sk_strdup("");
 				continue ;
 			}
 			else
