@@ -126,5 +126,5 @@ char **completion(const char *text, int start, int end)
 {
 	(void)start;
 	(void)end;
-	return (rl_completion_matches(&text[start], match_completion));
+	return (rl_completion_matches(text, match_completion));
 }
