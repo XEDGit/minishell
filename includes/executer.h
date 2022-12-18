@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   executer.h                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/10/05 13:37:20 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/11/02 17:02:50 by nmolinel      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   executer.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/05 13:37:20 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/12/18 12:26:34 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int		clean_redirects(t_cmd *cmd);
 int		set_redirects(t_cmd *cmd, int **docs);
 int		signals_handler_setup(int mode);
 int		check_builtin(t_cmd *cmd, t_data *data, int piping);
+char	**adjust_args(char **substitutes, t_cmd *cmd);
 int 	check_aliases(t_cmd *cmd, t_env *aliases);
 int     sk_source(t_cmd *cmd, t_data *data);
 int	    sk_alias(t_cmd *cmd, t_data *data);

@@ -4,8 +4,6 @@ OBJ_DIR := ../../obj
 
 OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 
-LIBS := -lreadline -L$(HOME)/.brew/opt/readline/lib
-
 HEADERS := -I$(HOME)/.brew/opt/readline/include -I../../includes
 
 all: $(OBJS)

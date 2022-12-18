@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   env.c                                              :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/10/26 15:36:31 by nmolinel      #+#    #+#                 */
-/*   Updated: 2022/11/01 18:08:17 by nmolinel      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/26 15:36:31 by nmolinel          #+#    #+#             */
+/*   Updated: 2022/12/18 12:42:32 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_env	*env_remove(t_env *env, char *varname, int mode)
 }
 
 /**
-* Add new variable or edit one that already exixsts.
+* Add new variable or edit one that already exists.
 *	mode 1 envp only,
 *	mode 2 envl only,
 *	Returns env, 0 if error.

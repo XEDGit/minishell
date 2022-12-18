@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   executer.c                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/10/05 13:37:54 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/11/02 15:27:26 by nmolinel      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   executer.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/05 13:37:54 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/12/18 10:56:51 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,9 @@ char	*extract_parenthesis(t_cmd **start)
 		{
 			if ((*start)->next->conditional == '|')
 				sk_strjoin(&buffer, " || ", false);
-			else if  ((*start)->next->conditional == '&')
+			else if ((*start)->next->conditional == '&')
 				sk_strjoin(&buffer, " && ", false);
-			else if  ((*start)->is_pipe)
+			else if ((*start)->is_pipe)
 				sk_strjoin(&buffer, " | ", false);
 		}
 		(*start) = (*start)->next;
@@ -167,7 +167,7 @@ int	executer(t_data *data)
 	char	*paths;
 
 	ret = 0;
-	paths = env_get(data->env, "PATH", 0);
+	paths = env_get(data->env, "PATH", 1);
 	data->paths = sk_split(paths, ":");
 	if (!data->paths)
 		error_int("path allocation failed", "malloc", -1, 0);

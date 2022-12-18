@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 18:36:19 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/12/17 14:50:30 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/12/18 10:56:40 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	reset_path(t_data *data)
 {
 	char	*new_paths;
 
-	new_paths = env_get(data->env, "PATH", 0);
+	new_paths = env_get(data->env, "PATH", 1);
 	if (!new_paths)
 		return (false);
 	free2d(data->paths, 0);

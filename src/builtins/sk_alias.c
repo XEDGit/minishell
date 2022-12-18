@@ -27,13 +27,32 @@ int	sk_alias(t_cmd *cmd, t_data *data)
 	return (false);
 }
 
+char	**adjust_args(char **substitutes, t_cmd *cmd)
+{
+	int		oglen = 0;
+	int		len = 0;
+	char	**new_args;
+
+	while (substitutes[len++]);
+	while (cmd->args[oglen++]);
+	new_args = malloc((len + oglen - 1) * sizeof(char *));
+	if (!new_args)
+		return ((char **)(long)error_int("malloc error", cmd->cmd, 1, 0));
+	len = -1;
+	while (substitutes[++len])
+		new_args[len] = substitutes[len];
+	oglen = 0;
+	while (cmd->args[++oglen])
+		new_args[len++] = cmd->args[oglen];
+	new_args[len] = 0;
+	return (new_args);
+}
+
 int	check_aliases(t_cmd *cmd, t_env *aliases)
 {
 	char	*substitute;
 	char	**substitutes;
 	char	**new_args;
-	int		oglen = 0;
-	int		len = 0;
 
 	if (!cmd->cmd)
 		return (false);
@@ -47,18 +66,12 @@ int	check_aliases(t_cmd *cmd, t_env *aliases)
 	free(substitute);
 	if (!substitutes)
 		return (error_int("malloc error", "alias", 1, 0));
-	while (substitutes[len++]);
-	while (cmd->args[oglen++]);
-	new_args = malloc((len + oglen - 1) * sizeof(char *));
+	new_args = adjust_args(substitutes, cmd);
 	if (!new_args)
-		return (error_int("malloc error", "alias", 1, 0));
-	len = -1;
-	while (substitutes[++len])
-		new_args[len] = substitutes[len];
-	oglen = 0;
-	while (cmd->args[++oglen])
-		new_args[len++] = cmd->args[oglen];
-	new_args[len] = 0;
+	{
+		free2d(substitutes, 0);
+		return (0);
+	}
 	free(cmd->cmd);
 	free(cmd->args);
 	free(substitutes);

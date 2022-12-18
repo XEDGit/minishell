@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   sku.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:20:31 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/11/25 21:48:05 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/12/18 10:56:36 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int build_title(char **path, t_env *env, time_t start)
 
 	time(&end);
 	cwd = getcwd(0, 0);
-	home = env_get(env, "HOME", 0);
-	prompt = env_get(env, "SKU1", 0);
+	home = env_get(env, "HOME", 1);
+	prompt = env_get(env, "SKU1", 1);
 	if (!cwd || !home || !prompt)
 	{
 		free(prompt);

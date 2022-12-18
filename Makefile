@@ -1,4 +1,4 @@
-NAME := minishell
+NAME := sku
 
 SRC_DIR	:= src
 
@@ -81,6 +81,6 @@ mem:
 	memdetect  . $(LIBS) $(HEADERS) -e examples -fail $(1)
 
 tester: all
-	python3 new_minishell_tester/tester.py new_minishell_tester/tests -exe ./minishell $(1)
+	python3 new_minishell_tester/tester.py new_minishell_tester/tests -exe ./sku $(1)
 
 .PHONY: all run clean fclean re

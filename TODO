@@ -4,10 +4,11 @@ TO EVALUATE:
 
 TODO:
     cd: add CDPATH support
-    create variables with "VAR=value" as cmd
+	add perror() in error_int()
 
 LAST CHANGELOG:
 	add $() subshell expansion
+    create variables with "VAR=value" as cmd
 
 DONE:
     fix conditions with subshell

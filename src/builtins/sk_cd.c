@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sk_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 16:34:03 by nmolinel          #+#    #+#             */
-/*   Updated: 2022/11/15 15:19:37 by nmolinel         ###   ########.fr       */
+/*   Updated: 2022/12/18 10:56:28 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	sk_cd(t_cmd *cmd, t_data *data)
 
 	if (!cmd->args[1])
 	{
-		home = env_get(data->env, "HOME", 0);
+		home = env_get(data->env, "HOME", 1);
 		if (!home)
 			return (137);
 		else if (!*home)
