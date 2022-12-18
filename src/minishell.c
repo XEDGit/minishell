@@ -45,7 +45,10 @@ int build_title(char **path, t_env *env, time_t start)
 		cwd[len + 1] = 0;
 	}
 	if (start)
+	{
 		sk_dprintf(2, "\033[33m~%ds\033[0m\n", (int)difftime(end, start));
+		rl_on_new_line();
+	}
 	*path = sk_strdup(TITLE_COL);
 	if (!*path || \
 	sk_strjoin(path, prompt, true) || \
@@ -81,10 +84,10 @@ int	parse_skurc(t_env *env, t_env *aliases)
 		if (fd == -1)
 			return (1);
 		read_ret = 1;
-		while (read_ret)
+		while (read_ret > 0)
 		{
 			read_ret = read(fd, &buff, 1000);
-			if (read_ret >= 0)
+			if (read_ret > 0)
 				buff[read_ret] = 0;
 			else
 				continue;
@@ -92,11 +95,11 @@ int	parse_skurc(t_env *env, t_env *aliases)
 			while ((path = sk_strchr(buff_ptr, '\n')))
 			{
 				*path = 0;
-				lexer(buff_ptr, env, aliases);
+				lexer(buff_ptr, env, aliases, false);
 				buff_ptr = path + sizeof(char);
 			}
 			if (buff_ptr != &buff[read_ret])
-				lexer(buff_ptr, env, aliases);
+				lexer(buff_ptr, env, aliases,false);
 		}
 		if (read_ret == -1)
 			err = error_int("Error reading ~/.skurc", "init", -1, 1);
@@ -140,9 +143,7 @@ int	main(int argc, char **argv, char *envp[])
 		if (!buffer)
 			break ;
 		if (*buffer)
-			code = lexer(buffer, env, aliases);
-		else
-			g_exit_code = 0;
+			code = lexer(buffer, env, aliases, true);
 		free(buffer);
 		buffer = 0;
 		if (code == 2)
@@ -150,7 +151,6 @@ int	main(int argc, char **argv, char *envp[])
 	}
 	env_free(env);
 	env_free(aliases);
-	// match_completion(0, -1);
 	if (code != 2)
 		sk_dprintf(2, "exit\n");
 	exit(g_exit_code);

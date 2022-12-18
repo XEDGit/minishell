@@ -37,7 +37,7 @@ int	p_setter(t_cmd **lst, char **tables, t_data *data)
 
 	cmd = add_cmd(lst);
 	if (cmd && \
-	expander(tables, data->env) && \
+	expander(tables, data) && \
 	set_pipe_cond(*tables, cmd) && \
 	set_redirects(*tables, cmd) && \
 	set_data(*tables, cmd) && \

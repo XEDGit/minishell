@@ -3,9 +3,10 @@ TO EVALUATE:
 
 TODO:
     cd: add CDPATH support
+    create variables with "VAR=value" as cmd
 
 LAST CHANGELOG:
-    fixed numbers after $, now recognised as empty variables
+	add $() subshell expansion
 
 DONE:
     fix conditions with subshell
@@ -15,3 +16,4 @@ DONE:
     add exec builtin (and with it support for vscode debugger)
     add source builtin
     add autocompletion within PATH
+    fixed numbers after $, now recognised as empty variables

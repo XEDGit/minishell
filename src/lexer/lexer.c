@@ -48,7 +48,7 @@ int	syntax_check(char *input, t_data *data)
 	if (!check_standalone_redirects(input))
 		return (error_int("syntax error", 0, 2, 1));
 	if (parenthesis_check(data->input))
-		return (error_int("syntax error near ')'", 0, 2, 1));
+		return (1);
 	error = io_check(input);
 	if (error)
 	{
@@ -78,7 +78,7 @@ int	lexer_semicolon(char *input, t_data *data)
 	return (0);
 }
 
-int	lexer(char *input, t_env *env, t_env *aliases)
+int	lexer(char *input, t_env *env, t_env *aliases, bool save_history)
 {
 	char			**semicolon;
 	int				count;
@@ -89,10 +89,11 @@ int	lexer(char *input, t_env *env, t_env *aliases)
 	count = lexer_multiline_check(input, 0);
 	if (count == ERROR)
 	{
-		add_history(input);
+		if (save_history)
+			add_history(input);
 		return (error_int("Syntax error", 0, 2, 1));
 	}
-	if (multiline_handle(&data, input, count))
+	if (multiline_handle(&data, input, count, save_history))
 		return (1);
 	semicolon = sk_split(data.input, ";");
 	if (!semicolon)

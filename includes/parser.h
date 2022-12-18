@@ -29,10 +29,10 @@ typedef struct s_var
 }	t_var;
 
 //	expand
-int		expander(char **tables, t_env *env);
+int		expander(char **tables, t_data *data);
 int		count_vars(char *input);
-int		vars_expansion(char **tables, t_env *env);
-int		set_vars(char **vars, char *input, t_env *env);
+int		vars_expansion(char **tables, t_data *data);
+int		set_vars(char **vars, char *input, t_data *data);
 char	*sk_tilde_expand(char **table, t_env *env);
 int		clean_quotes(t_cmd *cmd);
 int		free_2d_ret(char **tofree, int len, int ret);

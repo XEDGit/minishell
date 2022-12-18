@@ -55,7 +55,7 @@ int		error_free(void *tofree);
 int		signals_handler_setup(int mode);
 int		free2d(char **tofree, int len);
 int		free2dint(int **tofree, int len);
-int		lexer(char *input, t_env *env, t_env *aliases);
+int		lexer(char *input, t_env *env, t_env *aliases, bool save_history);
 int		parser(char **tables, t_data *data);
 int		executer(t_data *data);
 
@@ -65,7 +65,7 @@ char    *match_completion(const char *text, int state);
 char	**completions_generator(t_env *newenv);
 
 //  argv
-int     subshell(char *input, t_env *env, t_env *aliases, int tofork);
+int     sk_subshell(char *input, t_env *env, t_env *aliases, int tofork, int outfd);
 int	    parse_argv(char **argv, t_env *env, t_env *aliases);
 void	watch_child(pid_t pid);
 

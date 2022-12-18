@@ -25,6 +25,12 @@ int	var_name_length(char *str)
 	int	len;
 
 	len = 0;
+	if (*str == '(')
+	{
+		while (*str++ != ')')
+			len++;
+		return (len + 1);
+	}
 	if (*str == '?' || (*str >= '0' && *str <= '9'))
 		return (1);
 	while (*str && !is_del(*str++))
@@ -68,7 +74,43 @@ char	*get_var(char *str, t_env *env)
 	return (var);
 }
 
-int	set_vars(char **vars, char *input, t_env *env)
+char	*subshell_expansion(char *input, t_data *data)
+{
+	input = sk_strdup(input);
+	*sk_strchr(input, ')') = 0;
+	int fds[2];
+	if (pipe(&fds[0]))
+	{
+		free(input);
+		return ((char *)(long)error_int("error opening pipe", "subsh expansion", 1, 0));
+	}
+	sk_subshell(input, data->env, data->aliases, true, fds[1]);
+	free(input);
+	char buffer[1001] = {0}, *output = malloc(1);
+	int len;
+	if (!output)
+		return ((char *)(long)error_int("malloc fail", "subsh expansion", 1, 0));
+	output[0] = 0;
+	while ((len = read(fds[0], &buffer, 1000)) > 0)
+	{
+		buffer[len] = 0;
+		if (sk_strjoin(&output, buffer, false))
+			return ((char *)(long)error_int("malloc in strjoin fail", "subsh expansion", 1, 0));
+		if (len < 1000)
+		{
+			if (output[sk_strlen(output) - 1] == '\n')
+				output[sk_strlen(output) - 1] = 0;
+			break ;
+		}
+	}
+	if (len == -1)
+		return ((char *)(long)error_int("malloc in strjoin fail", "subsh expansion", 1, 0));
+	if (close(fds[0]))
+		return ((char *)(long)error_int("closing pipe read end", "subsh expansion", 1, 0));
+	return (output);
+}
+
+int	set_vars(char **vars, char *input, t_data *data)
 {
 	int		i;
 	int		open;
@@ -81,18 +123,17 @@ int	set_vars(char **vars, char *input, t_env *env)
 		{
 			if (*(++input) == '?')
 				vars[i] = sk_itoa(g_exit_code);
+			else if (*input == '(')
+			{
+				vars[i] = subshell_expansion(input + 1, data);
+				input += sk_strlen(input) + 1;
+			}
 			else if (!*input || is_del(*input))
-			{
-				vars[i++] = sk_strdup("$");
-				continue ;
-			}
+				vars[i] = sk_strdup("$");
 			else if (*input >= '0' && *input <= '9')
-			{
-				vars[i++] = sk_strdup("");
-				continue ;
-			}
+				vars[i] = sk_strdup("");
 			else
-				vars[i] = get_var(input, env);
+				vars[i] = get_var(input, data->env);
 			if (!vars[i++])
 				return (free_2d_ret(vars, i - 1, 0));
 		}

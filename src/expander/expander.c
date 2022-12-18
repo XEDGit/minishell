@@ -17,10 +17,10 @@
 //	- variable expansion
 //	- * pattern
 // wildcard TODO
-int	expander(char **tables, t_env *env)
+int	expander(char **tables, t_data *data)
 {
-	if (!sk_tilde_expand(tables, env) || \
-		!vars_expansion(tables, env))
+	if (!sk_tilde_expand(tables, data->env) || \
+		!vars_expansion(tables, data))
 		return (false);
 	return (true);
 }

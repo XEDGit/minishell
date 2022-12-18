@@ -138,7 +138,7 @@ int	executer_loop(t_cmd *start, t_data *data)
 				continue ;
 			}
 			char *buf = extract_parenthesis(&start);
-			subshell(buf, data->env, data->aliases, true);
+			sk_subshell(buf, data->env, data->aliases, true, 0);
 			free(buf);
 			if (!start)
 				continue ;

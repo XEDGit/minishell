@@ -12,14 +12,15 @@
 
 #include <lexer.h>
 
-int	multiline_handle(t_data *data, char *input, int c)
+int	multiline_handle(t_data *data, char *input, int c, bool save_history)
 {
 	data->input = sk_strdup(input);
 	if (!data->input)
 		return (error_int("Error allocating user input", "malloc", -1, 1));
 	if (c)
 		c = repeat_readline(&data->input, c, data);
-	add_history(data->input);
+	if (save_history)
+		add_history(data->input);
 	if (c || syntax_check(data->input, data))
 	{
 		free(data->input);
@@ -30,7 +31,7 @@ int	multiline_handle(t_data *data, char *input, int c)
 	{
 		free(data->input);
 		if (c == ERROR)
-			sk_dprintf(2, "Error: An error in heredoc functioning happened\n");
+			error_int("An error during functioning happened\n", "heredoc", 1, 0);
 		return (true);
 	}
 	return (0);
@@ -38,20 +39,25 @@ int	multiline_handle(t_data *data, char *input, int c)
 
 int	check_double_commands(char *str, int c, int diff)
 {
+	static bool	skip_one = false;
+
+	if (skip_one)
+	{
+		skip_one = false;
+		return (false);
+	}
 	if (c == 0 && diff == -1)
 		return (false);
+	if (str[c - 1] == '$')
+	{
+		skip_one = true;
+		return (false);
+	}
 	c = c + diff;
 	while (sk_isspace(str[c]))
 		c += diff;
 	if (str[c] && c >= 0 && str[c] != '|' && str[c] != '&')
-	{
-		if (diff == -1)
-			diff = 40;
-		else
-			diff = str[c];
-		sk_dprintf(2, "Error parsing symbol '%c'\n", diff);
 		return (true);
-	}
 	return (false);
 }
 

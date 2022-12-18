@@ -69,7 +69,7 @@ char	*expand_vars_table(char **vars, char *input, int i, int index)
 	return (out);
 }
 
-int	vars_expansion(char **tables, t_env *env)
+int	vars_expansion(char **tables, t_data *data)
 {
 	char	**vars;
 	int		n_vars;
@@ -81,7 +81,7 @@ int	vars_expansion(char **tables, t_env *env)
 		vars = malloc(sizeof(char *) * (n_vars + 1));
 		if (!vars)
 			return (error_int("Expander allocation failed", 0, 1, 0));
-		if (!set_vars(vars, *tables, env))
+		if (!set_vars(vars, *tables, data))
 			return (error_int("Expander allocation failed", 0, 1, 0));
 		new_table = expand_vars_table(vars, *tables, 0, 0);
 		free2d(vars, 0);
