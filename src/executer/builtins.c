@@ -6,7 +6,7 @@
 /*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 02:24:53 by lmuzio            #+#    #+#             */
-/*   Updated: 2022/12/18 13:07:58 by lmuzio           ###   ########.fr       */
+/*   Updated: 2022/12/18 13:28:57 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ int	add_envl(t_cmd *cmd, t_env *env)
 {
 	int	i;
 
+	if (cmd->depth != 0)
+		return (true);
 	if (cmd->args[1])
 	{
 		free(cmd->args[0]);
@@ -129,7 +131,8 @@ int	check_builtin(t_cmd *cmd, t_data *data, int piping)
 
 	if (check_aliases(cmd, data->aliases))
 		return (false);
-	if (cmd->cmd && cmd->cmd[0] != '=' && sk_strchr(cmd->cmd, '=') && add_envl(cmd, data->env))
+	if (cmd->cmd && cmd->cmd[0] != '=' && \
+	sk_strchr(cmd->cmd, '=') && add_envl(cmd, data->env))
 		return (true);
 	i = 0;
 	while (builtins[i])
@@ -145,7 +148,7 @@ int	check_builtin(t_cmd *cmd, t_data *data, int piping)
 			else if (cmd->cmd)
 				exec_single_builtin(cmd, data, i);
 			clean_redirects(cmd);
-			if (!i && !piping)
+			if (!i && !piping && cmd->cmd)
 				return (2);
 			return (true);
 		}
