@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parser.h                                           :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/08/01 16:12:02 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/11/02 16:26:42 by nmolinel      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parser.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/01 16:12:02 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/12/17 14:50:48 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <fcntl.h>
 
 # define PARSE_DEBUG 1
-# define LEsk_REDIRECT '<'
+# define LEFT_REDIRECT '<'
 # define RIGHT_REDIRECT '>'
 
 typedef struct s_var

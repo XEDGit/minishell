@@ -1,5 +1,6 @@
 TO EVALUATE:
     add redirections to same fd (1>&2)
+	make autocompletion choice like zsh
 
 TODO:
     cd: add CDPATH support

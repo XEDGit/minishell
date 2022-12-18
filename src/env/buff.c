@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   buff.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 15:35:55 by nmolinel          #+#    #+#             */
-/*   Updated: 2022/10/26 15:36:16 by nmolinel         ###   ########.fr       */
+/*   Updated: 2022/12/17 14:50:30 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	buff_contains(t_buffvar *buff, char *to_find, size_t *offset)
 
 /**
  * Checks available space in buff.
- * If no space lesk returns a mem copy with B_INCRSIZE more slots.
+ * If no space left returns a mem copy with B_INCRSIZE more slots.
 */
 t_buffvar	*buff_checker(t_buffvar *buff)
 {

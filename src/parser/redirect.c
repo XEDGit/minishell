@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   redirect.c                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/10/26 16:14:47 by nmolinel      #+#    #+#                 */
-/*   Updated: 2022/11/02 16:26:46 by nmolinel      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   redirect.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/26 16:14:47 by nmolinel          #+#    #+#             */
+/*   Updated: 2022/12/17 14:50:48 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	is_redirect(char *c)
 {
-	if (*c == LEsk_REDIRECT)
-		return (LEsk_REDIRECT);
+	if (*c == LEFT_REDIRECT)
+		return (LEFT_REDIRECT);
 	else if (*c == RIGHT_REDIRECT)
 		return (RIGHT_REDIRECT);
 	else if (*c >= '0' && *c <= '2' && *(c + 1) == RIGHT_REDIRECT)
@@ -38,7 +38,7 @@ static int	try_redirect(char **table, t_cmd *cmd)
 	file->mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 	if (**table == RIGHT_REDIRECT || *(*table + 1) == RIGHT_REDIRECT)
 		red = out_redirect(table, file);
-	else if (**table == LEsk_REDIRECT)
+	else if (**table == LEFT_REDIRECT)
 		red = in_redirect(table, file);
 	if (!red)
 		return (0);

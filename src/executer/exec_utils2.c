@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   exec_utils2.c                                      :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/09/02 18:36:19 by lmuzio        #+#    #+#                 */
-/*   Updated: 2022/11/02 16:33:59 by nmolinel      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   exec_utils2.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/02 18:36:19 by lmuzio            #+#    #+#             */
+/*   Updated: 2022/12/17 14:50:30 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	set_output_fd(t_cmd *cmd, t_file *files)
 	return (1);
 }
 
-int	lesk_rdrt(t_cmd *cmd, char *file, int mode)
+int	left_rdrt(t_cmd *cmd, char *file, int mode)
 {
 	if (cmd->redirects[0] != STDIN_FILENO)
 	{
@@ -82,7 +82,7 @@ int	open_files(t_cmd *cmd, t_data *data)
 	{
 		if (files->here == 1)
 			cmd->redirects[0] = data->heredocs[data->heredoc_c++][0];
-		else if (!files->flags && !lesk_rdrt(cmd, files->name, files->mode))
+		else if (!files->flags && !left_rdrt(cmd, files->name, files->mode))
 			return (true);
 		else if (files->flags && \
 		!set_output_fd(cmd, files))

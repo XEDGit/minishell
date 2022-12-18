@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   in.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmolinel <nmolinel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:12:33 by nmolinel          #+#    #+#             */
-/*   Updated: 2022/11/15 16:41:41 by nmolinel         ###   ########.fr       */
+/*   Updated: 2022/12/17 14:50:48 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	*in_redirect(char **table, t_file *file)
 	file->name = 0;
 	file->flags = O_RDONLY;
 	(*table)++;
-	if (**table == LEsk_REDIRECT)
+	if (**table == LEFT_REDIRECT)
 	{
 		(*table)++;
 		skip_word(table);
