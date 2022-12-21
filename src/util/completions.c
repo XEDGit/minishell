@@ -42,7 +42,7 @@ char	**completions_generator(t_env *newenv)
 		free(path);
 		path = (char *)0x1;
 		if (!paths)
-			return ((char **)(long)error_int("Malloc error", "autocomplete", -1, 0));
+			return ((char **)(long)error_int("malloc error", "autocomplete", -1, 0));
 		path_i = 0;
 		while (paths[path_i])
 			total += count_items(paths[path_i++]);
@@ -55,7 +55,7 @@ char	**completions_generator(t_env *newenv)
 	// allocate completions
 	completions = malloc(sizeof(char *) * (total + 1));
 	if (!completions)
-		return ((char **)(long)error_int("Malloc error", "autocomplete", -1, 0));
+		return ((char **)(long)error_int("malloc error", "autocomplete", -1, 0));
 	// fill in completions from path
 	if (path)
 	{
@@ -74,7 +74,7 @@ char	**completions_generator(t_env *newenv)
 					{
 						free2d(completions, 0);
 						completions = 0;
-						return ((char **)(long)error_int("Malloc error", "autocomplete", -1, 0));
+						return ((char **)(long)error_int("malloc error", "autocomplete", -1, 0));
 					}
 				}
 				closedir(d);

@@ -110,12 +110,12 @@ int	parenthesis_check(char *input)
 		{
 			if (*find_next_char(input + c) == ')' || \
 			check_double_commands(input, c, -1))
-				return (error_int("Error parsing syntax near '('", 0, 258, 1));
+				return (error_int("error parsing syntax near '('", 0, 258, 1));
 			depth++;
 		}
 		else if (input[c] == ')' && \
 		(--depth == -1 || check_double_commands(input, c, 1)))
-			return (error_int("Error parsing syntax near ')'", 0, 258, 1));
+			return (error_int("error parsing syntax near ')'", 0, 258, 1));
 		c++;
 	}
 	if (depth)

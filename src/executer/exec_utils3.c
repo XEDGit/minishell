@@ -23,12 +23,12 @@ char	*bp(char **paths, char *cmd)
 int	parent_behaviour(t_cmd *start, t_data *data, pid_t child_pid)
 {
 	if (child_pid == -1)
-		return (error_int("Error forking process", start->cmd, 1, 1));
+		return (error_int("error forking process", start->cmd, 1, 1));
 	if (start->next && start->next->conditional != -1)
 	{
 		watch_child(child_pid);
 		if (!reset_path(data))
-			error_int("Error allocating new PATH", start->cmd, 1, 0);
+			error_int("error allocating new PATH", start->cmd, 1, 0);
 	}
 	return (0);
 }

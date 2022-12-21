@@ -47,5 +47,6 @@ int		sk_exit(t_cmd *cmd);
 int		parent_behaviour(t_cmd *start, t_data *data, pid_t child_pid);
 char	*build_path(char *temp_path, char *temp_cmd, int len);
 char	*bp(char **paths, char *cmd);
+int		var_name_length(char *str);
 
 #endif

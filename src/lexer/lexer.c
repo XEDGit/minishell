@@ -52,7 +52,7 @@ int	syntax_check(char *input, t_data *data)
 	error = io_check(input);
 	if (error)
 	{
-		sk_dprintf(2, "SkiruSh: Parsing failed at char '%c'\n", error);
+		sk_dprintf(2, SHELLNAME"parsing failed at char '%c'\n", error);
 		g_exit_code = 2;
 		return (true);
 	}
@@ -71,7 +71,7 @@ int	lexer_semicolon(char *input, t_data *data)
 	if (tables)
 		code = parser(tables, data);
 	else
-		error_int("Allocation failed", "malloc", -1, 0);
+		error_int("allocation failed", "malloc", -1, 0);
 	if (code == ERROR || code == 2)
 		return (code);
 	waitpid(-1, 0, 0);
@@ -91,13 +91,13 @@ int	lexer(char *input, t_env *env, t_env *aliases, bool save_history)
 	{
 		if (save_history)
 			add_history(input);
-		return (error_int("Syntax error", 0, 2, 1));
+		return (error_int("syntax error", 0, 2, 1));
 	}
 	if (multiline_handle(&data, input, count, save_history))
 		return (1);
 	semicolon = sk_split(data.input, ";");
 	if (!semicolon)
-		error_int("Allocation failed", "malloc", -1, 0);
+		error_int("allocation failed", "malloc", -1, 0);
 	count = 0;
 	code = 0;
 	while (semicolon && semicolon[count] && code == 0)

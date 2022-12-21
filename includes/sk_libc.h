@@ -17,10 +17,11 @@
 # include <stdlib.h>
 # include <stdio.h>
 
+void	*sk_memcpy(void *to_write, void *to_copy, size_t len);
+void	*sk_memset(void *b, int c, size_t len);
 int		sk_isdigit(char ch);
 char	**sk_split(char const *s, char *c);
 int		sk_strjoin(char **s1, char const *s2, int free_s2);
-void	*sk_memset(void *b, int c, size_t len);
 char	*sk_strdup(const char *s1);
 char	*sk_strchr(char *str, char key);
 size_t	sk_strlcat(char *dst, const char *src, size_t dstsize);

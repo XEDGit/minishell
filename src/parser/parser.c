@@ -19,7 +19,7 @@ int	set_data(char *input, t_cmd *cmd)
 
 	cmd->args = sk_split(input, " ");
 	if (!cmd->args)
-		return (error_int("Parser split fail", cmd->cmd, 1, 0));
+		return (error_int("parser split fail", cmd->cmd, 1, 0));
 	i = 1;
 	while (cmd->args[0] && is_redirect(cmd->args[0]))
 	{

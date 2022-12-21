@@ -12,6 +12,13 @@
 
 #include <shared.h>
 
+t_env	*env_dup(t_env *old)
+{
+	t_env	*new;
+	new = env_create(old->envp->mem);
+	return (new);
+}
+
 t_env	*env_free(t_env *env)
 {
 	if (env->envl)

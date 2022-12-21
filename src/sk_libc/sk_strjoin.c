@@ -21,8 +21,16 @@ int	sk_strjoin(char **s1, char const *s2, int free_s2)
 	char	*cur;
 	char	*temp;
 
-	if (!*s1 || !s2)
-		return (ERROR);
+	if (!s2)
+		return (false);
+	if (!*s1)
+	{
+		temp = sk_strdup(s2);
+		if (!temp)
+			return (ERROR);
+		*s1 = temp;
+		return (false);
+	}
 	temp = *s1;
 	res = malloc(sk_strlen(temp) + sk_strlen(s2) + 1);
 	if (!res)

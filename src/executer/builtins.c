@@ -34,7 +34,7 @@ void	exec_builtin(t_cmd *cmd, t_data *data, int i)
 		if (pid != -1)
 			watch_child(pid);
 		else
-			error_int("Error forking process", cmd->cmd, 1, 0);
+			error_int("error forking process", cmd->cmd, 1, 0);
 		return ;
 	}
 	if (cmd->is_pipe)
@@ -94,7 +94,21 @@ int	add_envl(t_cmd *cmd, t_env *env)
 
 	if (cmd->depth != 0)
 		return (true);
-	if (cmd->args[1])
+	if (!cmd->args[1])
+	{
+		char	*var_name = sk_strdup(cmd->cmd);
+		*sk_strchr(var_name, '=') = 0;
+		char	*var_exists = env_get(env, var_name, 1);
+		free(var_name);
+		int		target = 2;
+		if (var_exists)
+			target = 1;
+		free(var_exists);
+		if (!env_add(env, cmd->cmd, target))
+			error_int("error while adding variable", cmd->cmd, 1, 0);
+		return (true);
+	}
+	while (sk_strchr(cmd->args[0], '='))
 	{
 		free(cmd->args[0]);
 		cmd->args[0] = (char *)1;
@@ -102,14 +116,8 @@ int	add_envl(t_cmd *cmd, t_env *env)
 		while (cmd->args[++i])
 			cmd->args[i] = cmd->args[i + 1];
 		cmd->cmd = cmd->args[0];
-		return (false);
 	}
-	else
-	{
-		if (!env_add(env, cmd->cmd, 2))
-			error_int("Error while adding variable", cmd->cmd, 1, 0);
-		return (true);
-	}
+	return (false);
 }
 
 int	check_builtin(t_cmd *cmd, t_data *data, int piping)
@@ -140,7 +148,7 @@ int	check_builtin(t_cmd *cmd, t_data *data, int piping)
 		if (!cmd->cmd || !sk_strcmp(builtins[i], cmd->cmd))
 		{
 			if (cmd->is_pipe && open_pipe(cmd))
-				return (error_int("Pipe opening failed\n", cmd->cmd, 1, 0));
+				return (error_int("pipe opening failed\n", cmd->cmd, 1, 0));
 			if (cmd->files && open_files(cmd, data))
 				return (true);
 			if (cmd->cmd && piping)

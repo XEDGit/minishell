@@ -102,7 +102,7 @@ int	parse_skurc(t_env *env, t_env *aliases)
 				lexer(buff_ptr, env, aliases,false);
 		}
 		if (read_ret == -1)
-			err = error_int("Error reading ~/.skurc", "init", -1, 1);
+			err = error_int("error reading ~/.skurc", "init", -1, 1);
 		close(fd);
 	}
 	else
@@ -130,7 +130,7 @@ int	main(int argc, char **argv, char *envp[])
 	completions_generator(env);
 	rl_attempted_completion_function = completion;
 	if (parse_skurc(env, aliases))
-		error_int("Failed to parse ~/.skurc", "init", -1, 0);
+		error_int("failed to parse ~/.skurc", "init", -1, 0);
 	if (argc > 1)
 		parse_argv(argv, env, aliases);
 	while (1)

@@ -78,6 +78,7 @@ char	*sk_tilde_expand(char **table, t_env *env)
 	}
 	copy_tilde_table(new_table, *table, home, size);
 	free(*table);
+	free(home);
 	*table = new_table;
 	return (new_table);
 }

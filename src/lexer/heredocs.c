@@ -41,7 +41,7 @@ int	wait_heredoc(pid_t here_pid)
 	int	stat;
 
 	if (here_pid == -1)
-		return (error_int("Error forking process for heredoc", 0, -1, 1));
+		return (error_int("error forking process for heredoc", 0, -1, 1));
 	signals_handler_setup(1);
 	waitpid(here_pid, &stat, 0);
 	signals_handler_setup(0);
@@ -60,7 +60,7 @@ int	heredoc_repeat(char *d, int *fds)
 
 	if (pipe(fds) == ERROR)
 	{
-		sk_dprintf(2, "Error opening pipe for heredoc\n");
+		sk_dprintf(2, SHELLNAME"error opening pipe for heredoc\n");
 		return (ERROR);
 	}
 	d = remove_quotes(d);

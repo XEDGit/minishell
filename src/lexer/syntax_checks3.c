@@ -16,7 +16,7 @@ int	multiline_handle(t_data *data, char *input, int c, bool save_history)
 {
 	data->input = sk_strdup(input);
 	if (!data->input)
-		return (error_int("Error allocating user input", "malloc", -1, 1));
+		return (error_int("error allocating user input", "malloc", -1, 1));
 	if (c)
 		c = repeat_readline(&data->input, c, data);
 	if (save_history)
@@ -31,7 +31,7 @@ int	multiline_handle(t_data *data, char *input, int c, bool save_history)
 	{
 		free(data->input);
 		if (c == ERROR)
-			error_int("An error during functioning happened\n", "heredoc", 1, 0);
+			error_int("an error during functioning happened\n", "heredoc", 1, 0);
 		return (true);
 	}
 	return (0);

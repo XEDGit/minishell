@@ -60,11 +60,14 @@ int sk_exec(t_cmd *cmd, t_data *data)
 	{
 		dash_buf = malloc(sizeof(char) * 2);
 		if (!dash_buf)
-			return (error_int("Malloc fail", "exec", -1, 1));
+			return (error_int("malloc fail", "exec", -1, 1));
 		dash_buf[0] = '-';
 		dash_buf[1] = 0;
 		if (sk_strjoin(&dash_buf, args[0], false))
-			return (error_int("Malloc fail", "exec", -1, 1));
+		{
+			free(dash_buf);
+			return (error_int("malloc fail", "exec", -1, 1));
+		}
 		free(args[0]);
 		args[0] = dash_buf;
 	}

@@ -32,7 +32,7 @@ int	parse_cmd(t_cmd *start, t_data *data)
 	pid_t	child_pid;
 
 	if (start->is_pipe && open_pipe(start))
-		return (error_int("Failed to open pipe", start->cmd, 1, false));
+		return (error_int("failed to open pipe", start->cmd, 1, false));
 	if (start->files && open_files(start, data))
 		return (false);
 	start->cmd = check_paths(data->paths, start->cmd);

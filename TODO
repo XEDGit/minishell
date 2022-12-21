@@ -7,15 +7,18 @@ TODO:
 	add perror() in error_int()
 
 LAST CHANGELOG:
-	add $() subshell expansion
-    create variables with "VAR=value" as cmd
+	22-12	add proper env functionality, -i -u and -0 flags supported
 
-DONE:
-    fix conditions with subshell
-    add ~/.skurc
-    Makefile compiling single obj files and then full project
-    add specific fd redirections (1>file 2>file)
-    add exec builtin (and with it support for vscode debugger)
-    add source builtin
-    add autocompletion within PATH
-    fixed numbers after $, now recognised as empty variables
+CHANGELOG:
+    1-12	add exec builtin (and with it support for vscode debugger)
+	21-12	added "VAR=value" updates VAR in envp if it's already present there
+    18-12	create variables with "VAR=value" as cmd
+	18-12	add $() subshell expansion
+    17-12	add autocompletion within PATH
+    3-12	fixed numbers after $, now recognised as empty variables
+    3-12	add source builtin
+    30-11	add ~/.skurc
+    30-11	Makefile compiling single obj files and then full project
+    30-11	add specific fd redirections (1>file 2>file)
+    30-11	fix conditions with subshell
+	17-11	prompt personalization

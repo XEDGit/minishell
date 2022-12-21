@@ -37,11 +37,11 @@ int	set_output_fd(t_cmd *cmd, t_file *files)
 	if (cmd->redirects[files->dest] != files->dest)
 	{
 		if (close(cmd->redirects[files->dest]) == ERROR)
-			return (error_int("Close file descriptor error", files->name, 1, 0));
+			return (error_int("close file descriptor error", files->name, 1, 0));
 	}
 	cmd->redirects[files->dest] = open(files->name, files->flags, files->mode);
 	if (cmd->redirects[files->dest] == ERROR)
-		return (error_int("Open file descriptor error", files->name, 1, 0));
+		return (error_int("open file descriptor error", files->name, 1, 0));
 	return (1);
 }
 
@@ -50,11 +50,11 @@ int	left_rdrt(t_cmd *cmd, char *file, int mode)
 	if (cmd->redirects[0] != STDIN_FILENO)
 	{
 		if (close(cmd->redirects[0]) == ERROR)
-			return (error_int("Open error", file, 1, false));
+			return (error_int("open error", file, 1, false));
 	}
 	cmd->redirects[0] = open(file, mode);
 	if (cmd->redirects[0] == ERROR)
-		return (error_int("Open error", file, 1, false));
+		return (error_int("open error", file, 1, false));
 	return (1);
 }
 

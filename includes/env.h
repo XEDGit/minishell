@@ -46,6 +46,7 @@ t_env		*env_free(t_env *env);
 char		*env_get(t_env *env, char *name, int mode);
 t_env		*env_add(t_env *env, char *var, int mode);
 t_env		*env_remove(t_env *env, char *var, int mode);
+t_env		*env_dup(t_env *old);
 char		*build_var(char *name, char *value);
 
 char		*copy_var(char *p);

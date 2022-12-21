@@ -21,7 +21,7 @@ int	parse_argv(char **argv, t_env *env, t_env *aliases)
 			if (!strcmp(argv[i], flags[i_flags++]))
             {
                 if (!argv[i + 1])
-                    exit(error_int("Missing argument", argv[i], 1, true));
+                    exit(error_int("missing argument", argv[i], 1, true));
 				funcs[i_flags - 1](argv[i + 1], env, aliases, false, 0);
                 return (true);
             }

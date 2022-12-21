@@ -33,10 +33,10 @@ int sk_source(t_cmd *cmd, t_data *data)
 				lexer(buff_ptr, data->env, data->aliases, false);
 		}
 		if (read_ret == -1)
-			err = error_int("Error reading file", "source", -1, 1);
+			err = error_int("error reading file", "source", -1, 1);
 		close(fd);
 	}
     else
-        err = error_int("File not found or not readable", "source", -1, 1);
+        err = error_int("file not found or not readable", "source", -1, 1);
 	return (err);
 }
