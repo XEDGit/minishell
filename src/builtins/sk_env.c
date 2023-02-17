@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   sk_env.c                                           :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmolinel <nmolinel@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/09/17 16:34:17 by nmolinel      #+#    #+#                 */
-/*   Updated: 2022/11/01 18:04:35 by nmolinel      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   sk_env.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmuzio <lmuzio@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/17 16:34:17 by nmolinel          #+#    #+#             */
+/*   Updated: 2023/02/17 19:34:17 by lmuzio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	sk_env(t_cmd *cmd, t_data *data)
 	t_env	*enviroment = env_dup(data->env);
 	if (!enviroment)
 		return (error_int("error creating enviroment", "env", -1, 1));
-	if (cmd->args[i])
+	if (cmd && cmd->args[i])
 	{
 		char	*arg;
 		while ((arg = cmd->args[i++]) && *arg == '-')
