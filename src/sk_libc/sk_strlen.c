@@ -38,21 +38,11 @@ size_t	sk_strclen(const char *start, const char *end)
 	return (cont);
 }
 
-size_t	skip_parentheses(const char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str[i] == '(')
-		while (str[i] && str[i] != ')')
-			i++;
-	return (i);
-}
-
 size_t	sk_strclen_no_quotes(const char *start, const char *end)
 {
 	int			cont;
 	const char	*temp;
+	int			i;
 
 	cont = 0;
 	temp = end;
@@ -64,10 +54,15 @@ size_t	sk_strclen_no_quotes(const char *start, const char *end)
 	while (*start)
 	{
 		end = temp;
-		cont += skip_quotes((char *)start);
-		start += skip_quotes((char *)start);
-		cont += skip_parentheses((char *)start);
-		start += skip_parentheses((char *)start);
+		i = 0;
+		if (start[i] == '(')
+			while (start[i] && start[i] != ')')
+				i++;
+		if (start[i] == '"')
+			while (start[i] && start[i] != '"')
+				i++;
+		start += i;
+		cont += i;
 		while (*end)
 			if (*start == *end++)
 				return (cont);
