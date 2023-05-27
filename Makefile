@@ -20,7 +20,11 @@ all: $(NAME)
 
 debug: FLAGS = -g -fsanitize=address
 debug: MAKE_RULE = debug
-debug: fclean $(NAME)
+debug: $(NAME)
+
+debugall: FLAGS = -fanalyzer -g -fsanitize=address
+debugall: MAKE_RULE = debug
+debugall: fclean $(NAME)
 
 $(OBJ_D):
 	@mkdir $(OBJ_D)

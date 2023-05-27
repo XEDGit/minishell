@@ -14,7 +14,7 @@
 
 /* Returns 0 on error and the number of copied bytes on success 
 src gets freed and replaces with reallocated string */
-char	*sk_realloc(char **src, unsigned int new_size)
+char	*sk_realloc_char(char **src, unsigned int new_size)
 {
 	char	*res;
 
@@ -70,7 +70,7 @@ char	*extract_pipe(int fd)
 		if (++c == 10)
 		{
 			c = 0;
-			if (!sk_realloc(&buffer, 10 * ++size_mult))
+			if (!sk_realloc_char(&buffer, 10 * ++size_mult))
 				return (0);
 		}
 	}

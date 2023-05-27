@@ -5,6 +5,7 @@ TO EVALUATE:
 TODO:
     cd: add CDPATH support
 	add perror() in error_int()
+	check strjoin for new functionality correct implementation
 
 LAST CHANGELOG:
 	22-12	add proper env functionality, -i -u and -0 flags supported

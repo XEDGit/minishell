@@ -74,8 +74,6 @@ void	exec_single_builtin(t_cmd *cmd, t_data *data, int i)
 	dup2(cmd->redirects[0], 0);
 	dup2(cmd->redirects[1], 1);
 	dup2(cmd->redirects[2], 2);
-	if (cmd->is_pipe)
-		clean_redirects(cmd);
 	if (!i)
 		sk_exit(cmd);
 	g_exit_code = funcs[i](cmd, data);
