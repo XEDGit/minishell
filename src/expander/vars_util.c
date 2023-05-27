@@ -126,7 +126,7 @@ int	set_vars(char **vars, char *input, t_data *data)
 			else if (*input == '(')
 			{
 				vars[i] = subshell_expansion(input + 1, data);
-				input += sk_strlen(input) + 1;
+				input += sk_strclen(input, sk_strchr(input, ')')) + 1;
 			}
 			else if (!*input || is_del(*input))
 				vars[i] = sk_strdup("$");
