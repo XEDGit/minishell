@@ -1,3 +1,6 @@
 [submodule "new_minishell_tester"]
 	path = new_minishell_tester
 	url = https://github.com/xedgit/new_minishell_tester.git
+[submodule "mstester_2022"]
+	path = mstester_2022
+	url = git@github.com:XEDGit/mstester_2022.git
