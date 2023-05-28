@@ -21,6 +21,7 @@ int build_title(char **path, t_env *env, time_t start)
 	char	*prompt;
 	char	*home;
 	char	*home_ptr;
+	char	*title;
 	int		len;
 	time_t	end;
 
@@ -49,13 +50,13 @@ int build_title(char **path, t_env *env, time_t start)
 		sk_dprintf(2, "\033[33m~%ds\033[0m\n", (int)difftime(end, start));
 		rl_on_new_line();
 	}
-	*path = sk_strdup(TITLE_COL);
-	if (!*path || \
-	sk_strjoin(path, prompt, true) || \
-	sk_strjoin(path, " ", false) || \
-	sk_strjoin(path, cwd, true) || \
-	(g_exit_code && sk_strjoin(path, TITLE_RED, false)) || \
-	sk_strjoin(path, TITLE_ARR, false))
+	title = sk_strdup(TITLE_COL);
+	if (!title || \
+	sk_strjoin(&title, prompt, false) || \
+	sk_strjoin(&title, " ", false) || \
+	sk_strjoin(&title, cwd, false) || \
+	(g_exit_code && sk_strjoin(&title, TITLE_RED, false)) || \
+	sk_strjoin(&title, TITLE_ARR, false))
 	{
 		free(cwd);
 		free(home);
@@ -65,6 +66,8 @@ int build_title(char **path, t_env *env, time_t start)
 	free(cwd);
 	free(home);
 	free(prompt);
+	free(*path);
+	*path = title;
 	return (false);
 }
 
@@ -101,6 +104,7 @@ int	parse_file(char *path,t_env *env, t_env *aliases)
 		}
 		if (len == -1)
 			return (error_int("read failed", "file parser", 1, 0));
+		char *og_buff = buff_ptr;
 		while ((path = sk_strchr(buff_ptr, '\n')))
 		{
 			*path = 0;
@@ -110,6 +114,7 @@ int	parse_file(char *path,t_env *env, t_env *aliases)
 		if (buff_ptr != sk_strchr(buff_ptr, 0))
 			lexer(buff_ptr, env, aliases,false);
 		close(fd);
+		free(og_buff);
 	}
 	else
 		free(path);
@@ -142,12 +147,12 @@ int	main(int argc, char **argv, char *envp[])
 		error_int("failed to parse ~/.skurc", "init", -1, 0);
 	if (argc > 1)
 		parse_argv(argv, env, aliases);
+	title = 0;
 	while (1)
 	{
 		build_title(&title, env, start);
 		buffer = readline(title);
 		match_completion(0, -1);
-		free(title);
 		time(&start);
 		if (!buffer)
 			break ;
@@ -160,6 +165,7 @@ int	main(int argc, char **argv, char *envp[])
 	}
 	env_free(env);
 	env_free(aliases);
+	free(title);
 	if (code != 2)
 		sk_dprintf(2, "exit\n");
 	exit(g_exit_code);
