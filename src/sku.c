@@ -68,46 +68,52 @@ int build_title(char **path, t_env *env, time_t start)
 	return (false);
 }
 
-int	parse_skurc(t_env *env, t_env *aliases)
+int	parse_file(char *path,t_env *env, t_env *aliases)
 {
-	char	*path, *buff_ptr;
-	char	buff[1001];
-	int		read_ret, err = 0;
+	char	*buff_ptr;
+	int 	fd;
 
-	path = env_get(env, "HOME", 1);
-	if (sk_strjoin(&path, "/.skurc", false))
+	if (!path)
+		return (1);
+	fd = open(path, O_RDONLY);
+	if (fd == -1)
 		return (1);
 	if (!access(path, F_OK) && !access(path, R_OK))
 	{
-		int fd = open(path, O_RDONLY);
 		free(path);
-		if (fd == -1)
-			return (1);
-		read_ret = 1;
-		while (read_ret > 0)
+		char buffer[1001] = {0};
+		int len;
+		buff_ptr = malloc(1);
+		if (!buff_ptr)
+			return (error_int("malloc fail", "file parser", 1, 0));
+		buff_ptr[0] = 0;
+		while ((len = read(fd, &buffer, 1000)) > 0)
 		{
-			read_ret = read(fd, &buff, 1000);
-			if (read_ret > 0)
-				buff[read_ret] = 0;
-			else
-				continue;
-			buff_ptr = &buff[0];
-			while ((path = sk_strchr(buff_ptr, '\n')))
+			buffer[len] = 0;
+			if (sk_strjoin(&buff_ptr, buffer, false))
+				return (error_int("malloc in strjoin fail", "file parser", 1, 0));
+			if (len < 1000)
 			{
-				*path = 0;
-				lexer(buff_ptr, env, aliases, false);
-				buff_ptr = path + sizeof(char);
+				if (buff_ptr[sk_strlen(buff_ptr) - 1] == '\n')
+					buff_ptr[sk_strlen(buff_ptr) - 1] = 0;
+				break ;
 			}
-			if (buff_ptr != &buff[read_ret])
-				lexer(buff_ptr, env, aliases,false);
 		}
-		if (read_ret == -1)
-			err = error_int("error reading ~/.skurc", "init", -1, 1);
+		if (len == -1)
+			return (error_int("read failed", "file parser", 1, 0));
+		while ((path = sk_strchr(buff_ptr, '\n')))
+		{
+			*path = 0;
+			lexer(buff_ptr, env, aliases, false);
+			buff_ptr = path + sizeof(char);
+		}
+		if (buff_ptr != sk_strchr(buff_ptr, 0))
+			lexer(buff_ptr, env, aliases,false);
 		close(fd);
 	}
 	else
 		free(path);
-	return (err);
+	return (0);
 }
 
 int	main(int argc, char **argv, char *envp[])
@@ -126,10 +132,13 @@ int	main(int argc, char **argv, char *envp[])
 	aliases = env_create((char **){0});
 	env = env_setup(envp);
 	if (!env)
-		return (44);
+		return (error_int("failed to initialize enviromental variables", "init", -1, 44));
 	completions_generator(env);
 	rl_attempted_completion_function = completion;
-	if (parse_skurc(env, aliases))
+	buffer = env_get(env, "HOME", 1);
+	if (!buffer || sk_strjoin(&buffer, "/.skurc", false))
+		return (error_int("malloc fail building ~/.skurc path", "init", -1, 1));
+	if (parse_file(buffer, env, aliases))
 		error_int("failed to parse ~/.skurc", "init", -1, 0);
 	if (argc > 1)
 		parse_argv(argv, env, aliases);

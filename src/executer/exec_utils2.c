@@ -25,6 +25,8 @@ void	watch_child(pid_t pid)
 			sk_dprintf(2, "\n");
 		else if (g_exit_code == 131)
 			sk_dprintf(2, "Quit: 3\n");
+		else if (g_exit_code == 139)
+			sk_dprintf(2, "Segmentation fault\n");
 	}
 	else if (WIFEXITED(statbuf))
 		g_exit_code = WEXITSTATUS(statbuf);

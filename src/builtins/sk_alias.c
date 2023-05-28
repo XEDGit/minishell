@@ -37,7 +37,7 @@ char	**adjust_args(char **substitutes, t_cmd *cmd)
 	while (cmd->args[oglen++]);
 	new_args = malloc((len + oglen - 1) * sizeof(char *));
 	if (!new_args)
-		return ((char **)(long)error_int("malloc error", cmd->cmd, 1, 0));
+		return ((char **)(long)error_int("malloc fail", cmd->cmd, 1, 0));
 	len = -1;
 	while (substitutes[++len])
 		new_args[len] = substitutes[len];
@@ -65,7 +65,7 @@ int	check_aliases(t_cmd *cmd, t_env *aliases)
 	substitutes = sk_split(substitute, " ");
 	free(substitute);
 	if (!substitutes)
-		return (error_int("malloc error", "alias", 1, 0));
+		return (error_int("malloc fail", "alias", 1, 0));
 	new_args = adjust_args(substitutes, cmd);
 	if (!new_args)
 	{

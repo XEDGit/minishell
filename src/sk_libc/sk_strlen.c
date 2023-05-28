@@ -58,11 +58,9 @@ size_t	sk_strclen_no_quotes(const char *start, const char *end)
 		if (start[i] == '(')
 			while (start[i] && start[i] != ')')
 				i++;
-		if (start[i] == '"')
-			while (start[i] && start[i] != '"')
-				i++;
-		start += i;
+		i += skip_quotes((char *)start);
 		cont += i;
+		start += i;
 		while (*end)
 			if (*start == *end++)
 				return (cont);

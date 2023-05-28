@@ -18,13 +18,21 @@ FLAGS := -Wextra -Wall -Werror
 
 all: $(NAME)
 
-debug: FLAGS = -g -fsanitize=address
 debug: MAKE_RULE = debug
 debug: $(NAME)
 
-debugall: FLAGS = -fanalyzer -g -fsanitize=address
-debugall: MAKE_RULE = debug
-debugall: fclean $(NAME)
+d: FLAGS = -g -fsanitize=address
+d: debug
+
+rebug: fclean d
+
+sym: FLAGS = -g
+sym: debug
+
+resym: fclean sym
+
+prod: FLAGS += -Ofast -Wpedantic
+prod: re
 
 $(OBJ_D):
 	@mkdir $(OBJ_D)
