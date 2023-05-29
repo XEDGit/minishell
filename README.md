@@ -6,9 +6,10 @@ On the branch SkiruSh you can find an advanced version without 42's Norm which f
   - PATH executables autocompletion
   - subshell expansion
   - local variables declaration as VAR=value
-  - builtins: alias, exec, source
+  - builtins: alias, exec, source, memdetect
   - inizialier file ~/.skurc
   - prompt personalization via SKU1 variable
+  - [memdetect](https://github.com/XEDGit/memdetect) installer as builtin
 
 ## Contributors
 
