@@ -60,21 +60,24 @@ int	condition_check(t_cmd **cmd, int *piping, int skip)
 	if ((*cmd)->conditional == '|')
 	{
 		if (g_exit_code == 0)
+		{
 			ret = true;
+			if (skip)
+				*cmd = (*cmd)->next;
+		}
 		else
 			ret = false;
 	}
 	else if ((*cmd)->conditional == '&')
 	{
 		if (g_exit_code != 0)
+		{
 			ret = true;
+			if (skip)
+				*cmd = (*cmd)->next;
+		}
 		else
 			ret = false;
-	}
-	if (ret && skip)
-	{
-		while (*cmd && (*cmd)->conditional == '|')
-			*cmd = (*cmd)->next;
 	}
 	return (ret);
 }

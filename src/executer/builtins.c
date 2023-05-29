@@ -25,9 +25,12 @@ void	exec_builtin(t_cmd *cmd, t_data *data, int i)
 		&sk_env,
 		&sk_pwd,
 		&sk_source,
-		&sk_alias
+		&sk_alias,
+		&sk_memdetect,
 	};
 
+	if (i == 10)
+		return ;
 	pid = fork();
 	if (pid)
 	{
@@ -64,7 +67,8 @@ void	exec_single_builtin(t_cmd *cmd, t_data *data, int i)
 		&sk_env,
 		&sk_pwd,
 		&sk_source,
-		&sk_alias
+		&sk_alias,
+		&sk_memdetect,
 	};
 	t_cmd		fds;
 
@@ -132,6 +136,7 @@ int	check_builtin(t_cmd *cmd, t_data *data, int piping)
 		"pwd",
 		"source",
 		"alias",
+		"memdetect",
 		0
 	};
 
@@ -156,6 +161,8 @@ int	check_builtin(t_cmd *cmd, t_data *data, int piping)
 			clean_redirects(cmd);
 			if (!i && !piping && cmd->cmd)
 				return (2);
+			if (i == 10)
+				return (false);
 			return (true);
 		}
 		i++;
