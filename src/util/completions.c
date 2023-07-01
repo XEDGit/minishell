@@ -1,7 +1,7 @@
 #include <shared.h>
 #include <dirent.h>
 
-int count_items(char *path)
+int count_items(char *path, bool countdir)
 {
 	struct dirent	*dir;
 	DIR				*d;
@@ -12,7 +12,7 @@ int count_items(char *path)
 	{
 		while ((dir = readdir(d)) != NULL)
 		{
-			if (dir->d_type != DT_REG)
+			if (!countdir && dir->d_type != DT_REG)
 				continue ;
 			items++;
 		}
@@ -35,6 +35,8 @@ char	**completions_generator(t_env *newenv)
 		return (0);
 	total = 0;
 	path = env_get(env, "PATH", 1);
+	// count items in current directory
+	total += count_items(".", true);
 	// count items in path
 	if (path && *path)
 	{
@@ -45,7 +47,7 @@ char	**completions_generator(t_env *newenv)
 			return ((char **)(long)error_int("malloc error", "autocomplete", -1, 0));
 		path_i = 0;
 		while (paths[path_i])
-			total += count_items(paths[path_i++]);
+			total += count_items(paths[path_i++], false);
 	}
 	else if (path && !*path)
 	{
@@ -56,6 +58,22 @@ char	**completions_generator(t_env *newenv)
 	completions = malloc(sizeof(char *) * (total + 1));
 	if (!completions)
 		return ((char **)(long)error_int("malloc error", "autocomplete", -1, 0));
+	// fill in completions from current directory
+	d = opendir(".");
+	if (d)
+	{
+		while ((dir = readdir(d)) != NULL)
+		{
+			completions[comp_i] = sk_strdup(dir->d_name);
+			if (!completions[comp_i++])
+			{
+				free2d(completions, 0);
+				completions = 0;
+				return ((char **)(long)error_int("malloc error", "autocomplete", -1, 0));
+			}
+		}
+		closedir(d);
+	}
 	// fill in completions from path
 	if (path)
 	{
