@@ -24,14 +24,14 @@ debug: $(NAME)
 d: FLAGS = -g -fsanitize=address
 d: debug
 
-rebug: fclean d
+red: fclean d
 
-sym: FLAGS = -g
-sym: debug
+s: FLAGS = -g
+s: debug
 
-resym: fclean sym
+res: fclean s
 
-prod: FLAGS += -Ofast -Wpedantic
+prod: FLAGS += -O3 -flto -Wpedantic
 prod: re
 
 $(OBJ_D):
@@ -71,22 +71,13 @@ fclean:
 
 re: fclean all
 
-linux_lib:
-	$(eval LIBS := -lreadline)
-	$(eval HEADERS := -Iincludes)
-
-l: linux_lib all
-
-linux: linux_lib all
-	./minishell
-
 mac_lib:
 	$(eval LIBS := -lreadline -L/usr/local/opt/readline/lib)
 	$(eval HEADERS := -Iincludes -I/usr/local/opt/readline/include)
 
-m: mac_lib all
-
 mac: mac_lib all
+
+m: mac_lib all
 	./minishell
 
 mem:

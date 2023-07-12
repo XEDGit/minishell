@@ -53,6 +53,7 @@ int		error_free2d(void *tofree);
 int		error_free2dint(void *tofree, int len, int ret);
 int		error_free(void *tofree);
 int		signals_handler_setup(int mode);
+int		is_del(char c);
 int		free2d(char **tofree, int len);
 int		free2dint(int **tofree, int len);
 int		lexer(char *input, t_env *env, t_env *aliases, bool save_history);

@@ -96,9 +96,12 @@ int	add_envl(t_cmd *cmd, t_env *env)
 
 	if (cmd->depth != 0)
 		return (true);
-	if (!cmd->args[1])
+	i = 0;
+	while (cmd->args[i])
 	{
-		char	*var_name = sk_strdup(cmd->cmd);
+		char	*var_name = sk_strdup(cmd->args[i]);
+		if (!var_name)
+			return (error_int("Malloc error", "add envp", 1, 1));
 		*sk_strchr(var_name, '=') = 0;
 		char	*var_exists = env_get(env, var_name, 1);
 		free(var_name);
@@ -106,18 +109,9 @@ int	add_envl(t_cmd *cmd, t_env *env)
 		if (var_exists)
 			target = 1;
 		free(var_exists);
-		if (!env_add(env, cmd->cmd, target))
+		if (!env_add(env, cmd->args[i], target))
 			error_int("error while adding variable", cmd->cmd, 1, 0);
-		return (true);
-	}
-	while (sk_strchr(cmd->args[0], '='))
-	{
-		free(cmd->args[0]);
-		cmd->args[0] = (char *)1;
-		i = -1;
-		while (cmd->args[++i])
-			cmd->args[i] = cmd->args[i + 1];
-		cmd->cmd = cmd->args[0];
+		i++;
 	}
 	return (false);
 }
@@ -140,11 +134,27 @@ int	check_builtin(t_cmd *cmd, t_data *data, int piping)
 		0
 	};
 
+	i = 0;
+	while (cmd->args[i])
+	{
+		int c = 0;
+		while (cmd->args[i][c] && cmd->args[i][c] != '=' && !is_del(cmd->args[i][c++]));
+		if (cmd->args[i][0] == '=' || cmd->args[i][c] != '=')
+			break ;
+		i++;
+	}
 	if (check_aliases(cmd, data->aliases))
 		return (false);
-	if (cmd->cmd && cmd->cmd[0] != '=' && \
-	sk_strchr(cmd->cmd, '=') && add_envl(cmd, data->env))
+	if (!cmd->args[i] && add_envl(cmd, data->env))
 		return (true);
+	while (cmd->cmd && sk_strchr(cmd->cmd, '='))
+	{
+		free(cmd->args[0]);
+		i = -1;
+		while (cmd->args[++i])
+			cmd->args[i] = cmd->args[i + 1];
+		cmd->cmd = cmd->args[0];
+	}
 	i = 0;
 	while (builtins[i])
 	{

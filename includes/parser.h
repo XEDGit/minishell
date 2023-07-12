@@ -53,7 +53,6 @@ void	*in_redirect(char **table, t_file *file);
 //	out
 void	*out_redirect(char **table, t_file *file);
 
-int		is_del(char c);
 t_var	*get_var_name(t_var *res, char *str);
 int		var_name_length(char *str);
 
