@@ -84,6 +84,6 @@ mem:
 	memdetect  . $(LIBS) $(HEADERS) -e examples -fail $(1)
 
 tester: all
-	python3 new_minishell_tester/tester.py new_minishell_tester/tests -exe ./sku $(1)
+	python3 mstester_2022/tester.py -x ./sku $(1)
 
 .PHONY: all run clean fclean re
