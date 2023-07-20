@@ -40,7 +40,21 @@ char	**adjust_args(char **substitutes, t_cmd *cmd)
 		return ((char **)(long)error_int("malloc fail", cmd->cmd, 1, 0));
 	len = -1;
 	while (substitutes[++len])
+	{
+		int i = 0, offset = 0;
+		while (substitutes[len][i])
+		{
+			if (substitutes[len][i] == '\"' || substitutes[len][i] == '\'')
+			{
+				offset++;
+				i++;
+			}
+			substitutes[len][i - offset] = substitutes[len][i];
+			i++;
+		}
+		substitutes[len][i] = 0;
 		new_args[len] = substitutes[len];
+	}
 	oglen = 0;
 	while (cmd->args[++oglen])
 		new_args[len++] = cmd->args[oglen];
