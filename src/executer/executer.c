@@ -29,7 +29,7 @@ void	execute_cmd(t_cmd *cmd, char **envp)
 
 int	parse_cmd(t_cmd *start, t_data *data)
 {
-	pid_t	child_pid;
+	pid_t	child_pid = 0;
 
 	if (start->is_pipe && open_pipe(start))
 		return (error_int("failed to open pipe", start->cmd, 1, false));
@@ -123,6 +123,7 @@ int	executer_loop(t_cmd *start, t_data *data)
 	int		piping;
 	pid_t	child_pid;
 
+	child_pid = 0;
 	piping = 0;
 	while (start)
 	{

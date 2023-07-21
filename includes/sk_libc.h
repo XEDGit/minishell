@@ -24,7 +24,7 @@ char	**sk_split(char const *s, char *c);
 int		sk_strjoin(char **s1, char const *s2, int free_s2);
 void	*sk_realloc(void *ptr, unsigned int old_size, unsigned int size);
 char	*sk_strdup(const char *s1);
-char	*sk_strchr(char *str, char key);
+char	*sk_strchr(char *str, int c);
 size_t	sk_strlcat(char *dst, const char *src, size_t dstsize);
 size_t	sk_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t	sk_strclen_no_quotes(const char *start, const char *end);

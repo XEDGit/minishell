@@ -27,6 +27,40 @@ int	sk_alias(t_cmd *cmd, t_data *data)
 	return (false);
 }
 
+void	erase_chars(char *str, char *chars)
+{
+	int i = 0, offset = 0, target = 0;
+	while (str[i])
+	{
+		int j = 0;
+		if (str[i] == '(')
+			while (str[i++] != ')')
+				;
+		while (chars[j])
+			if (str[i] == chars[j++])
+			{
+				target = chars[j - 1];
+				offset++;
+				while (str[++i] != target)
+					str[i - offset] = str[i];
+				i++;
+				offset++;
+				break ;
+			}
+		j = 0;
+		if (target)
+		{
+			target = 0;
+			continue ;
+		}
+		if (!str[i])
+			break ;
+		str[i - offset] = str[i];
+		i++;
+	}
+	str[i - offset] = 0;
+}
+
 char	**adjust_args(char **substitutes, t_cmd *cmd)
 {
 	int		oglen = 0;
@@ -41,18 +75,7 @@ char	**adjust_args(char **substitutes, t_cmd *cmd)
 	len = -1;
 	while (substitutes[++len])
 	{
-		int i = 0, offset = 0;
-		while (substitutes[len][i])
-		{
-			if (substitutes[len][i] == '\"' || substitutes[len][i] == '\'')
-			{
-				offset++;
-				i++;
-			}
-			substitutes[len][i - offset] = substitutes[len][i];
-			i++;
-		}
-		substitutes[len][i] = 0;
+		erase_chars(substitutes[len], "\"\'");
 		new_args[len] = substitutes[len];
 	}
 	oglen = 0;

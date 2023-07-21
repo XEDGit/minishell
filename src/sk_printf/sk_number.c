@@ -12,12 +12,12 @@
 
 #include "sk_printf.h"
 
-void	sk_decimal(int n, int *c, int fd)
+int	sk_decimal(int n, int *c, int fd)
 {
 	if (n == 0)
-		return (sk_string("0", c, fd));
+		return (sk_string("0", c, fd), 0);
 	if (n == -2147483648)
-		return (sk_string("-2147483648", c, fd));
+		return (sk_string("-2147483648", c, fd), 0);
 	else if (n < 0)
 	{
 		sk_string("-", c, fd);
@@ -29,13 +29,13 @@ void	sk_decimal(int n, int *c, int fd)
 			sk_decimal(n / 10, c, fd);
 		sk_char(n % 10 + '0', c, fd);
 	}
-	return ;
+	return (0);
 }
 
-void	sk_unsigned(unsigned int n, int *c, int fd)
+int	sk_unsigned(unsigned int n, int *c, int fd)
 {
 	if (!n)
-		return (sk_string("0", c, fd));
+		return (sk_string("0", c, fd), 0);
 	if (n >= 1)
 	{
 		if (n / 10 != 0)

@@ -31,7 +31,8 @@ s: debug
 
 res: fclean s
 
-prod: FLAGS += -O3 -flto -Wpedantic
+prod: FLAGS += -O3 -flto
+prod: MAKE_RULE += prod
 prod: re
 
 $(OBJ_D):

@@ -16,7 +16,7 @@ int	is_del(char c)
 {
 	if (c == ' ' || c == '$' || c == '<' || c == '>' || c == '/' \
 		|| c == '&' || c == '|' || c == '\'' || c == '\"' || \
-		c == '=' || c == ':')
+		c == '=' || c == ':' || c == '.' || c == '}')
 		return (1);
 	return (0);
 }
@@ -26,13 +26,19 @@ int	var_name_length(char *str)
 	int	len;
 
 	len = 0;
-	if (*str == '(')
+	if (*str == '{')
+	{
+		while (*str++ != '}')
+			len++;
+		return (len + 1);
+	}
+	else if (*str == '(')
 	{
 		while (*str++ != ')')
 			len++;
 		return (len + 1);
 	}
-	if (*str == '?' || (*str >= '0' && *str <= '9'))
+	if (*str == '?' || *str == '$' || (*str >= '0' && *str <= '9'))
 		return (1);
 	while (*str && !is_del(*str++))
 		len++;
@@ -69,6 +75,8 @@ char	*get_var(char *str, t_env *env)
 	name = malloc(sizeof(char) * (sk_strclen(str, " ") + 1));
 	if (!name)
 		return (0);
+	if (*str == '{')
+		str++;
 	while (*str && !is_del(*str))
 		name[i++] = *str++;
 	name[i] = 0;
@@ -131,7 +139,7 @@ int	set_vars(char **vars, char *input, t_data *data)
 			else if (*input == '(')
 			{
 				vars[i] = subshell_expansion(input + 1, data);
-				input += sk_strclen(input, sk_strchr(input, ')'));
+				input += sk_strclen(input, ")");
 			}
 			else if (!*input || is_del(*input))
 				vars[i] = sk_strdup("$");

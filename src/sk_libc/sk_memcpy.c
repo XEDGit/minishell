@@ -8,16 +8,16 @@ void	*sk_memcpy(void *to_write, void *to_copy, size_t len)
 	write = (unsigned char *) to_write;
 	copy = (unsigned char *) to_copy;
 	if (write == copy || !len)
-		return (to_write + len);
+		return ((char *)to_write + len);
 	if (copy > write && copy < write + len)
 	{
 		i = len;
 		while (--i >= 0)
 			write[i] = copy[i];
-		return (to_write + len);
+		return ((char *)to_write + len);
 	}
 	i = -1;
 	while (++i != len)
 		write[i] = copy[i];
-	return (to_write + i);
+	return ((char *)to_write + i);
 }

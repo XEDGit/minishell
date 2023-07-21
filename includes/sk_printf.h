@@ -21,11 +21,11 @@
 
 int		sk_printf(const char *str, ...);
 int		sk_dprintf(int fd, const char *str, ...);
-void	sk_decimal(int n, int *c, int fd);
+int	sk_decimal(int n, int *c, int fd);
 void	sk_hexadecimal(unsigned long long n, int options, int fd, int *c);
 void	sk_hexazero(unsigned long long n, int options, int fd, int *c);
 void	sk_string(char *str, int *c, int fd);
 void	sk_char(char ch, int *c, int fd);
-void	sk_unsigned(unsigned int n, int *c, int fd);
+int		sk_unsigned(unsigned int n, int *c, int fd);
 
 #endif

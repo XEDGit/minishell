@@ -21,7 +21,8 @@ void	sk_string(char *str, int *c, int fd)
 	{
 		while (str[cont])
 			cont++;
-		write(fd, str, cont);
+		if (write(fd, str, cont) == -1)
+			return ;
 	}
 	else
 		sk_string("(null)", c, fd);
@@ -30,7 +31,8 @@ void	sk_string(char *str, int *c, int fd)
 
 void	sk_char(char ch, int *c, int fd)
 {
-	write(fd, &ch, 1);
+	if (write(fd, &ch, 1) == -1)
+		return ;
 	*c += 1;
 }
 

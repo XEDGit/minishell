@@ -83,49 +83,14 @@ int	skip_quotes(char *input)
 	return (c);
 }
 
-char	*quotes_del(char *str)
-{
-	char	*p;
-	int		open;
-	int		i;
-
-	p = malloc(sizeof(char) * (sk_strlen(str) + 1));
-	if (!p)
-		return (false);
-	i = 0;
-	while (*str)
-	{
-		open = is_open(*str);
-		if (!open && (*str == SINGLE_QUOTE || *str == DOUBLE_QUOTE))
-			str++;
-		else if (!open || (open && *str != open))
-			p[i++] = *str++;
-		else
-			str++;
-	}
-	if (open)
-		is_open(-1);
-	p[i] = 0;
-	return (p);
-}
-
-int	clean_quotes(t_cmd *cmd)
+int	clean_cmd_quotes(t_cmd *cmd)
 {
 	int		i;
 	char	*p;
 
 	i = 0;
 	while (cmd->args[i])
-	{
-		if (sk_strlen(cmd->args[i]) == 2 && !sk_strcmp(cmd->args[i], "\"\""))
-			p = sk_strdup("");
-		else
-			p = quotes_del(cmd->args[i]);
-		if (!p)
-			return (false);
-		free(cmd->args[i]);
-		cmd->args[i++] = p;
-	}
+		erase_chars(cmd->args[i++], "\'\"");
 	cmd->cmd = cmd->args[0];
 	return (true);
 }

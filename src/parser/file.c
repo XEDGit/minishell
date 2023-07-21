@@ -73,7 +73,6 @@ int	get_length(char *input)
 char	*get_filename(char **input)
 {
 	char	*tmp;
-	char	*name;
 	int		len;
 
 	while (sk_isspace(**input))
@@ -87,9 +86,8 @@ char	*get_filename(char **input)
 		return ((char *) error_msg("Malloc failed", -1));
 	sk_strlcpy(tmp, *input, len);
 	*input += len - 1;
-	name = remove_quotes(tmp);
-	free(tmp);
-	if (!name)
+	erase_chars(tmp, "\'\"");
+	if (!tmp)
 		return ((char *) error_msg("Remove quotes failed", -1));
-	return (name);
+	return (tmp);
 }

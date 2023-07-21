@@ -24,7 +24,7 @@ int count_items(char *path, bool countdir)
 char	**completions_generator(t_env *newenv)
 {
 	static t_env	*env;
-	char			**completions, *path, **paths;
+	char			**completions, *path, **paths = 0;
 	struct dirent	*dir;
 	DIR				*d;
 	int				path_i, comp_i = 0, total;

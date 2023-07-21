@@ -76,7 +76,7 @@ t_env	*env_setup(char **envp)
 	env = env_create(envp);
 	if (!env)
 		return (0);
-	if (set_oldpwd(env) && set_if_not_set(env, "SHLVL", "1") && set_if_not_set(env, "SKU1", TITLE))
+	if (set_oldpwd(env) && set_if_not_set(env, "_", "env") && set_if_not_set(env, "SHLVL", "1") && set_if_not_set(env, "SKU1", TITLE))
 		return (env);
 	return (env_free(env));
 }

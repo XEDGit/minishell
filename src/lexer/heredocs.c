@@ -22,15 +22,14 @@ int	heredoc_routine(char *input, int *fds)
 	buffer = readline("here >");
 	if (!buffer || !sk_strcmp(buffer, input))
 	{
-		if (lines)
-			write(fds[1], "\n", 1);
+		if (lines && write(fds[1], "\n", 1) == -1)
+			;
 		lines = 0;
 		free(buffer);
 		return (ERROR);
 	}
-	if (lines)
-		write(fds[1], "\n", 1);
-	write(fds[1], buffer, sk_strlen(buffer));
+	if (lines && (write(fds[1], "\n", 1) == -1 || write(fds[1], buffer, sk_strlen(buffer)) == -1))
+		return (free(buffer), ERROR);
 	free(buffer);
 	lines++;
 	return (false);
@@ -63,16 +62,15 @@ int	heredoc_repeat(char *d, int *fds)
 		sk_dprintf(2, SHELLNAME"error opening pipe for heredoc\n");
 		return (ERROR);
 	}
-	d = remove_quotes(d);
-	if (!d)
-		return (ERROR);
+	// d = remove_quotes(d);
+	erase_chars(d, "\'\"");
 	here_pid = fork();
 	if (!here_pid)
 		while (1)
 			if (heredoc_routine(d, fds) == ERROR)
 				exit(0);
 	g_exit_code = wait_heredoc(here_pid);
-	free(d);
+	// free(d);
 	close(fds[1]);
 	if (g_exit_code)
 		return (-2);
