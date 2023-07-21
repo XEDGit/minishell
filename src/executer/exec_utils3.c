@@ -32,12 +32,3 @@ int	parent_behaviour(t_cmd *start, t_data *data, pid_t child_pid)
 	}
 	return (0);
 }
-
-char	*remove_quotes_pt2(char *p, int i)
-{
-	if (is_open(0))
-		is_open(-1);
-	if (p)
-		p[i] = 0;
-	return (p);
-}

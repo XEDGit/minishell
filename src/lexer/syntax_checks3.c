@@ -61,7 +61,7 @@ int	check_double_commands(char *str, int c, int diff)
 	return (false);
 }
 
-int	truncate_delimiter(char *del)
+int    truncate_delimiter(char *del)
 {
 	if (*del == '<' || *del == '>' || *del == '|' \
 	|| *del == '&' || *del == '\n' || *del == ';' \

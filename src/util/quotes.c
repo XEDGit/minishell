@@ -12,9 +12,6 @@
 
 #include <shared.h>
 
-char	*remove_quotes_pt2(char *p, int i);
-int		truncate_delimiter(char *del );
-
 /*
 * This function is to use inside a loop
 * Returns false (0) if outside unclosed quotes,
@@ -36,35 +33,6 @@ int	is_open(char c)
 	else if (c == -1)
 		open = false;
 	return (open);
-}
-
-char	*remove_quotes(char *input)
-{
-	char	*p;
-	int		open;
-	int		i;
-
-	while (*input == ' ')
-		input++;
-	if (!*input)
-		return (0);
-	p = malloc(sizeof(char) * (sk_strlen(input) + 1));
-	i = 0;
-	while (p && *input)
-	{
-		open = is_open(*input);
-		if ((!open && *input != '\'' && *input != '\"') \
-		|| (open && *input != open))
-			p[i++] = *input++;
-		else
-		{
-			input++;
-			continue ;
-		}
-		if (!open && i > 0 && truncate_delimiter(&p[i - 1]))
-			break ;
-	}
-	return (remove_quotes_pt2(p, i));
 }
 
 int	skip_quotes(char *input)

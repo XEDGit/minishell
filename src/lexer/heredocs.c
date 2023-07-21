@@ -62,15 +62,20 @@ int	heredoc_repeat(char *d, int *fds)
 		sk_dprintf(2, SHELLNAME"error opening pipe for heredoc\n");
 		return (ERROR);
 	}
-	// d = remove_quotes(d);
+	while (sk_isspace(*d))
+		d++;
+	d = sk_strdup(d);
 	erase_chars(d, "\'\"");
+	int i = 0;
+	while (d[i] && !truncate_delimiter(&d[i]))
+		i++;
 	here_pid = fork();
 	if (!here_pid)
 		while (1)
 			if (heredoc_routine(d, fds) == ERROR)
 				exit(0);
 	g_exit_code = wait_heredoc(here_pid);
-	// free(d);
+	free(d);
 	close(fds[1]);
 	if (g_exit_code)
 		return (-2);

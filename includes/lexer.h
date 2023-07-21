@@ -30,7 +30,6 @@ int		parenthesis_check(char *input);
 int		heredoc_check(char *input, t_data *data);
 int		heredoc_repeat(char *input, int *fds);
 char	*extract_pipe(int fd);
-char	*remove_quotes(char *input);
 int		skip_quotes(char *input);
 int		is_open(char c);
 int		truncate_delimiter(char *del);
