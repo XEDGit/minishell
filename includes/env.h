@@ -31,6 +31,7 @@ typedef struct s_env
 {
 	t_buffvar	*envp;
 	t_buffvar	*envl;
+	t_buffvar	*opts;
 }	t_env;
 
 //	buff

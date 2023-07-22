@@ -127,6 +127,21 @@ int	executer_loop(t_cmd *start, t_data *data)
 	piping = 0;
 	while (start)
 	{
+		if (buff_contains(data->env->opts, "VERBOSE", 0) != -1)
+		{
+			if (start->prev && start->prev->depth == start->depth && \
+			start->conditional != -1)
+				sk_dprintf(2, "%s -> ", start->conditional == '|'? "||" : "&&");
+			int i = 0;
+			while (start->args[i])
+				sk_dprintf(2, "%s ", start->args[i++]);
+			start = start->next;
+			if (start)
+				sk_dprintf(2, "-> ");
+			else
+				sk_dprintf(2, "\n");
+			continue ;
+		}
 		if (start->is_pipe)
 			piping = start->is_pipe;
 		if (start->prev && start->prev->depth == start->depth && \

@@ -25,6 +25,8 @@ t_env	*env_free(t_env *env)
 		buff_free(env->envl);
 	if (env->envp)
 		buff_free(env->envp);
+	if (env->opts)
+		buff_free(env->opts);
 	free(env);
 	return (0);
 }
@@ -37,8 +39,9 @@ t_env	*env_create(char **envp)
 	if (!env)
 		return (0);
 	env->envl = buff_create(0);
+	env->opts = buff_create(0);
 	env->envp = buff_create(envp);
-	if (env->envl && env->envp)
+	if (env->envl && env->envp && env->opts)
 		return (env);
 	return (env_free(env));
 }
