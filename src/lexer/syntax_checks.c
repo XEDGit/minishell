@@ -14,19 +14,23 @@
 
 int	dchar_check(char *input, char ch)
 {
+	int	open;
+
 	while (*input)
 	{
-		if (*input == ch)
+		open = is_open(*input);
+		if (!open && *input == ch)
 		{
 			input++;
 			if (*input != ch)
-				return (ERROR);
+				return (is_open(-1), ERROR);
 			else
 				input++;
 		}
 		if (*input)
 			input++;
 	}
+	is_open(-1);
 	return (false);
 }
 
