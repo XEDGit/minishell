@@ -52,6 +52,8 @@ int	chdir_wrapper(t_env *env, char *p)
 	char	*new_path;
 	int		code;
 
+	if (p[0] == '-' && !p[1])
+		p = env_get(env, "OLDPWD", 0);
 	if (chdir(p) == -1)
 		return (error_int("directory not found", "cd", 1, 1));
 	pwd = env_get(env, "PWD", 1);

@@ -107,13 +107,13 @@ int	check_aliases(t_cmd *cmd, t_env *aliases)
 	if (!new_args)
 	{
 		free2d(substitutes, 0);
-		return (0);
+		return (ERROR);
 	}
 	free(cmd->cmd);
 	free(cmd->args);
 	free(substitutes);
 	cmd->args = new_args;
 	cmd->cmd = cmd->args[0];
-	return (true);
+	return (false);
 }
 

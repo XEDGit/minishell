@@ -169,7 +169,9 @@ int	executer_loop(t_cmd *start, t_data *data)
 		builtin = 0;
 		builtin = check_builtin(start, data, piping);
 		if (builtin == 2)
-			return (true);
+			return (2);
+		else if (builtin == ERROR)
+			return (ERROR);
 		if (!builtin)
 			child_pid = parse_cmd(start, data);
 		start = start->next;
@@ -181,11 +183,9 @@ int	executer_loop(t_cmd *start, t_data *data)
 
 int	executer(t_data *data)
 {
-	int		ret;
 	t_cmd	*start;
 	char	*paths;
 
-	ret = 0;
 	paths = env_get(data->env, "PATH", 1);
 	data->paths = sk_split(paths, ":");
 	if (!data->paths)
@@ -193,9 +193,8 @@ int	executer(t_data *data)
 	free(paths);
 	start = data->cmds;
 	signals_handler_setup(1);
-	if (executer_loop(start, data))
-		ret = 2;
+	int code = executer_loop(start, data);
 	signals_handler_setup(0);
 	free2d(data->paths, 0);
-	return (ret);
+	return (code);
 }

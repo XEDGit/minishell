@@ -21,10 +21,10 @@ static size_t	tilde_count(char *table)
 	while (*table)
 	{
 		open = is_open(*table);
-		if (!open && *table == '~')
+		if (open != '\'' && *table == '~')
 			i++;
 		table++;
-	}
+	} is_open(-1);
 	return (i);
 }
 
@@ -41,7 +41,7 @@ char	*copy_tilde_table(char *new, char *table, char *home, size_t size)
 	while (table[i])
 	{
 		open = is_open(table[i]);
-		if (!open && table[i] == '~')
+		if (open != '\'' && table[i] == '~')
 		{
 			sk_strlcpy(new + c, home, size);
 			i++;

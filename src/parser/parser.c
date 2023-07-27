@@ -51,11 +51,9 @@ int	p_setter(t_cmd **lst, char **tables, t_data *data)
 int	parser(char **tables, t_data *data)
 {
 	t_cmd	*cmds;
-	int		exit;
 	char	**to_free;
 
 	cmds = 0;
-	exit = 0;
 	to_free = tables;
 	while (*tables)
 	{
@@ -64,8 +62,7 @@ int	parser(char **tables, t_data *data)
 		tables++;
 	}
 	data->cmds = cmds;
-	if (executer(data))
-		exit = 2;
+	int code = executer(data);
 	free_cmds(cmds, to_free, 0);
-	return (exit);
+	return (code);
 }

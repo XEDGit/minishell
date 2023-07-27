@@ -84,7 +84,7 @@ int	vars_expansion(char **tables, t_data *data)
 		if (!set_vars(vars, *tables, data))
 			return (error_int("expander allocation failed", 0, 1, 0));
 		new_table = expand_vars_table(vars, *tables, 0, 0);
-		free2d(vars, 0);
+		free2d(vars, 1);
 		if (!new_table)
 			return (error_int("expander allocation failed", 0, 1, 0));
 		free(*tables);

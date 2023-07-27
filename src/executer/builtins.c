@@ -144,7 +144,7 @@ int	check_builtin(t_cmd *cmd, t_data *data, int piping)
 		i++;
 	}
 	if (check_aliases(cmd, data->aliases))
-		return (false);
+		return (ERROR);
 	if (!cmd->args[i] && add_envl(cmd, data->env))
 		return (true);
 	while (cmd->cmd && sk_strchr(cmd->cmd, '='))
