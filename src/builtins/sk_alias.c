@@ -27,27 +27,31 @@ int	sk_alias(t_cmd *cmd, t_data *data)
 	return (false);
 }
 
+void find_pos_erase(char *str, char *chars, int *target, int *i, int *offset)
+{
+	int j = 0;
+	if (str[*i] == '(')
+		while (str[(*i)++] != ')')
+			;
+	while (chars[j])
+		if (str[*i] == chars[j++])
+		{
+			*target = chars[j - 1];
+			(*offset)++;
+			while (str[++(*i)] != *target)
+				str[*i - *offset] = str[*i];
+			(*i)++;
+			(*offset)++;
+			break ;
+		}
+}
+
 void	erase_chars(char *str, char *chars)
 {
 	int i = 0, offset = 0, target = 0;
 	while (str[i])
 	{
-		int j = 0;
-		if (str[i] == '(')
-			while (str[i++] != ')')
-				;
-		while (chars[j])
-			if (str[i] == chars[j++])
-			{
-				target = chars[j - 1];
-				offset++;
-				while (str[++i] != target)
-					str[i - offset] = str[i];
-				i++;
-				offset++;
-				break ;
-			}
-		j = 0;
+		find_pos_erase(str, chars, &target, &i, &offset);
 		if (target)
 		{
 			target = 0;
@@ -67,9 +71,13 @@ char	**adjust_args(char **substitutes, t_cmd *cmd)
 	int		len = 0;
 	char	**new_args;
 
-	while (substitutes[len++]);
-	while (cmd->args[oglen++]);
-	new_args = malloc((len + oglen - 1) * sizeof(char *));
+	while (substitutes[len])
+		len++;
+	while (cmd->args[oglen])
+		oglen++;
+	if (!len && !oglen)
+		return ((char **)(long)error_int("can't count args length", "alias", 0, 0));
+	new_args = malloc((len + oglen + 1) * sizeof(char *));
 	if (!new_args)
 		return ((char **)(long)error_int("malloc fail", cmd->cmd, 1, 0));
 	len = -1;
