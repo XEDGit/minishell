@@ -131,6 +131,7 @@ int	main(int argc, char **argv, char *envp[])
 	time_t	start;
 
 	start = 0;
+	code = 0;
 	signals_handler_setup(0);
 	rl_outstream = stderr;
 	g_exit_code = 0;
