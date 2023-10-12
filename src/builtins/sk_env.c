@@ -12,6 +12,30 @@
 
 #include <shared.h>
 
+static int check_flag_or_get_name(t_cmd *cmd, t_env **enviroment, char *newline, char **arg, int *i)
+{
+	while ((*arg = cmd->args[(*i)++]) && **arg == '-')
+	{
+		if (!sk_strcmp(*arg, "-i") || !sk_strcmp(*arg, "--ignore-enviroment"))
+		{
+			env_free(*enviroment);
+			*enviroment = env_create((char **){0});
+			if (!*enviroment)
+				return (error_int("error creating enviroment", "env", -1, 1));
+		}
+		else if (!sk_strncmp(*arg, "-u", 2) || !sk_strncmp(*arg, "--unset", 7))
+			env_remove(*enviroment, cmd->args[*i], 0);
+		else if (!sk_strncmp(*arg, "-0", 2) || !sk_strncmp(*arg, "--null", 6))
+			*newline = '\0';
+		else
+		{
+			sk_dprintf(2, SHELLNAME"env: argument '%s' is not a flag\n", *arg);
+			return (1);
+		}
+	}
+	return 0;
+}
+
 int	sk_env(t_cmd *cmd, t_data *data)
 {
 	int		i;
@@ -24,26 +48,9 @@ int	sk_env(t_cmd *cmd, t_data *data)
 		return (error_int("error creating enviroment", "env", -1, 1));
 	if (cmd && cmd->args[i])
 	{
-		char	*arg;
-		while ((arg = cmd->args[i++]) && *arg == '-')
-		{
-			if (!sk_strcmp(arg, "-i") || !sk_strcmp(arg, "--ignore-enviroment"))
-			{
-				env_free(enviroment);
-				enviroment = env_create((char **){0});
-				if (!enviroment)
-					return (error_int("error creating enviroment", "env", -1, 1));
-			}
-			else if (!sk_strncmp(arg, "-u", 2) || !sk_strncmp(arg, "--unset", 7))
-				env_remove(enviroment, cmd->args[i], 0);
-			else if (!sk_strncmp(arg, "-0", 2) || !sk_strncmp(arg, "--null", 6))
-				newline = '\0';
-			else
-			{
-				sk_dprintf(2, SHELLNAME"env: argument '%s' is not a flag\n", arg);
-				return (1);
-			}
-		}
+		char *arg;
+		if (check_flag_or_get_name(cmd, &enviroment, &newline, &arg, &i))
+			return (1);
 		i--;
 		while ((arg = cmd->args[i++]) && sk_strchr(arg, '='))
 			if (!env_add(enviroment, arg, 1))
