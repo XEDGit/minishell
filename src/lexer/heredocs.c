@@ -22,8 +22,8 @@ int	heredoc_routine(char *input, int *fds)
 	buffer = readline("here >");
 	if (!buffer || !sk_strcmp(buffer, input))
 	{
-		if (lines)
-			write(fds[1], "\n", 1);
+		if (lines && write(fds[1], "\n", 1) == -1)
+			{} // Can't act upon write failure
 		lines = 0;
 		free(buffer);
 		return (ERROR);
