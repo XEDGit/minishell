@@ -133,11 +133,12 @@ char *match_completion(const char *text, int state)
 	{
 		if (*text == *completions[i] && !sk_strncmp(completions[i], text, len))
 		{
-			completion = sk_strdup(completions[i++]);
+			completion = sk_strdup(completions[i]);
 			struct stat buf;
 			stat(completions[i], &buf);
 			if (S_ISDIR(buf.st_mode) && sk_strjoin(&completion, "/", false))
 				error_int("strjoin", "autocomplete", -1, 0);
+			i++;
 			return (completion);
 		}
 		i++;

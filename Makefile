@@ -6,9 +6,7 @@ OBJ_DIR := obj
 
 SRC := $(wildcard src/*/*.c)
 
-MAIN := $(SRC_DIR)/$(NAME).c
-
-OBJS := $(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.c=.o)))
+OBJS := $(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.c=.o))) $(OBJ_DIR)/sku.o
 
 LIBS := -lreadline -L$(HOME)/.brew/opt/readline/lib
 
@@ -42,16 +40,16 @@ $(OBJ_DIR):
 run: all
 	./$(NAME)
 
-$(MAIN):
-	@$(CC) $@ -c -o $(MAIN:.c=.o) $(FLAGS) $(HEADERS) $(LIBS)
-	@echo "Compiled \033[32m$(NAME).c!\033[0m"
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	@$(CC) $< -c -o $@ $(FLAGS) $(HEADERS) $(LIBS)
+	@echo "Compiled \033[32m$<!\033[0m"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/*/%.c | $(OBJ_DIR)
 	@$(CC) $< -c -o $@ $(FLAGS) $(HEADERS) $(LIBS)
-	@echo "Compiled \033[32m$<.c!\033[0m"
+	@echo "Compiled \033[32m$<!\033[0m"
 
-$(NAME): $(OBJS) $(MAIN)
-	@$(CC) $(OBJS) $(MAIN) -o $(NAME) $(FLAGS) $(HEADERS) $(LIBS)
+$(NAME): $(OBJS)
+	@$(CC) $(OBJS) -o $(NAME) $(FLAGS) $(HEADERS) $(LIBS)
 	@echo "Linked \033[32m$(NAME)!"
 
 clean:
