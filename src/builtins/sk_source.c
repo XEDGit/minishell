@@ -2,16 +2,16 @@
 
 int sk_source(t_cmd *cmd, t_data *data)
 {
-    char	*path, *buff_ptr;
+	char	*path, *buff_ptr;
 	char	buff[1001];
 	int		read_ret, err = 0;
 
-    if (!cmd->args[1])
-        return (error_int("filename argument is required", "source", -1, 1));
-    path = cmd->args[1];
+	if (!cmd->args[1])
+		return (error_int("filename argument is required", "source", -1, 1));
+	path = cmd->args[1];
 	int fd = open(path, O_RDONLY);
-    if (fd == -1)
-        err = error_int("file not found or not readable", "source", -1, 1);
+	if (fd == -1)
+		err = error_int("file not found or not readable", "source", -1, 1);
 	read_ret = 1;
 	while (read_ret > 0)
 	{

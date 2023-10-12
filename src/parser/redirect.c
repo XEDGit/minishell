@@ -60,9 +60,11 @@ int	set_redirects(char *arg, t_cmd *cmd)
 			continue ;
 		}
 		else if (!open && *arg == '$')
+		{
 			if (arg[1] == '(')
 				while (*arg++ != ')')
 					;
+		}
 		else if (!open && *arg == '(' && sk_memset(arg, ' ', 1))
 			cmd->depth++;
 		else if (!open && *arg == ')' && sk_memset(arg, ' ', 1))

@@ -38,6 +38,5 @@ int		sk_isspace(int str);
 long	sk_atoi(const char *str);
 int		sk_strisspace(char *str);
 char	*sk_itoa(int n);
-char	**strsplit(char *s, char c);
 
 #endif

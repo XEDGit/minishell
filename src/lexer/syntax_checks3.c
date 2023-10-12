@@ -48,7 +48,7 @@ int	check_double_commands(char *str, int c, int diff)
 	}
 	if (c == 0 && diff == -1)
 		return (false);
-	if (str[c - 1] == '$')
+	if (c!= 0 && str[c - 1] == '$')
 	{
 		skip_one = true;
 		return (false);

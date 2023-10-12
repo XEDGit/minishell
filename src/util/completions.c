@@ -1,5 +1,7 @@
 #include <shared.h>
 #include <dirent.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 int count_items(char *path, bool countdir)
 {
@@ -131,8 +133,11 @@ char *match_completion(const char *text, int state)
 	{
 		if (*text == *completions[i] && !sk_strncmp(completions[i], text, len))
 		{
-			completion = sk_strdup(completions[i]);
-			i++;
+			completion = sk_strdup(completions[i++]);
+			struct stat buf;
+			stat(completions[i], &buf);
+			if (S_ISDIR(buf.st_mode) && sk_strjoin(&completion, "/", false))
+				error_int("strjoin", "autocomplete", -1, 0);
 			return (completion);
 		}
 		i++;

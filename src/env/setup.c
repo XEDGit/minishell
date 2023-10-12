@@ -62,13 +62,6 @@ t_env	*set_if_not_set(t_env *env, char *name, char *content)
 	return (env);
 }
 
-static t_env	*set_oldpwd(t_env *env)
-{
-	if (!env_add(env, "OLDPWD", 1))
-		return (0);
-	return (env);
-}
-
 t_env	*env_setup(char **envp)
 {
 	t_env	*env;
@@ -76,7 +69,7 @@ t_env	*env_setup(char **envp)
 	env = env_create(envp);
 	if (!env)
 		return (0);
-	if (set_oldpwd(env) && set_if_not_set(env, "_", "env") && set_if_not_set(env, "SHLVL", "1") && set_if_not_set(env, "SKU1", TITLE))
+	if (set_if_not_set(env, "OLDPWD", ".") && set_if_not_set(env, "_", "env") && set_if_not_set(env, "SHLVL", "1") && set_if_not_set(env, "SKU1", TITLE))
 		return (env);
 	return (env_free(env));
 }

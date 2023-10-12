@@ -138,23 +138,27 @@ int	check_builtin(t_cmd *cmd, t_data *data, int piping)
 	while (cmd->args[i])
 	{
 		int c = 0;
-		while (cmd->args[i][c] && cmd->args[i][c] != '=' && !is_del(cmd->args[i][c++]));
+		while (cmd->args[i][c] && cmd->args[i][c] != '=' && !is_del(cmd->args[i][c]))
+			c++;
 		if (cmd->args[i][0] == '=' || cmd->args[i][c] != '=')
 			break ;
 		i++;
 	}
-	if (check_aliases(cmd, data->aliases))
-		return (ERROR);
 	if (!cmd->args[i] && add_envl(cmd, data->env))
 		return (true);
-	while (cmd->cmd && sk_strchr(cmd->cmd, '='))
+	else
 	{
-		free(cmd->args[0]);
-		i = -1;
-		while (cmd->args[++i])
-			cmd->args[i] = cmd->args[i + 1];
-		cmd->cmd = cmd->args[0];
+		while (cmd->cmd && sk_strchr(cmd->cmd, '='))
+		{
+			free(cmd->args[0]);
+			i = -1;
+			while (cmd->args[++i])
+				cmd->args[i] = cmd->args[i + 1];
+			cmd->cmd = cmd->args[0];
+		}
 	}
+	if (check_aliases(cmd, data->aliases))
+		return (ERROR);
 	i = 0;
 	while (builtins[i])
 	{

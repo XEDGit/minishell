@@ -42,6 +42,7 @@ int	sk_unsigned(unsigned int n, int *c, int fd)
 			sk_unsigned(n / 10, c, fd);
 		sk_char(n % 10 + '0', c, fd);
 	}
+	return (0);
 }
 
 void	sk_hexazero(unsigned long long n, int options, int fd, int *c)

@@ -108,7 +108,10 @@ char	*subshell_expansion(char *input, t_data *data)
 	{
 		buffer[len] = 0;
 		if (sk_strjoin(&output, buffer, false))
+		{
+			free(output);
 			return ((char *)(long)error_int("malloc in strjoin fail", "subsh expansion", 1, 0));
+		}
 		if (len < 1000)
 		{
 			if (output[sk_strlen(output) - 1] == '\n')
@@ -117,9 +120,15 @@ char	*subshell_expansion(char *input, t_data *data)
 		}
 	}
 	if (len == -1)
+	{
+		free(output);
 		return ((char *)(long)error_int("malloc in strjoin fail", "subsh expansion", 1, 0));
+	}
 	if (close(fds[0]))
+	{
+		free(output);
 		return ((char *)(long)error_int("closing pipe read end", "subsh expansion", 1, 0));
+	}
 	return (output);
 }
 

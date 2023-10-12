@@ -54,7 +54,6 @@ int	skip_quotes(char *input)
 int	clean_cmd_quotes(t_cmd *cmd)
 {
 	int		i;
-	char	*p;
 
 	i = 0;
 	while (cmd->args[i])

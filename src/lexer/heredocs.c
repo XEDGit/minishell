@@ -23,12 +23,12 @@ int	heredoc_routine(char *input, int *fds)
 	if (!buffer || !sk_strcmp(buffer, input))
 	{
 		if (lines && write(fds[1], "\n", 1) == -1)
-			;
+			{}
 		lines = 0;
 		free(buffer);
 		return (ERROR);
 	}
-	if ((lines && (write(fds[1], "\n", 1) == -1) || write(fds[1], buffer, sk_strlen(buffer)) == -1))
+	if (((lines && write(fds[1], "\n", 1) == -1) || write(fds[1], buffer, sk_strlen(buffer)) == -1))
 		return (free(buffer), ERROR);
 	free(buffer);
 	lines++;

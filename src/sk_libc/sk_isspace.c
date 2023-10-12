@@ -12,8 +12,9 @@
 
 int	sk_isspace(int str)
 {
-	if (str == ' ' || str == '	' || str == '\t'\
-	|| str == '\n' || str == '\v' || str == '\f' || str == '\r')
+	if (str == ' ' || str == '\t'\
+	|| str == '\n' || str == '\v' \
+	|| str == '\f' || str == '\r')
 		return (1);
 	return (0);
 }

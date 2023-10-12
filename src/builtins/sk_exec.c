@@ -4,7 +4,7 @@ char	*check_paths(char **paths, char *cmd);
 int sk_exec(t_cmd *cmd, t_data *data)
 {
 	char    **args;
-	int		clean = 0, dash = 0, name = 0, len = 0;
+	int		clean = 0, dash = 0, name = 0;
 	char	*prog, *dash_buf, *name_buf;
 	char    *flags[4] = {
 		"-c",
