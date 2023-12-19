@@ -60,6 +60,10 @@ int	free2dint(int **tofree, int len)
 	return (1);
 }
 
+/// @brief frees array of strings
+/// @param tofree array to be freed
+/// @param len length of tofree, if 0 it's calculated supposing tofree is NULL terminated
+/// @return always true (1)
 int	free2d(char **tofree, int len)
 {
 	if (!tofree)

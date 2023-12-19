@@ -80,7 +80,7 @@ int	parse_file(char *path,t_env *env, t_env *aliases)
 		return (1);
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
-		return (1);
+		return (free(path), 1);
 	if (!access(path, F_OK) && !access(path, R_OK))
 	{
 		free(path);
@@ -142,7 +142,7 @@ int	main(int argc, char **argv, char *envp[])
 	completions_generator(env);
 	rl_attempted_completion_function = completion;
 	buffer = env_get(env, "HOME", 1);
-	if (!buffer || sk_strjoin(&buffer, "/.skurc", false))
+	if (!buffer || sk_strjoin(&buffer, "/.skurc", false) == -1)
 		return (error_int("malloc fail building ~/.skurc path", "init", -1, 1));
 	if (parse_file(buffer, env, aliases))
 		error_int("failed to parse ~/.skurc", "init", -1, 0);

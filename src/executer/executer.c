@@ -12,7 +12,26 @@
 
 #include <executer.h>
 
-void	execute_cmd(t_cmd *cmd, char **envp)
+int	prepend_arg(char *pre, t_cmd *cmd)
+{
+	int i;
+	for (i = 0; cmd->args[i]; i++);
+
+	i += 2;
+	char **ret = malloc(i * sizeof(char **));
+	if (!ret)
+		return error_int("Allocation failed", "exec", 1, EXIT_FAILURE);
+	ret[0] = sk_strdup(pre);
+	for (i = 0; cmd->args[i]; i++)
+		ret[i + 1] = sk_strdup(cmd->args[i]);
+	ret[i + 1] = 0;
+	free2d(cmd->args, 0);
+	cmd->args = ret;
+	cmd->cmd = ret[0];
+	return (EXIT_SUCCESS);
+}
+
+int	execute_cmd(t_cmd *cmd, char **envp)
 {
 	signals_handler_setup(2);
 	if (cmd->is_pipe)
@@ -25,6 +44,10 @@ void	execute_cmd(t_cmd *cmd, char **envp)
 		dup2(cmd->redirects[2], 2);
 	clean_redirects(cmd);
 	execve(cmd->cmd, cmd->args, envp);
+	char *shell_interpreter = "/bin/sh";
+	if (!prepend_arg(shell_interpreter, cmd))
+		execve(shell_interpreter, cmd->args, envp);
+	return (error_int("Failed to execute", cmd->cmd, 1, EXIT_FAILURE));
 }
 
 int	parse_cmd(t_cmd *start, t_data *data)
@@ -41,7 +64,7 @@ int	parse_cmd(t_cmd *start, t_data *data)
 		start->args[0] = start->cmd;
 		child_pid = fork();
 		if (!child_pid)
-			execute_cmd(start, data->env->envp->mem);
+			return execute_cmd(start, data->env->envp->mem);
 		if (parent_behaviour(start, data, child_pid))
 			return (0);
 	}
