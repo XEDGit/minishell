@@ -166,7 +166,7 @@ int	check_builtin(t_cmd *cmd, t_data *data, int piping)
 		{
 			if (cmd->is_pipe && open_pipe(cmd))
 				return (error_int("pipe opening failed\n", cmd->cmd, 1, 0));
-			if (cmd->files && open_files(cmd, data))
+			if (i != 10 && cmd->files && open_files(cmd, data))
 				return (true);
 			if (cmd->cmd && piping)
 				exec_builtin(cmd, data, i);
