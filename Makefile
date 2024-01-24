@@ -27,7 +27,7 @@ s: $(NAME)
 res: fclean s
 
 prod: FLAGS += -O3 -flto -Wpedantic
-prod: re
+prod: re clean
 
 $(OBJ_DIR):
 	@mkdir $(OBJ_DIR)
@@ -68,7 +68,7 @@ m: mac_lib all
 	./minishell
 
 mem:
-	memdetect  . $(LIBS) $(HEADERS) -e examples -fail $(1)
+	memdetect -s $(1)
 
 tester: all
 	python3 mstester_2022/tester.py -x ./sku $(1)
