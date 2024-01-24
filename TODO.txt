@@ -1,16 +1,17 @@
 TO EVALUATE:
     add redirections to same fd (1>&2)
-	make autocompletion choice like zsh
+	make autocompletion choice like zsh - can't find a way to implement using readline functions
 
 TODO:
     cd: add CDPATH support
 	add perror() in error_int()
-	check strjoin for new functionality correct implementation
 
 LAST CHANGELOG:
-	22-12	add proper env functionality, -i -u and -0 flags supported
+	25-01-2024	- Fix errors when using quotes inside subshell expansion expressions
+				- removed useless Makefiles 
 
 CHANGELOG:
+	22-12	add proper env functionality, -i -u and -0 flags supported
     1-12	add exec builtin (and with it support for vscode debugger)
 	21-12	added "VAR=value" updates VAR in envp if it's already present there
     18-12	create variables with "VAR=value" as cmd
