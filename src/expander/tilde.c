@@ -50,6 +50,7 @@ char	*copy_tilde_table(char *new, char *table, char *home, size_t size)
 		}
 		new[c++] = table[i++];
 	}
+	is_open(-1);
 	new[c] = 0;
 	return (new);
 }

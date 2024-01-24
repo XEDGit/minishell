@@ -66,6 +66,7 @@ int	get_length(char *input)
 			break ;
 		len++;
 	}
+	is_open(-1);
 	return (len);
 }
 

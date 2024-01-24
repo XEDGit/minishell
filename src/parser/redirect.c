@@ -76,5 +76,6 @@ int	set_redirects(char *arg, t_cmd *cmd)
 		}
 		arg++;
 	}
+	is_open(-1);
 	return (1);
 }

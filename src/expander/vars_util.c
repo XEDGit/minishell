@@ -33,11 +33,7 @@ int	var_name_length(char *str)
 		return (len + 1);
 	}
 	else if (*str == '(')
-	{
-		while (*str++ != ')')
-			len++;
-		return (len + 1);
-	}
+		return (sk_strclen_no_quotes(str + 1, ")") + 1);
 	if (*str == '?' || *str == '$' || (*str >= '0' && *str <= '9'))
 		return (1);
 	while (*str && !is_del(*str++))
@@ -57,11 +53,12 @@ int	count_vars(char *input)
 		if ((*input == '$' && open != SINGLE_QUOTE))
 		{
 			if (input[1] == '(')
-				input += sk_strclen(input, sk_strchr(input, ')'));
+				input += sk_strclen_no_quotes(input + 2, ")") + 2;
 			count++;
 		}
 		input++;
 	}
+	is_open(-1);
 	return (count);
 }
 
@@ -90,7 +87,7 @@ char	*get_var(char *str, t_env *env)
 char	*subshell_expansion(char *input, t_data *data)
 {
 	input = sk_strdup(input);
-	*sk_strchr(input, ')') = 0;
+	input[sk_strclen_no_quotes(input, ")")] = 0;
 	int fds[2];
 	if (pipe(&fds[0]))
 	{
@@ -148,7 +145,7 @@ int	set_vars(char **vars, char *input, t_data *data)
 			else if (*input == '(')
 			{
 				vars[i] = subshell_expansion(input + 1, data);
-				input += sk_strclen(input, ")");
+				input += sk_strclen_no_quotes(input + 1, ")") + 1;
 			}
 			else if (!*input || is_del(*input))
 				vars[i] = sk_strdup("$");
@@ -161,6 +158,7 @@ int	set_vars(char **vars, char *input, t_data *data)
 		}
 		input++;
 	}
+	is_open(-1);
 	vars[i] = 0;
 	return (true);
 }

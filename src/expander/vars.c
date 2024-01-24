@@ -39,6 +39,7 @@ int	get_out_size(char **vars, char *input)
 		size++;
 		input++;
 	}
+	is_open(-1);
 	return (size);
 }
 
@@ -65,6 +66,7 @@ char	*expand_vars_table(char **vars, char *input, int i, int index)
 		}
 		out[i++] = *input++;
 	}
+	is_open(-1);
 	out[i] = 0;
 	return (out);
 }

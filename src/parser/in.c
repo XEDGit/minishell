@@ -25,6 +25,7 @@ char	*skip_word(char **input)
 	}
 	while (sk_isspace(**input))
 		(*input)++;
+	is_open(-1);
 	return (*input);
 }
 

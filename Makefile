@@ -16,21 +16,17 @@ FLAGS := -Wextra -Wall -Werror
 
 all: $(NAME)
 
-debug: MAKE_RULE = debug
-debug: $(NAME)
-
 d: FLAGS = -g -fsanitize=address
-d: debug
+d: $(NAME)
 
 red: fclean d
 
 s: FLAGS = -g
-s: debug
+s: $(NAME)
 
 res: fclean s
 
 prod: FLAGS += -O3 -flto -Wpedantic
-prod: MAKE_RULE += prod
 prod: re
 
 $(OBJ_DIR):
@@ -42,15 +38,15 @@ run: all
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	@$(CC) $< -c -o $@ $(FLAGS) $(HEADERS) $(LIBS)
-	@echo "Compiled \033[32m$<!\033[0m"
+	@echo "Compiled \033[32m$<!\033[0m with flags\033[32m$(FLAGS)\033[0m"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/*/%.c | $(OBJ_DIR)
 	@$(CC) $< -c -o $@ $(FLAGS) $(HEADERS) $(LIBS)
-	@echo "Compiled \033[32m$<!\033[0m"
+	@echo "Compiled \033[32m$<!\033[0m with flags\033[32m$(FLAGS)\033[0m"
 
 $(NAME): $(OBJS)
 	@$(CC) $(OBJS) -o $(NAME) $(FLAGS) $(HEADERS) $(LIBS)
-	@echo "Linked \033[32m$(NAME)!"
+	@echo "Linked \033[32m$(NAME)! with flags\033[32m$(FLAGS)\033[0m"
 
 clean:
 	@rm -rf $(OBJ_DIR)

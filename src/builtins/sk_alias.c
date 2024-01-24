@@ -30,9 +30,15 @@ int	sk_alias(t_cmd *cmd, t_data *data)
 void find_pos_erase(char *str, char *chars, int *target, int *i, int *offset)
 {
 	int j = 0;
+	int n_par = 0;
 	if (str[*i] == '(')
-		while (str[(*i)++] != ')')
-			;
+		while (str[(*i)++] != ')' || n_par > 0)
+		{
+			if (str[*i] == '(')
+				n_par++;
+			else if (n_par && str[*i] == ')')
+				n_par--;
+		}
 	while (chars[j])
 		if (str[*i] == chars[j++])
 		{
